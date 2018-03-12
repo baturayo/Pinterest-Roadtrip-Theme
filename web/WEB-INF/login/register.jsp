@@ -27,7 +27,7 @@
                 Gender: <select name="gender" required>
                     <option>Male</option>
                     <option>Female</option>
-                    <option>Potato</option>
+                    <option>Other</option>
                 </select>
             </div>
             <div class="row">
