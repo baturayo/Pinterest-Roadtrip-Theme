@@ -6,11 +6,14 @@
 package roadtrip.entity;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -24,6 +27,85 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private Long id;
+   
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "email")
+    private String email;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "username")
+    private String username;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "firstname")
+    private String firstname;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "secondname")
+    private String secondname;
+    
+    @Basic(optional = true)
+    @Column(name = "country")
+    private String country;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "gender")
+    private Integer gender;
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setSecondname(String secondname) {
+        this.secondname = secondname;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getSecondname() {
+        return secondname;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+    
+    
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String e) {
+        this.email = e;
+    }
 
     public Long getId() {
         return id;
