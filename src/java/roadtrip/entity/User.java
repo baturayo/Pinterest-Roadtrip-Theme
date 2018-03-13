@@ -28,7 +28,6 @@ public class User implements Serializable {
     @Column(name="id")
     private Long id;
    
-    
     @Basic(optional = false)
     @NotNull
     @Column(name = "email")
