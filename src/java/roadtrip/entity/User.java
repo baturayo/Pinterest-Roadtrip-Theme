@@ -56,6 +56,11 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "gender")
     private Integer gender;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "password")
+    private String password;
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -114,6 +119,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
