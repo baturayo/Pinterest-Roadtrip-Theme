@@ -7,6 +7,8 @@ package roadtrip.session;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import roadtrip.entity.User;
 
 /**
@@ -15,11 +17,9 @@ import roadtrip.entity.User;
  */
 @Stateless
 public class Register {
-    public Register(){
-    }
-    
-    @EJB
-    private UserFacade userFacade;
+ 
+    @PersistenceContext(unitName = "RoadTripPU")
+    private EntityManager em;
     
     public void placeOrder(String firstName, String lastName, String country, Integer gender, String username, String email, String password) {
         addUser(firstName, lastName, country, gender, username, email, password);
@@ -38,7 +38,6 @@ public class Register {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
-        
-        userFacade.create(user);
+        em.persist(user);
     }
 }

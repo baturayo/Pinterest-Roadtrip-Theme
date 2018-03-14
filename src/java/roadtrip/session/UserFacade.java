@@ -44,6 +44,7 @@ public class UserFacade extends AbstractFacade<User> {
     @Override
     public void create(User user) {
         try {
+            System.out.println("cdasdcsdacsd");
             em.persist(user);
         } catch (Exception e) {
             e.printStackTrace();

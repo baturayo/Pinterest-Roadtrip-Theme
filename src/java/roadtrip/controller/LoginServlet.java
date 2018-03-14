@@ -76,7 +76,8 @@ public class LoginServlet extends HttpServlet {
                 Integer id = userFacade.Login(email, password);
                 //TODO: HANDLE LOGIN TIMESTAMP HERE
                 System.out.println(id);
-            } else if (!request.getParameter("formName").equals("RegisterForm")){
+                
+            } else if (request.getParameter("formName").equals("RegisterForm")){
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
