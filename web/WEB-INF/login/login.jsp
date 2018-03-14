@@ -29,7 +29,7 @@
                   <img src="https://cf.bodyandmind.amsterdam/wp-content/uploads/2016/02/roadtrip.jpg" class="img-rounded" alt="rtimg">
               </div>
               <div class="col-sm-6">
-                  REGISTER
+                  <h3>Make A New Account</h3>
                 <form name="registerform" action="main2" method="POST">
                     <div class="form-group">
                         First name: <input type="text" name="firstName" required />
