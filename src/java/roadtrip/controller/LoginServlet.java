@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/register"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -34,17 +34,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         
-        // if category page is requested
-        if (userPath.equals("/login")) {
-            // TODO: Implement category request
-            
-
-        // if cart page is requested
-        } else if (userPath.equals("/register")) {
-            // TODO: Implement cart page request
-        }
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
+        String url = "/WEB-INF/login/" + userPath + ".jsp";
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -66,14 +57,9 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String userPath = request.getServletPath();
-        
-        // if register page is requested
-        if (userPath.equals("/register")) {
-            // TODO: Implement category request
-        }    
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
+        String url = "/WEB-INF/login/" + userPath + ".jsp";
        
         try {
             request.getRequestDispatcher(url).forward(request, response);
