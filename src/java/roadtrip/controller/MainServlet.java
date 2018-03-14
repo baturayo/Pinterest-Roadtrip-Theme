@@ -33,7 +33,7 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // TODO: Check if logged in
-        String url = "/WEB-INF/main/main.jsp";
+        String url = "/WEB-INF/view/main.jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -52,7 +52,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/WEB-INF/main/main.jsp";
+        String url = "/WEB-INF/view/main.jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
