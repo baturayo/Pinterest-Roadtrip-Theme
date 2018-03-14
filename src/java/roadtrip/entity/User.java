@@ -30,12 +30,12 @@ public class User implements Serializable {
    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "email")
+    @Column(name = "email", unique=true)
     private String email;
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "username")
+    @Column(name = "username", unique=true)
     private String username;
     
     @Basic(optional = false)
