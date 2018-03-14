@@ -21,7 +21,10 @@
             <div class="navbar-header">
               <a class="navbar-brand" href="#">P4RT</a>
             </div>
-            <form class="navbar-form navbar-right" action="validate" method="POST">
+            <form class="navbar-form navbar-right" name="loginForm" action="validate" method="POST">
+                <div class="form-group">
+                    <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
+                </div>
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="username" name="username">
               </div>
@@ -40,6 +43,9 @@
               <div class="col-sm-6">
                   <h3>Make A New Account</h3>
                 <form name="registerform" action="validate" method="POST">
+                    <div class="form-group">
+                    <input type="hidden" name="formName" value="RegisterForm" readonly="readonly"/>
+                    </div>
                     <div class="form-group">
                         First name: <input type="text" name="firstName" required />
                     </div>
