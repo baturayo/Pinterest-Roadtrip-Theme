@@ -26,7 +26,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
-    private Long id;
+    private Integer id;
    
     @Basic(optional = false)
     @NotNull
@@ -111,11 +111,11 @@ public class User implements Serializable {
         this.email = e;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

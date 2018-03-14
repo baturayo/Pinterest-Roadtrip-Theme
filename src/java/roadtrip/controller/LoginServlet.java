@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import roadtrip.session.Register;
-import roadtrip.session.LoginBean;
+import roadtrip.session.UserFacade;
 
 /**
  *
@@ -24,11 +24,10 @@ import roadtrip.session.LoginBean;
 public class LoginServlet extends HttpServlet {
     
     @EJB
-    private Register register;
+    private UserFacade userFacade;
     
     @EJB
-    private LoginBean loginBean;
-    
+    private Register register;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -74,8 +73,9 @@ public class LoginServlet extends HttpServlet {
             if(request.getParameter("formName").equals("LoginForm")){
                 String email = request.getParameter("username");
                 String password = request.getParameter("password");
-                Integer id = loginBean.Login(email, password);
-                System.err.println(id);
+                Integer id = userFacade.Login(email, password);
+                //TODO: HANDLE LOGIN TIMESTAMP HERE
+                System.out.println(id);
             } else if (!request.getParameter("formName").equals("RegisterForm")){
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");

@@ -15,7 +15,7 @@ import roadtrip.entity.LoggedInTimestamps;
  * @author cekef
  */
 @Stateless
-public class LoggedInTimestampsFacade extends AbstractFacade<LoggedInTimestamps> implements LoggedInTimestampsFacadeLocal {
+public class LoggedInTimestampsFacade extends AbstractFacade<LoggedInTimestamps> {
 
     @PersistenceContext(unitName = "RoadTripPU")
     private EntityManager em;
