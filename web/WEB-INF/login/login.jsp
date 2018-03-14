@@ -44,7 +44,7 @@
                         First name: <input type="text" name="firstName" required />
                     </div>
                     <div class="form-group">
-                        Second name: <input type="text" name="username" required/>
+                        Last name: <input type="text" name="lastName" required/>
                     </div>
                     <div class="form-group">
                         Country: <input type="text" name="country" value="" />
@@ -57,10 +57,10 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        Username: <input type="text" name="username1" required/>
+                        Username: <input type="text" name="username" required/>
                     </div>
                     <div class="form-group">
-                        e-mail: <input type="email" name="mail" required/>
+                        e-mail: <input type="email" name="email1" required/>
                     </div>
                     <div class="form-group">
                         Password: <input type="password" name="password1" required/>

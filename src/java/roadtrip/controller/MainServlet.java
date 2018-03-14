@@ -52,12 +52,38 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/WEB-INF/view/main.jsp";
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        //String url = "/WEB-INF/view/main.jsp";
+        
+        // Receive username and password from login form
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        System.out.println("######################################################################" );
+        // get response writer
+        PrintWriter writer = response.getWriter();
+         
+        // build HTML code
+        String htmlRespone = "<html>";
+        htmlRespone += "<h2>Your username is: " + username + "<br/>";      
+        htmlRespone += "Your password is: " + password + "</h2>";    
+        htmlRespone += "</html>";
+        
+        // return response
+        writer.println(htmlRespone);
+//        try {
+//            request.getRequestDispatcher(url).forward(request, response);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     /**

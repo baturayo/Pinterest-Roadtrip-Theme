@@ -6,20 +6,23 @@
 package roadtrip.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import roadtrip.session.Register;
 
 /**
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login","/validate"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/validate"})
 public class LoginServlet extends HttpServlet {
-
+    
+    @EJB
+    private Register register;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -60,7 +63,40 @@ public class LoginServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         if (userPath.equals("/validate")){
-            System.out.println("HERE");
+            // Receive username and password from login form
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String country = request.getParameter("country");
+            String gender = request.getParameter("gender");
+            String username = request.getParameter("username");
+            String email = request.getParameter("email1");
+            String password = request.getParameter("password1");
+             
+            Integer genderDB = null;
+            switch (gender) {
+                case "Male":
+                    genderDB = 0;
+                    break;
+                case "Female":
+                    genderDB = 1;
+                    break;
+                case "Other":
+                    genderDB = 2;
+                    break;
+                default:
+                    break;
+            }
+            System.out.println("username: " + firstName);
+            System.out.println("username: " + lastName);
+            System.out.println("username: " + country);
+            System.out.println("username: " + genderDB);
+            System.out.println("username: " + username);
+            System.out.println("username: " + email);
+            System.out.println("username: " + password);
+            
+            register.placeOrder(firstName, lastName, country, genderDB, username, email, password);
+            
+            
         }
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login" + userPath + ".jsp";

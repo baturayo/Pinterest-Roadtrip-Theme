@@ -26,7 +26,17 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     }
 
     public UserFacade() {
+
         super(User.class);
     }
+    
+    @Override
+    public void create(User user){
+    try {
+        em.persist(user); 
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+} 
     
 }
