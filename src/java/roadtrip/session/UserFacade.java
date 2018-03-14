@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package roadtrip.entity;
+package roadtrip.session;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import roadtrip.entity.User;
 
 /**
  *
  * @author cekef
  */
 @Stateless
-public class LoggedInTimestampsFacade extends AbstractFacade<LoggedInTimestamps> implements LoggedInTimestampsFacadeLocal {
+public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal {
 
     @PersistenceContext(unitName = "RoadTripPU")
     private EntityManager em;
@@ -24,8 +25,8 @@ public class LoggedInTimestampsFacade extends AbstractFacade<LoggedInTimestamps>
         return em;
     }
 
-    public LoggedInTimestampsFacade() {
-        super(LoggedInTimestamps.class);
+    public UserFacade() {
+        super(User.class);
     }
     
 }

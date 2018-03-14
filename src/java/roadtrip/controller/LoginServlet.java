@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/register"})
 public class LoginServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -32,7 +32,20 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/WEB-INF/login/login.jsp";
+        String userPath = request.getServletPath();
+        
+        // if category page is requested
+        if (userPath.equals("/login")) {
+            // TODO: Implement category request
+            
+
+        // if cart page is requested
+        } else if (userPath.equals("/register")) {
+            // TODO: Implement cart page request
+        }
+        // use RequestDispatcher to forward request internally
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -52,9 +65,16 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //TODO: Check the credentials
-        String url = "/WEB-INF/main/main.jsp";
+        String userPath = request.getServletPath();
+        
+        // if register page is requested
+        if (userPath.equals("/register")) {
+            // TODO: Implement category request
+        }    
 
+        // use RequestDispatcher to forward request internally
+        String url = "/WEB-INF/view" + userPath + ".jsp";
+       
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
