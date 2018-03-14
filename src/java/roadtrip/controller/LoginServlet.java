@@ -108,7 +108,7 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("username: " + email);
                 System.out.println("username: " + password);
 
-                register.placeOrder(firstName, lastName, country, genderDB, username, email, password)
+                register.placeOrder(firstName, lastName, country, genderDB, username, email, password);
             }
         }
         // use RequestDispatcher to forward request internally
