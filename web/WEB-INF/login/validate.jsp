@@ -1,7 +1,7 @@
 <%-- 
-    Document   : index
-    Created on : Mar 13, 2018, 7:15:59 PM
-    Author     : baturay
+    Document   : validate
+    Created on : Mar 14, 2018, 12:17:05 PM
+    Author     : cekef
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Validate</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Validating login</h1>
     </body>
 </html>

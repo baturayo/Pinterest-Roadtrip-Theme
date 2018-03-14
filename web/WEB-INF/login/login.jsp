@@ -21,7 +21,7 @@
             <div class="navbar-header">
               <a class="navbar-brand" href="#">P4RT</a>
             </div>
-            <form class="navbar-form navbar-right" action="main">
+            <form class="navbar-form navbar-right" action="validate" method="POST">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="username" name="username">
               </div>
@@ -39,7 +39,7 @@
               </div>
               <div class="col-sm-6">
                   <h3>Make A New Account</h3>
-                <form name="registerform" action="main2" method="POST">
+                <form name="registerform" action="validate" method="POST">
                     <div class="form-group">
                         First name: <input type="text" name="firstName" required />
                     </div>

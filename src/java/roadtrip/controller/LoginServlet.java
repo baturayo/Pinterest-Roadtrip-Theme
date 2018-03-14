@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login","/validate"})
 public class LoginServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -34,8 +34,10 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         
+        System.out.println(userPath);
+        
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/login/" + userPath + ".jsp";
+        String url = "/WEB-INF/login/login.jsp";
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -57,9 +59,11 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String userPath = request.getServletPath();
-
+        if (userPath.equals("/validate")){
+            System.out.println("HERE");
+        }
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/login/" + userPath + ".jsp";
+        String url = "/WEB-INF/login" + userPath + ".jsp";
        
         try {
             request.getRequestDispatcher(url).forward(request, response);
