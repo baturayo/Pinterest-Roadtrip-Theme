@@ -5,6 +5,7 @@
  */
 package roadtrip.session;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,13 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
     public UserFacade() {
         super(User.class);
+    }
+    
+    public List Login(String email,String password){
+        return em.createNamedQuery( "SELECT id FROM user WHERE email = :email AND password = :password")
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getResultList();
     }
     
 }

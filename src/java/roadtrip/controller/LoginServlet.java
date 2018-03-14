@@ -7,11 +7,13 @@ package roadtrip.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import roadtrip.session.LoginBean;
 
 /**
  *
@@ -19,7 +21,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login","/validate"})
 public class LoginServlet extends HttpServlet {
-
+    
+    @EJB
+    private LoginBean loginBean;
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,7 +38,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
-        
+                
         System.out.println(userPath);
         
         // use RequestDispatcher to forward request internally
@@ -60,7 +65,14 @@ public class LoginServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         if (userPath.equals("/validate")){
-            System.out.println("HERE");
+            if(request.getParameter("formName").equals("LoginForm")){
+                String email = request.getParameter("username");
+                String password = request.getParameter("password");
+                Integer id = loginBean.Login(email, password);
+                System.err.println(id);
+            } else if (!request.getParameter("formName").equals("RegisterForm")){
+                
+            }
         }
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login" + userPath + ".jsp";
