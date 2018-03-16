@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.session.LoggedInTimestampsFacade;
 import roadtrip.session.Register;
 import roadtrip.session.UserFacade;
 
@@ -29,6 +30,9 @@ public class LoginServlet extends HttpServlet {
 
     @EJB
     private Register register;
+    
+    @EJB
+    private LoggedInTimestampsFacade timestampFacade;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -85,7 +89,7 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
                     return;
                 } else {
-                    //TODO: Add the timestamp
+                    timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
                     try {

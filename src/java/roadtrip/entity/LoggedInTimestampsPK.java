@@ -22,8 +22,8 @@ public class LoggedInTimestampsPK implements Serializable {
     private int userId;
     @Basic(optional = false)
     @Column(name = "moment", columnDefinition="DATETIME default NOW()")
-    private java.sql.Timestamp moment;
-
+    private java.sql.Timestamp moment = new Timestamp(System.currentTimeMillis());
+    
     public Timestamp getMoment() {
         return moment;
     }

@@ -26,10 +26,7 @@ public class LoggedInTimestamps implements Serializable {
     
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User user_id;
-    
-    @Basic(optional=false)
-    private java.sql.Timestamp moment;
+    private User user;
     
     public LoggedInTimestamps(){
     }
@@ -51,19 +48,11 @@ public class LoggedInTimestamps implements Serializable {
     }
 
     public User getUser_id() {
-        return user_id;
+        return user;
     }
 
     public void setUser_id(User user_id) {
-        this.user_id = user_id;
-    }
-
-    public Timestamp getMoment() {
-        return moment;
-    }
-
-    public void setMoment(Timestamp moment) {
-        this.moment = moment;
+        this.user = user_id;
     }
 
     @Override
