@@ -7,13 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">P4RT</a>
-        </div>
-    </div>
-</nav>
 
 <div class="container-fluid">
     <h2>Settings</h2>
