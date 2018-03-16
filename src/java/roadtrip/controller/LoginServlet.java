@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import roadtrip.session.Register;
 import roadtrip.session.UserFacade;
 
@@ -22,10 +23,10 @@ import roadtrip.session.UserFacade;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/validate"})
 public class LoginServlet extends HttpServlet {
-    
+
     @EJB
     private UserFacade userFacade;
-    
+
     @EJB
     private Register register;
 
@@ -42,12 +43,10 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
-                
-        System.out.println(userPath);
-        
+
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login/login.jsp";
-        
+
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -66,18 +65,39 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String userPath = request.getServletPath();
-        if (userPath.equals("/validate")){
-            
-            if(request.getParameter("formName").equals("LoginForm")){
+        HttpSession session = request.getSession();
+        session.removeAttribute("loginError");
+
+        if (userPath.equals("/login")) {
+
+            if (request.getParameter("formName").equals("LoginForm")) {
                 String email = request.getParameter("username");
                 String password = request.getParameter("password");
                 Integer id = userFacade.Login(email, password);
-                //TODO: HANDLE LOGIN TIMESTAMP HERE
-                System.out.println(id);
-                
-            } else if (request.getParameter("formName").equals("RegisterForm")){
+                if (id.equals(-1)) {
+//                    PrintWriter out = response.getWriter();
+//                    out.println("<script type=\"text/javascript\">");
+//                    out.println("alert('User or password incorrect');");
+//                    out.println("location='index.jsp';");
+//                    out.println("</script>");
+
+                    session.setAttribute("loginError", "Incorrect password or email");
+                    request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
+                    return;
+                } else {
+                    //TODO: Add the timestamp
+                    session.setAttribute("userId", id);
+                    try {
+                        response.sendRedirect("main");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    return;
+                }
+
+            } else if (request.getParameter("formName").equals("RegisterForm")) {
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
@@ -114,7 +134,7 @@ public class LoginServlet extends HttpServlet {
         }
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login" + userPath + ".jsp";
-       
+
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {

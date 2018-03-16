@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,7 +33,9 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO: Check if logged in
+        if(!LoginRedirect(request,response)){
+            return;
+        }
         String url = "/WEB-INF/view/main.jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -52,38 +55,17 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //String url = "/WEB-INF/view/main.jsp";
         
-        // Receive username and password from login form
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        System.out.println("######################################################################" );
-        // get response writer
-        PrintWriter writer = response.getWriter();
-         
-        // build HTML code
-        String htmlRespone = "<html>";
-        htmlRespone += "<h2>Your username is: " + username + "<br/>";      
-        htmlRespone += "Your password is: " + password + "</h2>";    
-        htmlRespone += "</html>";
-        
-        // return response
-        writer.println(htmlRespone);
-//        try {
-//            request.getRequestDispatcher(url).forward(request, response);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        if(!LoginRedirect(request,response)){
+            return;
+        }
+        String url = "/WEB-INF/view/main.jsp";
+
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -95,5 +77,24 @@ public class MainServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    private Boolean LoginRedirect(HttpServletRequest request,HttpServletResponse response)
+            throws ServletException, IOException{
+        HttpSession session = request.getSession(false);
+        Integer id = (Integer) session.getAttribute("userId");
+        if (null == id) {
+            String url = "/WEB-INF/login/login.jsp";
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Please log in!');");
+            out.println("</script>");
+            return false;
+        }
+        return true;
+    }
 }
