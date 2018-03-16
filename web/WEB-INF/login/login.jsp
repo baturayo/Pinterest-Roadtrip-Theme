@@ -6,7 +6,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -112,10 +111,10 @@
                 }
             </script>
         </div>
-        <c:if test="${sessionScope.loginError != null}">
+        <c:if test="${requestScope.loginError != null}">
             <script>
                 function alertLogin(){
-                    alert("${sessionScope.loginError}");
+                    alert("${requestScope.loginError}");
                 }
                 window.onload = alertLogin;
             </script>

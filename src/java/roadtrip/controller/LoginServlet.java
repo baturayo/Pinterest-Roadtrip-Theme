@@ -67,8 +67,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-        HttpSession session = request.getSession();
-        session.removeAttribute("loginError");
 
         if (userPath.equals("/login")) {
 
@@ -83,11 +81,12 @@ public class LoginServlet extends HttpServlet {
 //                    out.println("location='index.jsp';");
 //                    out.println("</script>");
 
-                    session.setAttribute("loginError", "Incorrect password or email");
+                    request.setAttribute("loginError", "Incorrect password or email");
                     request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
                     return;
                 } else {
                     //TODO: Add the timestamp
+                    HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
                     try {
                         response.sendRedirect("main");
