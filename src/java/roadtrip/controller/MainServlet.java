@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author cekef
  */
-@WebServlet(name = "MainServlet", urlPatterns = {"/main"})
+@WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats"})
 public class MainServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -36,7 +36,8 @@ public class MainServlet extends HttpServlet {
         if(!LoginRedirect(request,response)){
             return;
         }
-        String url = "/WEB-INF/view/main.jsp";
+        String path = request.getServletPath();
+        String url = "/WEB-INF/view/"+path+".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {

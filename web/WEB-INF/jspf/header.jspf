@@ -19,9 +19,9 @@
                         <a class="navbar-brand" href="#">P4RT</a>
                     </div>
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Stats</a></li>
+                        <li><a href="main">Home</a></li>
+                        <li><a href="settings">Settings</a></li>
+                        <li><a href="stats">Stats</a></li>
 
                     </ul>
                 </div>
