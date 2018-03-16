@@ -5,6 +5,8 @@
  */
 package roadtrip.session;
 
+import java.sql.Timestamp;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,6 +38,12 @@ public class LoggedInTimestampsFacade extends AbstractFacade<LoggedInTimestamps>
         
         LoggedInTimestamps toAdd = new LoggedInTimestamps(PK);
         create(toAdd);
+    }
+
+    public List<Timestamp> findTimestamps(Integer id) {
+        return em.createQuery("SELECT stamps.loggedInTimestampsPK.moment from LoggedInTimestamps AS stamps WHERE stamps.loggedInTimestampsPK.userId = :id")
+                .setParameter("id", id)
+                .getResultList();
     }
     
 }

@@ -7,12 +7,16 @@ package roadtrip.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.session.LoggedInTimestampsFacade;
 
 /**
  *
@@ -20,7 +24,10 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats"})
 public class MainServlet extends HttpServlet {
-
+    
+    @EJB
+    LoggedInTimestampsFacade timestampsFacade;
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,6 +45,12 @@ public class MainServlet extends HttpServlet {
         }
         String path = request.getServletPath();
         String url = "/WEB-INF/view/"+path+".jsp";
+        if(path.equals("/stats")){
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            List<Timestamp> stamps = timestampsFacade.findTimestamps(id);
+            request.setAttribute("logins",stamps);
+        }
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -81,7 +94,7 @@ public class MainServlet extends HttpServlet {
     
     private Boolean LoginRedirect(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException{
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
         if (null == id) {
             String url = "/WEB-INF/login/login.jsp";
