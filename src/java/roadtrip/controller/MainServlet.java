@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.User;
 import roadtrip.session.LoggedInTimestampsFacade;
+import roadtrip.session.UserFacade;
 
 /**
  *
@@ -27,6 +29,9 @@ public class MainServlet extends HttpServlet {
     
     @EJB
     LoggedInTimestampsFacade timestampsFacade;
+    
+    @EJB
+    private UserFacade userFacade;
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -51,6 +56,27 @@ public class MainServlet extends HttpServlet {
             List<Timestamp> stamps = timestampsFacade.findTimestamps(id);
             request.setAttribute("logins",stamps);
         }
+        if(path.equals("/settings")){
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            User user = userFacade.find(id);
+            
+            request.setAttribute("settingsusername",user.getUsername());
+            request.setAttribute("settingsemail",user.getEmail());
+            request.setAttribute("settingsfirstname",user.getFirstname());
+            request.setAttribute("settingslastname",user.getSecondname());
+            request.setAttribute("settingscountry",user.getCountry());
+            if( user.getGender() == 0){
+                request.setAttribute("settingsgender","Male");   
+            }
+            else if (user.getGender() == 1) {
+                request.setAttribute("settingsgender","Female");   
+            }
+            else if (user.getGender() == 2) {
+                request.setAttribute("settingsgender","Other");   
+            }
+        }
+
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -72,6 +98,13 @@ public class MainServlet extends HttpServlet {
         
         if(!LoginRedirect(request,response)){
             return;
+        }
+        String path = request.getServletPath();
+    
+        if(path.equals("/settings")){
+            System.out.println("POST happened in settings.");
+
+
         }
         String url = "/WEB-INF/view/main.jsp";
 
@@ -111,4 +144,49 @@ public class MainServlet extends HttpServlet {
         }
         return true;
     }
+    private void changeUserInfo(HttpServletRequest request,HttpServletResponse response){
+        
+        switch (request.getParameter("formName")) {
+            case "changeemail":
+                changeUserEmail(request, response);
+                break;
+            case "changeusername":
+                changeUserName(request, response);
+                break;
+            case "changepassword":
+                break;
+            case "changefirstname":
+                break;
+            case "changelastname":
+                break;
+            case "changecountry":
+                break;
+            case "changegender":
+                break;
+            default:
+                break;
+        }
+
+    }
+    private void changeUserEmail(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newemail = request.getParameter("newemail");
+        user.setEmail(newemail);
+
+        userFacade.edit(user);
+        
+    }
+    private void changeUserName(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newusername = request.getParameter("newusername");
+        user.setUsername(newusername);
+
+        userFacade.edit(user);
+        
+    }
 }
+

@@ -9,31 +9,56 @@
 
 
 <div class="container-fluid">
-    <h2>Settings</h2>
-    <div class="btn-group-vertical">
+    <div class="col-sm-4">
+        <h2>Settings</h2>
+        <div class="btn-group-vertical">
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailmodal">
-            Change Email
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usernamemodal">
-            Change Username
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordmodal">
-            Change Password
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#firstnamemodal">
-            Change First Name
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lastnamemodal">
-            Change Last Name
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#countrymodal">
-            Change Country
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gendermodal">
-            Change Gender
-        </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailmodal">
+                Change Email
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usernamemodal">
+                Change Username
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordmodal">
+                Change Password
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#firstnamemodal">
+                Change First Name
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lastnamemodal">
+                Change Last Name
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#countrymodal">
+                Change Country
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gendermodal">
+                Change Gender
+            </button>
+        </div>
     </div>
+    
+    <div class="col-sm-8">
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">User Info</div>
+          <div class="panel-body">
+              <p>username: ${requestScope.settingsusername}</p>
+              <p>email: ${requestScope.settingsemail}</p>
+              
+              <p>first name: ${requestScope.settingsfirstname}</p>
+              <p>last name: ${requestScope.settingslastname}</p>
+              
+              <p>country: ${requestScope.settingscountry}</p>
+              <p>gender: ${requestScope.settingsgender}</p>
+
+          </div>
+        </div>
+        
+    </div>
+
+
+    
+    
     <div class="modal fade" id="emailmodal">
         <div class="modal-dialog">
             <div class="modal-content">
