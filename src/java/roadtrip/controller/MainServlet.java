@@ -7,9 +7,16 @@ package roadtrip.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +61,19 @@ public class MainServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
             List<Timestamp> stamps = timestampsFacade.findTimestamps(id);
-            request.setAttribute("logins",stamps);
+            List<JsonObject> stampsJson=stamps.stream()
+                    .map(stamp -> {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(stamp);
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("year",cal.get(Calendar.YEAR));
+                        objectBuilder.add("month",cal.get(Calendar.MONTH));
+                        objectBuilder.add("day", cal.get(Calendar.DAY_OF_MONTH));
+                        return objectBuilder.build();
+                    }
+                    )
+                    .collect(Collectors.toList());
+            request.setAttribute("logins",stampsJson);
         }
         if(path.equals("/settings")){
             HttpSession session = request.getSession();
