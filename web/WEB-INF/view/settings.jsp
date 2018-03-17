@@ -70,8 +70,8 @@
 
                 <div class="modal-body">
                     <form name="changeemail" action="settings" method="POST">
-                        <div class="form-group">
-                            Old Email: <input type="text" name="oldemail" required />
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changeemail1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
                             New Email: <input type="text" name="newemail" required/>
@@ -96,8 +96,8 @@
 
                 <div class="modal-body">
                     <form name="changeusername" action="settings" method="POST">
-                        <div class="form-group">
-                            Old Username <input type="text" name="oldusername" required />
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changeusername1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
                             New Username <input type="text" name="newusername" required/>
@@ -122,6 +122,9 @@
 
                 <div class="modal-body">
                     <form name="changepassword" action="settings" method="POST">
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changepassword1" readonly="readonly"/>
+                        </div>
                         <div class="form-group">
                             Old Password <input type="password" name="oldpassword" required />
                         </div>
@@ -148,8 +151,8 @@
 
                 <div class="modal-body">
                     <form name="changefirstname" action="settings" method="POST">
-                        <div class="form-group">
-                            Old First Name <input type="text" name="oldfirstname" required />
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changefirstname1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
                             New First Name <input type="text" name="newfirstname" required/>
@@ -174,8 +177,8 @@
 
                 <div class="modal-body">
                     <form name="changelastname" action="settings" method="POST">
-                        <div class="form-group">
-                            Old Last Name <input type="text" name="oldlastname" required />
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changelastname1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
                             New Last Name <input type="text" name="newlastname" required/>
@@ -200,8 +203,8 @@
 
                 <div class="modal-body">
                     <form name="changecountry" action="settings" method="POST">
-                        <div class="form-group">
-                            Old Country <input type="text" name="oldcountry" required />
+                         <div class="form-group">
+                            <input type="hidden" name="formName" value="changecountry1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
                             New Country <input type="text" name="newcountry" required/>
@@ -226,6 +229,9 @@
 
                 <div class="modal-body">
                     <form name="changegender" action="settings" method="POST">
+                          <div class="form-group">
+                            <input type="hidden" name="formName" value="changegender1" readonly="readonly"/>
+                        </div>
                         <div class="form-group">
                             New Gender: <select name="newgender" required>
                                 <option>Male</option>

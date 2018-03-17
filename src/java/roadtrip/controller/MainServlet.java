@@ -122,8 +122,7 @@ public class MainServlet extends HttpServlet {
     
         if(path.equals("/settings")){
             System.out.println("POST happened in settings.");
-
-
+            changeUserInfo(request, response);
         }
         String url = "/WEB-INF/view/main.jsp";
 
@@ -164,38 +163,41 @@ public class MainServlet extends HttpServlet {
         return true;
     }
     private void changeUserInfo(HttpServletRequest request,HttpServletResponse response){
-        
-        switch (request.getParameter("formName")) {
-            case "changeemail":
+        System.out.println(1);
+        if (request.getParameter("formName").equals("changeemail1")){
+                System.out.println(2);
                 changeUserEmail(request, response);
-                break;
-            case "changeusername":
-                changeUserName(request, response);
-                break;
-            case "changepassword":
-                break;
-            case "changefirstname":
-                break;
-            case "changelastname":
-                break;
-            case "changecountry":
-                break;
-            case "changegender":
-                break;
-            default:
-                break;
         }
-
+        else if (request.getParameter("formName").equals("changeusername1")){
+                changeUserName(request, response);
+        }
+        else if (request.getParameter("formName").equals("changefirstname1")){
+                changeUserFirstName(request, response);
+        }
+        else if (request.getParameter("formName").equals("changelastname1")){
+                changeUserLastName(request, response);
+        }
+        else if (request.getParameter("formName").equals("changecountry1")){
+                changeUserCountry(request, response);
+        }
+        else if (request.getParameter("formName").equals("changegender1")){
+                changeUserGender(request, response);
+        }  
     }
     private void changeUserEmail(HttpServletRequest request,HttpServletResponse response){
+        System.out.println(3);
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
         User user = userFacade.find(id);
         String newemail = request.getParameter("newemail");
-        user.setEmail(newemail);
-
-        userFacade.edit(user);
         
+        System.out.println(newemail);
+        
+        user.setEmail(newemail);
+        
+        System.out.println(user.getEmail());
+
+        userFacade.edit(user);       
     }
     private void changeUserName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -204,8 +206,59 @@ public class MainServlet extends HttpServlet {
         String newusername = request.getParameter("newusername");
         user.setUsername(newusername);
 
-        userFacade.edit(user);
-        
+        userFacade.edit(user);      
+    }
+    
+    private void changeUserFirstName(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newfirstname = request.getParameter("newfirstname");
+        user.setFirstname(newfirstname);
+
+        userFacade.edit(user);     
+    }
+    
+    private void changeUserLastName(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newlastname = request.getParameter("newlastname");
+        user.setSecondname(newlastname);
+
+        userFacade.edit(user);      
+    }
+    private void changeUserCountry(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newcountry = request.getParameter("newcountry");
+        user.setCountry(newcountry);
+
+        userFacade.edit(user);      
+    }           
+    private void changeUserGender(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        String newgender = request.getParameter("newgender");
+              
+        Integer genderDB = null;
+        switch (newgender) {
+          case "Male":
+              genderDB = 0;
+              break;
+          case "Female":
+              genderDB = 1;
+              break;
+          case "Other":
+              genderDB = 2;
+              break;
+          default:
+              break;
+        }      
+        user.setGender(genderDB);
+        userFacade.edit(user);     
     }
 }
 
