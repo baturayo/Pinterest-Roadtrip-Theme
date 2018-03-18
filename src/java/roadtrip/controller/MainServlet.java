@@ -147,16 +147,8 @@ public class MainServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
         if (null == id) {
-            String url = "/WEB-INF/login/login.jsp";
-            try {
-                request.getRequestDispatcher(url).forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Please log in!');");
-            out.println("</script>");
+            request.setAttribute("loginError", "Please log in!");
+            request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
             return false;
         }
         return true;
