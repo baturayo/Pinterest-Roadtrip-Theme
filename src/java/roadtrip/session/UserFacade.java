@@ -58,6 +58,14 @@ public class UserFacade extends AbstractFacade<User> {
                 .getResultList();
         return lookUp.isEmpty();
     }
+    
+    public Boolean checkUniqueUsername(String username) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT u.username FROM User u WHERE u.username = :username")
+                .setParameter("username", username)
+                .getResultList();
+        return lookUp.isEmpty();
+    }
 
     @Override
     public void create(User user) {
