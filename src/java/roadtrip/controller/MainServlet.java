@@ -191,9 +191,10 @@ public class MainServlet extends HttpServlet {
         Integer id = (Integer) session.getAttribute("userId");
         User user = userFacade.find(id);
         String newusername = request.getParameter("newusername");
-        user.setUsername(newusername);
-
-        userFacade.edit(user);      
+        if(userFacade.checkUniqueUsername(newusername)){
+            user.setUsername(newusername);
+            userFacade.edit(user);
+        }
     }
 
     private void changeUserPassword(HttpServletRequest request,HttpServletResponse response){
