@@ -22,7 +22,7 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/validate"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login","/logout"})
 public class LoginServlet extends HttpServlet {
 
     @EJB
@@ -50,7 +50,11 @@ public class LoginServlet extends HttpServlet {
 
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login/login.jsp";
-
+        if (userPath.equals("/logout")){
+            HttpSession session = request.getSession();
+            session.invalidate();
+            
+        }
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -79,12 +83,6 @@ public class LoginServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 Integer id = userFacade.Login(email, password);
                 if (id.equals(-1)) {
-//                    PrintWriter out = response.getWriter();
-//                    out.println("<script type=\"text/javascript\">");
-//                    out.println("alert('User or password incorrect');");
-//                    out.println("location='index.jsp';");
-//                    out.println("</script>");
-
                     request.setAttribute("loginError", "Incorrect password or email");
                     request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
                     return;
