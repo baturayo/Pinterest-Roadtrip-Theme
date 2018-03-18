@@ -6,10 +6,7 @@
 package roadtrip.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -197,6 +194,9 @@ public class MainServlet extends HttpServlet {
         if(userFacade.checkUniqueUsername(newusername)){
             user.setUsername(newusername);
             userFacade.edit(user);
+        }
+        else {
+            request.setAttribute("verificationError", "Username already in use");
         }
     }
 
