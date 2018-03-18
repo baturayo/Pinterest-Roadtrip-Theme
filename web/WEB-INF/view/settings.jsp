@@ -36,29 +36,29 @@
             </button>
         </div>
     </div>
-    
-    <div class="col-sm-8">
-        
-        <div class="panel panel-default">
-          <div class="panel-heading">User Info</div>
-          <div class="panel-body">
-              <p>username: ${requestScope.settingsusername}</p>
-              <p>email: ${requestScope.settingsemail}</p>
-              
-              <p>first name: ${requestScope.settingsfirstname}</p>
-              <p>last name: ${requestScope.settingslastname}</p>
-              
-              <p>country: ${requestScope.settingscountry}</p>
-              <p>gender: ${requestScope.settingsgender}</p>
 
-          </div>
+    <div class="col-sm-8">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">User Info</div>
+            <div class="panel-body">
+                <p>username: ${requestScope.settingsusername}</p>
+                <p>email: ${requestScope.settingsemail}</p>
+
+                <p>first name: ${requestScope.settingsfirstname}</p>
+                <p>last name: ${requestScope.settingslastname}</p>
+
+                <p>country: ${requestScope.settingscountry}</p>
+                <p>gender: ${requestScope.settingsgender}</p>
+
+            </div>
         </div>
-        
+
     </div>
 
 
-    
-    
+
+
     <div class="modal fade" id="emailmodal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -70,7 +70,7 @@
 
                 <div class="modal-body">
                     <form name="changeemail" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changeemail1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -96,7 +96,7 @@
 
                 <div class="modal-body">
                     <form name="changeusername" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changeusername1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -122,7 +122,7 @@
 
                 <div class="modal-body">
                     <form name="changepassword" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changepassword1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -151,7 +151,7 @@
 
                 <div class="modal-body">
                     <form name="changefirstname" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changefirstname1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -177,7 +177,7 @@
 
                 <div class="modal-body">
                     <form name="changelastname" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changelastname1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -203,7 +203,7 @@
 
                 <div class="modal-body">
                     <form name="changecountry" action="settings" method="POST">
-                         <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changecountry1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -229,7 +229,7 @@
 
                 <div class="modal-body">
                     <form name="changegender" action="settings" method="POST">
-                          <div class="form-group">
+                        <div class="form-group">
                             <input type="hidden" name="formName" value="changegender1" readonly="readonly"/>
                         </div>
                         <div class="form-group">
@@ -247,5 +247,14 @@
             </div>
         </div>
     </div>
-
-</div>
+                
+<c:if test="${not empty requestScope.verificationError}">
+    <script>
+        function alertLogin() {
+            if("${requestScope.verificationError}"){
+                alert("${requestScope.verificationError}");
+            }
+        }
+        window.onload = alertLogin;
+    </script>
+</c:if>

@@ -123,7 +123,7 @@ public class MainServlet extends HttpServlet {
         if(path.equals("/settings")){
             changeUserInfo(request, response);
         }
-        String url = "/WEB-INF/view/main.jsp";
+        String url = "/WEB-INF/view"+path+".jsp";
 
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -185,6 +185,9 @@ public class MainServlet extends HttpServlet {
             user.setEmail(newemail);
             userFacade.edit(user);
         }
+        else {
+            request.setAttribute("verificationError", "E-mail already in use");
+        }
     }
     private void changeUserName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -209,7 +212,7 @@ public class MainServlet extends HttpServlet {
             userFacade.edit(user);
         }
         else {
-            //request.setAttribute("verificationError", "Incorrect password");
+            request.setAttribute("verificationError", "Incorrect password");
         }
     }
     
