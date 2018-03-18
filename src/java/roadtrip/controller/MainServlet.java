@@ -121,7 +121,6 @@ public class MainServlet extends HttpServlet {
         String path = request.getServletPath();
     
         if(path.equals("/settings")){
-            System.out.println("POST happened in settings.");
             changeUserInfo(request, response);
         }
         String url = "/WEB-INF/view/main.jsp";
@@ -163,9 +162,7 @@ public class MainServlet extends HttpServlet {
         return true;
     }
     private void changeUserInfo(HttpServletRequest request,HttpServletResponse response){
-        System.out.println(1);
         if (request.getParameter("formName").equals("changeemail1")){
-                System.out.println(2);
                 changeUserEmail(request, response);
         }
         else if (request.getParameter("formName").equals("changeusername1")){
@@ -182,22 +179,20 @@ public class MainServlet extends HttpServlet {
         }
         else if (request.getParameter("formName").equals("changegender1")){
                 changeUserGender(request, response);
+        }
+        else if (request.getParameter("formName").equals("changepassword1")){
+                changeUserPassword(request, response);
         }  
     }
     private void changeUserEmail(HttpServletRequest request,HttpServletResponse response){
-        System.out.println(3);
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
         User user = userFacade.find(id);
         String newemail = request.getParameter("newemail");
-        
-        System.out.println(newemail);
-        
-        user.setEmail(newemail);
-        
-        System.out.println(user.getEmail());
-
-        userFacade.edit(user);       
+        if (userFacade.checkUniqueEmail(newemail)){
+            user.setEmail(newemail);
+            userFacade.edit(user);
+        }
     }
     private void changeUserName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -207,6 +202,23 @@ public class MainServlet extends HttpServlet {
         user.setUsername(newusername);
 
         userFacade.edit(user);      
+    }
+
+    private void changeUserPassword(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
+        
+        String oldpassword = request.getParameter("oldpassword");
+        String newpassword = request.getParameter("newpassword");
+        
+        if(oldpassword.equals(userFacade.getCurrentUserPassword(id))){
+            user.setUsername(newpassword);
+            userFacade.edit(user);
+        }
+        else {
+            //request.setAttribute("verificationError", "Incorrect password");
+        }
     }
     
     private void changeUserFirstName(HttpServletRequest request,HttpServletResponse response){

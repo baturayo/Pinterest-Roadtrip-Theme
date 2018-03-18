@@ -40,6 +40,24 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return lookUp.get(0);
     }
+    
+    public String getCurrentUserPassword(Integer id) {
+        List<String> lookUp = em.createQuery("SELECT u.password FROM User u WHERE u.id = :id")
+                .setParameter("id", id)
+                .getResultList();
+        if (lookUp.isEmpty()) {
+            return "";
+        }
+        return lookUp.get(0);
+    }
+    
+    public Boolean checkUniqueEmail(String email) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT u.email FROM User u WHERE u.email = :email")
+                .setParameter("email", email)
+                .getResultList();
+        return lookUp.isEmpty();
+    }
 
     @Override
     public void create(User user) {
