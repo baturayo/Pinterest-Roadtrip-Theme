@@ -209,7 +209,7 @@ public class MainServlet extends HttpServlet {
         String newpassword = request.getParameter("newpassword");
         
         if(oldpassword.equals(userFacade.getCurrentUserPassword(id))){
-            user.setUsername(newpassword);
+            user.setPassword(newpassword);
             userFacade.edit(user);
         }
         else {
