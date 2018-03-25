@@ -73,26 +73,8 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("logins",stampsJson);
         }
         if(path.equals("/settings")){
-            HttpSession session = request.getSession();
-            Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
-            
-            request.setAttribute("settingsusername",user.getUsername());
-            request.setAttribute("settingsemail",user.getEmail());
-            request.setAttribute("settingsfirstname",user.getFirstname());
-            request.setAttribute("settingslastname",user.getSecondname());
-            request.setAttribute("settingscountry",user.getCountry());
-            if( user.getGender() == 0){
-                request.setAttribute("settingsgender","Male");   
-            }
-            else if (user.getGender() == 1) {
-                request.setAttribute("settingsgender","Female");   
-            }
-            else if (user.getGender() == 2) {
-                request.setAttribute("settingsgender","Other");   
-            }
+            setSettingsAttributes(request);
         }
-
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -119,6 +101,7 @@ public class MainServlet extends HttpServlet {
     
         if(path.equals("/settings")){
             changeUserInfo(request, response);
+            setSettingsAttributes(request);
         }
         String url = "/WEB-INF/view"+path+".jsp";
 
@@ -267,6 +250,28 @@ public class MainServlet extends HttpServlet {
         }      
         user.setGender(genderDB);
         userFacade.edit(user);     
+    }
+    
+    private void setSettingsAttributes(HttpServletRequest request){
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            User user = userFacade.find(id);
+            
+            request.setAttribute("settingsusername",user.getUsername());
+            request.setAttribute("settingsemail",user.getEmail());
+            request.setAttribute("settingsfirstname",user.getFirstname());
+            request.setAttribute("settingslastname",user.getSecondname());
+            request.setAttribute("settingscountry",user.getCountry());
+            if( user.getGender() == 0){
+                request.setAttribute("settingsgender","Male");   
+            }
+            else if (user.getGender() == 1) {
+                request.setAttribute("settingsgender","Female");   
+            }
+            else if (user.getGender() == 2) {
+                request.setAttribute("settingsgender","Other");   
+            }
+        
     }
 }
 
