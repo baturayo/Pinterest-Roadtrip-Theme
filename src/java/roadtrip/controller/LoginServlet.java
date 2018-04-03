@@ -22,7 +22,7 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login","/logout"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login","/logout","/register"})
 public class LoginServlet extends HttpServlet {
 
     @EJB
@@ -47,9 +47,12 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userPath = request.getServletPath();
+        String url = "/WEB-INF/login/login.jsp";
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/login/login.jsp";
+        if(userPath.equals("/register")) {
+            url = "/WEB-INF/login/register.jsp";
+        }
         if (userPath.equals("/logout")){
             HttpSession session = request.getSession();
             session.invalidate();
@@ -99,7 +102,11 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-            } else if (request.getParameter("formName").equals("RegisterForm")) {
+            } 
+            
+        }
+        else if (userPath.equals("/register")) {
+            if (request.getParameter("formName").equals("RegisterForm")) {
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
