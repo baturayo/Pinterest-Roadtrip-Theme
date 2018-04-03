@@ -5,6 +5,10 @@
             30
         </session-timeout>
     </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/unknown.html</location>
+    </error-page>
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>

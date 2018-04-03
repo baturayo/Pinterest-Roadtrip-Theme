@@ -53,7 +53,8 @@ public class LoginServlet extends HttpServlet {
         if (userPath.equals("/logout")){
             HttpSession session = request.getSession();
             session.invalidate();
-            
+            response.sendRedirect("/login");
+            return;
         }
         try {
             request.getRequestDispatcher(url).forward(request, response);
