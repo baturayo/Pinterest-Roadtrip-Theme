@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
         if (userPath.equals("/logout")){
             HttpSession session = request.getSession();
             session.invalidate();
-            response.sendRedirect("/login");
+            response.sendRedirect("login");
             return;
         }
         try {
