@@ -28,7 +28,7 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats"})
+@WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats","/countries/*"})
 public class MainServlet extends HttpServlet {
     
     @EJB
@@ -74,6 +74,17 @@ public class MainServlet extends HttpServlet {
         }
         if(path.equals("/settings")){
             setSettingsAttributes(request);
+        }
+        if(path.equals("/countries")){
+            String pathInfo = request.getPathInfo();
+            String[] parameters =  pathInfo.split("/");
+            if (parameters.length != 2){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            else{
+                url = "/WEB-INF/countries/"+parameters[1]+".jsp";
+            }
         }
         try {
             request.getRequestDispatcher(url).forward(request, response);

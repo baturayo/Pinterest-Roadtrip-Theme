@@ -95,7 +95,7 @@ public class LoginServlet extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
                     try {
-                        response.sendRedirect("main");
+                        response.sendRedirect("");
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

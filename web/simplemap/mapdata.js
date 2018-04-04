@@ -61,7 +61,7 @@ var simplemaps_worldmap_mapdata={
     //Advanced settings
     div: "map",
     auto_load: "yes",
-    url_new_tab: "yes",
+    url_new_tab: "no",
     images_directory: "default",
     fade_time: 0.1,
     link_text: "View Website",
@@ -536,7 +536,8 @@ var simplemaps_worldmap_mapdata={
       name: "Uruguay"
     },
     US: {
-      name: "United States"
+      name: "United States",
+      url: "countries/US"
     },
     UZ: {
       name: "Uzbekistan"
