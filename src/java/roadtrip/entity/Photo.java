@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,10 +28,9 @@ public class Photo implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
-    @Basic(optional = false)
-    @Column(name="checkpointid")
-    @NotNull
-    private Integer checkpointid;
+    @JoinColumn(name = "checkpointid", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Checkpoint checkpoint;
     
     
     @Basic(optional = false)
@@ -59,14 +60,14 @@ public class Photo implements Serializable {
         this.url = url;
     }
 
-    public Integer getCheckpointid() {
-        return checkpointid;
+    public Checkpoint getCountry() {
+        return checkpoint;
     }
 
-    public void setCheckpointid(Integer checkpointid) {
-        this.checkpointid = checkpointid;
+    public void setCountry(Checkpoint country) {
+        this.checkpoint = country;
     }
-
+    
     public Integer getId() {
         return id;
     }

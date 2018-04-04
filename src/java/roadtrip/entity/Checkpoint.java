@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -45,19 +47,17 @@ public class Checkpoint implements Serializable {
     @NotNull
     private Point2D.Double coordinates;
     
-    @Basic(optional = false)
-    @Column(name="countryid")
-    @NotNull
-    private Integer countryid;
+    @JoinColumn(name = "countryid", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Country country;
 
-    public Integer getCountryid() {
-        return countryid;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryid(Integer countryid) {
-        this.countryid = countryid;
+    public void setCountry(Country country) {
+        this.country = country;
     }
-
 
     public String getDescription() {
         return description;
