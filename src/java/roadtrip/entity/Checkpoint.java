@@ -7,7 +7,9 @@ package roadtrip.entity;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -50,7 +53,10 @@ public class Checkpoint implements Serializable {
     @JoinColumn(name = "countryid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Country country;
-
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "checkpoint")
+    private List<Photo> photos;
+    
     public Country getCountry() {
         return country;
     }
@@ -89,6 +95,14 @@ public class Checkpoint implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
     }
 
     @Override

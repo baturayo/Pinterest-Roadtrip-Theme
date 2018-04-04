@@ -6,12 +6,15 @@
 package roadtrip.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -60,6 +63,9 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "password")
     private String password;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
+    private List<LoggedInTimestamps> loggedInTimeStamps;
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -131,6 +137,14 @@ public class User implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public List<LoggedInTimestamps> getLoggedInTimeStamps() {
+        return loggedInTimeStamps;
+    }
+
+    public void setLoggedInTimeStamps(List<LoggedInTimestamps> loggedInTimeStamps) {
+        this.loggedInTimeStamps = loggedInTimeStamps;
     }
 
     @Override
