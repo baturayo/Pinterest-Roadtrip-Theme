@@ -34,7 +34,7 @@
                 </div>
             </div>
         </nav>
-        <h1>HELLO {TITLE}</h1>
+        <h1>HELLO ${sessionScope.title}</h1>
         <div id="map"></div>
         <c:if test="${sessionScope.userId == null}" >
 

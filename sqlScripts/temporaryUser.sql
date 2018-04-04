@@ -8,6 +8,6 @@
  * Created: Mar 17, 2018
  */
 
-delete from loggedintimestamps where user_id = 1;
-delete from user where id = 1;
+delete from loggedintimestamps where user_id = 0;
+delete from user where id = 0;
 insert into user values (0,"a","a","a",1,"a","a","a");

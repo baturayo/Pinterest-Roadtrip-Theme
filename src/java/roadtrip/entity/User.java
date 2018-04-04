@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -66,6 +67,9 @@ public class User implements Serializable {
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
     private List<LoggedInTimestamps> loggedInTimeStamps;
+    
+    @ManyToMany(mappedBy="users")
+    private List<Achievement> achievements;
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -98,7 +102,14 @@ public class User implements Serializable {
     public Integer getGender() {
         return gender;
     }
-    
+
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = achievements;
+    }
     
     public String getUsername() {
         return username;

@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.User;
 import roadtrip.session.LoggedInTimestampsFacade;
 import roadtrip.session.Register;
+import roadtrip.session.TitleFacade;
 import roadtrip.session.UserFacade;
 
 /**
@@ -33,6 +35,9 @@ public class LoginServlet extends HttpServlet {
     
     @EJB
     private LoggedInTimestampsFacade timestampFacade;
+    
+    @EJB
+    private TitleFacade titleFacade;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -48,7 +53,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String userPath = request.getServletPath();
         String url = "";
-
         // use RequestDispatcher to forward request internally
         if(userPath.equals("/register")) {
             url = "/WEB-INF/login/register.jsp";
@@ -94,6 +98,12 @@ public class LoginServlet extends HttpServlet {
                     timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
+                    User user = userFacade.find(id);
+                    Integer score = 0;
+                    score = user.getAchievements().stream().map((ach) -> ach.getPoints()).reduce(score, Integer::sum);
+                    
+                    
+                    session.setAttribute("title", titleFacade.getTitle(score));
                     try {
                         response.sendRedirect("");
                     } catch (Exception ex) {
