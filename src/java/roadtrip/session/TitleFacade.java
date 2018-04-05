@@ -31,7 +31,8 @@ public class TitleFacade extends AbstractFacade<Title> {
     }
     
     public String getTitle(Integer score){
-        List<String> titles= em.createQuery("SELECT t.name FROM Title t WHERE t.requiredPoints <= :score ORDER BY t.requiredPoints DESC")
+        List<String> titles= em.createQuery("SELECT t.name FROM Title t"
+                + " WHERE t.requiredPoints <= :score ORDER BY t.requiredPoints DESC")
                 .setParameter("score", score)
                 .getResultList();
         return titles.get(0);
