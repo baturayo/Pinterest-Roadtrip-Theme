@@ -18,6 +18,7 @@
         <p>ServletPath: ${requestScope.servlet}</p>
         <p>Pathinfo: ${requestScope.path}</p>
         <p>QueryString: ${requestScope.query}</p>
+        <p>CheckpointID ${requestScope.cid}</p>
 
 
     </body>

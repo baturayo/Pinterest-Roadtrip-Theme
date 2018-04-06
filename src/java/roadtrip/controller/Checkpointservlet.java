@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Michael
  */
-@WebServlet(name = "Checkpointservlet", urlPatterns = {"/checkpoint?*"})
+@WebServlet(name = "Checkpointservlet", urlPatterns = {"/checkpoint"})
 public class Checkpointservlet extends HttpServlet {
 
     /**
@@ -53,6 +53,11 @@ public class Checkpointservlet extends HttpServlet {
         request.setAttribute("servlet", Servletpath);
         request.setAttribute("path", Pathinfo);
         request.setAttribute("query", Querystring);
+        
+        Integer cid = Integer.parseInt(request.getParameter("id"));
+        
+        request.setAttribute("cid", cid);
+
 
 
         String url = "/WEB-INF/view/checkpoint.jsp";

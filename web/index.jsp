@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <form name="loginForm" action="/roadtrips" method="POST">
+                            <form name="loginForm" action="/login" method="POST">
                                 <div class="form-group">
                                     <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
                                 </div>
