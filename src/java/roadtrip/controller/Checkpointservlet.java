@@ -5,13 +5,18 @@
  */
 package roadtrip.controller;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import roadtrip.entity.Checkpoint;
+import roadtrip.session.CheckpointFacade;
+import roadtrip.session.PhotoFacade;
 
 /**
  *
@@ -19,6 +24,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Checkpointservlet", urlPatterns = {"/checkpoint"})
 public class Checkpointservlet extends HttpServlet {
+    
+    @EJB
+    private CheckpointFacade checkpointFacade;
+    
+    
+    @EJB
+    private PhotoFacade photoFacade;
+
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,36 +46,23 @@ public class Checkpointservlet extends HttpServlet {
             throws ServletException, IOException {
 
         
-        String URI = request.getRequestURL().toString();
-        System.out.println(URI);
+        String url = "/WEB-INF/view/checkpoint.jsp";
         
-        String Contextpath = request.getContextPath();
-        System.out.println(Contextpath);
+        Checkpoint springfield = new Checkpoint();
+        springfield.setId(1);
+        springfield.setName("Springfield");
+        springfield.setDescription("Simpsons Town");
+        springfield.setX(1.0);
+        springfield.setY(1.0);
         
-        String Servletpath = request.getServletPath();
-        System.out.println(Servletpath);
-        
-        String Pathinfo = request.getPathInfo();
-        System.out.println(Pathinfo);
-        
-        String Querystring = request.getQueryString();
-        System.out.println(Querystring);
-        
-        request.setAttribute("uri", URI);
-        request.setAttribute("context", Contextpath);
-        request.setAttribute("servlet", Servletpath);
-        request.setAttribute("path", Pathinfo);
-        request.setAttribute("query", Querystring);
+        checkpointFacade.edit(springfield);
         
         Integer cid = Integer.parseInt(request.getParameter("id"));
         
-        request.setAttribute("cid", cid);
-
-
-
-        String url = "/WEB-INF/view/checkpoint.jsp";
-
-
+        Checkpoint cp = checkpointFacade.find(cid);
+        
+        request.setAttribute("Checkpoint", cp);
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {

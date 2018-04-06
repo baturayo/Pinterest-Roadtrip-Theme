@@ -13,13 +13,9 @@
     </head>
     <body>
         <h1>Welcome to the checkpoint page!</h1>
-        <p>URL: ${requestScope.uri}</p>
-        <p>Contextpath: ${requestScope.context}</p>
-        <p>ServletPath: ${requestScope.servlet}</p>
-        <p>Pathinfo: ${requestScope.path}</p>
-        <p>QueryString: ${requestScope.query}</p>
-        <p>CheckpointID ${requestScope.cid}</p>
-
-
+        <p>Name: ${requestScope.Checkpoint.getName()}</p>
+        <p>Description: ${requestScope.Checkpoint.getDescription()}</p>
+        <p>X-coordinate: ${requestScope.Checkpoint.getX()}</p>
+        <p>Y-coordinate ${requestScope.Checkpoint.getY()}</p>
     </body>
 </html>

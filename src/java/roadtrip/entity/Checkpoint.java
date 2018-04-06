@@ -46,10 +46,16 @@ public class Checkpoint implements Serializable {
     
     
     @Basic(optional = false)
-    @Column(name="coordinates")
+    @Column(name="x")
     @NotNull
-    private Point2D.Double coordinates;
+    private Double x;
     
+    
+    @Basic(optional = false)
+    @Column(name="y")
+    @NotNull
+    private Double y;
+
     @JoinColumn(name = "countryid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Country country;
@@ -71,14 +77,6 @@ public class Checkpoint implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Point2D.Double getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(Point2D.Double coordinates) {
-        this.coordinates = coordinates;
     }
 
     public String getName() {
@@ -103,6 +101,23 @@ public class Checkpoint implements Serializable {
 
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
+    }
+    
+    
+    public double getX() {
+        return x;
+    }
+
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
     }
 
     @Override
