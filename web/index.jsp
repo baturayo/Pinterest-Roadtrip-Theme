@@ -34,10 +34,8 @@
                 </div>
             </div>
         </nav>
-        <h1>HELLO ${sessionScope.title}</h1>
+        <h1>HELLO </h1>
         <div id="map"></div>
-        <c:if test="${sessionScope.userId == null}" >
-
             <div class="modal fade" id="loginmodal">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -47,7 +45,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <form name="loginForm" action="login" method="POST">
+                            <form name="loginForm" action="/roadtrips" method="POST">
                                 <div class="form-group">
                                     <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
                                 </div>
@@ -70,7 +68,6 @@
                     $("#loginmodal").modal('show');
                 });
             </script>
-        </c:if>
 
 
         <c:if test="${requestScope.loginError != null}">
