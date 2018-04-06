@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 
         String userPath = request.getServletPath();
 
-        if (userPath.equals("/roadtrips")) {
+        if (userPath.equals("/login")) {
 
             if (request.getParameter("formName").equals("LoginForm")) {
                 String email = request.getParameter("username");

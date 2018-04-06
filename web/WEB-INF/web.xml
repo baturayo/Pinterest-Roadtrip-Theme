@@ -12,7 +12,7 @@
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>
-            <url-pattern>/index.html</url-pattern>
+            <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/WEB-INF/view/*</url-pattern>
             <url-pattern>/WEB-INF/countries/*</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>

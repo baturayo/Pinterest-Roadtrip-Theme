@@ -35,6 +35,9 @@ public class TitleFacade extends AbstractFacade<Title> {
                 + " WHERE t.requiredPoints <= :score ORDER BY t.requiredPoints DESC")
                 .setParameter("score", score)
                 .getResultList();
+        if(titles.isEmpty()){
+            return "";
+        }
         return titles.get(0);
     }
     
