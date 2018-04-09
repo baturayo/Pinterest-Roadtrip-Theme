@@ -6,7 +6,6 @@
 package roadtrip.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.LoggedInTimestamps;
 import roadtrip.entity.User;
-import roadtrip.session.LoggedInTimestampsFacade;
 import roadtrip.session.UserFacade;
 
 /**
@@ -30,10 +29,7 @@ import roadtrip.session.UserFacade;
  */
 @WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats","/countries/*"})
 public class MainServlet extends HttpServlet {
-    
-    @EJB
-    LoggedInTimestampsFacade timestampsFacade;
-    
+        
     @EJB
     private UserFacade userFacade;
     
@@ -57,11 +53,12 @@ public class MainServlet extends HttpServlet {
         if(path.equals("/stats")){
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
-            List<Timestamp> stamps = timestampsFacade.findTimestamps(id);
+            List<LoggedInTimestamps> stamps = userFacade.find(id).getLoggedInTimeStamps();
+            //List<Timestamp> stamps = timestampsFacade.findTimestamps(id);
             List<JsonObject> stampsJson=stamps.stream()
                     .map(stamp -> {
                         Calendar cal = Calendar.getInstance();
-                        cal.setTime(stamp);
+                        cal.setTime(stamp.getLoggedInTimestampsPK().getMoment());
                         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                         objectBuilder.add("year",cal.get(Calendar.YEAR));
                         objectBuilder.add("month",cal.get(Calendar.MONTH));
