@@ -31,8 +31,8 @@ public class Photo implements Serializable {
     @JoinColumn(name = "checkpointid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Checkpoint checkpoint;
-    
-    
+
+
     @Basic(optional = false)
     @Column(name="description")
     @NotNull
@@ -59,23 +59,19 @@ public class Photo implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    public Checkpoint getCountry() {
-        return checkpoint;
-    }
-
-    public void setCountry(Checkpoint country) {
-        this.checkpoint = country;
-    }
     
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Checkpoint getCheckpoint() {
+        return checkpoint;
     }
 
+    public void setCheckpoint(Checkpoint checkpoint) {
+        this.checkpoint = checkpoint;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

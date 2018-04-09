@@ -33,7 +33,7 @@
                                 <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="username" name="username">
+                                <input type="text" class="form-control" placeholder="email" name="username">
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="password" name="password">

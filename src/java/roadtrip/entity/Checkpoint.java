@@ -59,18 +59,18 @@ public class Checkpoint implements Serializable {
     @JoinColumn(name = "countryid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Country country;
-    
+
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "checkpoint")
     private List<Photo> photos;
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
     
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -90,19 +90,6 @@ public class Checkpoint implements Serializable {
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public List<Photo> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<Photo> photos) {
-        this.photos = photos;
-    }
-    
     
     public double getX() {
         return x;
@@ -119,7 +106,15 @@ public class Checkpoint implements Serializable {
     public void setY(Double y) {
         this.y = y;
     }
+    
+   public Country getCountry() {
+        return country;
+    }
 
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

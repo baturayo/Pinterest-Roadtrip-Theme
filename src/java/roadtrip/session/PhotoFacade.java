@@ -5,6 +5,7 @@
  */
 package roadtrip.session;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,15 @@ public class PhotoFacade extends AbstractFacade<Photo> {
 
     public PhotoFacade() {
         super(Photo.class);
+    }
+    
+   public List<Photo> getCheckpointPhotos(Integer cid) {
+        List<Photo> lookUp;
+        lookUp = em.createQuery("SELECT p.id FROM Photo p WHERE p.checkpoint = :cid")
+                .setParameter("cid", cid)
+                .getResultList();
+        return lookUp;
+
     }
     
 }
