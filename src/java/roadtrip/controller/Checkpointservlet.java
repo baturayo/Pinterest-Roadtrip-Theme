@@ -62,30 +62,23 @@ public class Checkpointservlet extends HttpServlet {
         photo1.setDescription("Krusty Burger");
         photo1.setUrl("http://adn.blam.be/springfield/krustyburger.jpg");
         photo1.setCheckpoint(springfield);
-        
-        //photoFacade.edit(photo1);
-        
+                
         Photo photo2 = new Photo();
         photo2.setDescription("Springfield Arms");
         photo2.setUrl("https://vignette.wikia.nocookie.net/simpsons/images/3/39/Springfield_arms.png/revision/latest?cb=20100923185231");
         photo2.setCheckpoint(springfield);
         
-        //photoFacade.edit(photo2);
-
         
         Photo photo3 = new Photo();
         photo3.setDescription("Kwik-E-Mart");
         photo3.setUrl("https://vignette.wikia.nocookie.net/simpsons/images/2/2e/Kwikemart.jpg/revision/latest?cb=20061223160324");
         photo3.setCheckpoint(springfield);
-        
-        //photoFacade.edit(photo3);
-        
-        List<Photo> fotos = new ArrayList<Photo>();
+                
+        List<Photo> fotos = new ArrayList<>();
         
         fotos.add(photo1);
         fotos.add(photo2);
         fotos.add(photo3);
-
 
         springfield.setPhotos(fotos);
   
@@ -97,12 +90,9 @@ public class Checkpointservlet extends HttpServlet {
         List<Photo> photos = cp.getPhotos();
         photos.isEmpty();
         
-        /*ArrayList<Photo> lolphotos = new ArrayList();
-        for(Photo foto : photos){
-            lolphotos.add(foto);
-        }*/
+
         request.setAttribute("Checkpoint", cp);
-        request.setAttribute("fotos", photos);
+        request.setAttribute("photos", photos);
         
 
 
