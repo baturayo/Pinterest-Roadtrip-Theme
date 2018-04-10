@@ -101,7 +101,7 @@ border: 1px solid purple;
     <div id="Info">
         <p>
             <strong>Name:</strong>
-            <span>Sirjon</span>
+            <span>username: ${requestScope.name_surname}</span>
         </p>
         <p>
             <strong>Name:</strong>

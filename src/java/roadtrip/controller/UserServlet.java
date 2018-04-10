@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import roadtrip.entity.User;
 import roadtrip.session.UserFacade;
 
 /**
@@ -31,7 +33,7 @@ public class UserServlet extends HttpServlet {
         String URI = request.getRequestURL().toString();
         String userName = URI.substring(URI.lastIndexOf('/') + 1);
         System.out.println(userFacade.getUserFirstName(userName));
-        
+        getUserInfo(request);
         //username = username.substring(6);
         //System.out.println(username);
         String url = "/WEB-INF/view/userpage.jsp";
@@ -56,10 +58,6 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String username = request.getServletPath();
-        System.out.println(username);
-        username = username.substring(6);
-        
         String url = "/WEB-INF/view/userpage.jsp";
 
         try {
@@ -78,5 +76,15 @@ public class UserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    private void getUserInfo(HttpServletRequest request){
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            User user = userFacade.find(id);
+            
+            String name = user.getFirstname();
+            String lastName = user.getSecondname();
+            String name_surname = name + ' ' + lastName;
+            request.setAttribute("name_surname", name_surname);     
+    }
 }
