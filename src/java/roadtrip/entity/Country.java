@@ -40,6 +40,11 @@ public class Country implements Serializable {
     @Column(length = 2, unique=true, name="code")
     private String code;
     
+    @Basic(optional = false)
+    @NotNull
+    @Column(unique=true, name="filename")
+    private String filename;
+    
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "country")
     private List<Checkpoint> checkpoints;
 
@@ -47,6 +52,14 @@ public class Country implements Serializable {
         return id;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+    
     public void setId(Integer id) {
         this.id = id;
     }
