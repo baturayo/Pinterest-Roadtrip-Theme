@@ -25,7 +25,7 @@ public class Photo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     @JoinColumn(name = "checkpointid", referencedColumnName = "id", insertable = false, updatable = false)
