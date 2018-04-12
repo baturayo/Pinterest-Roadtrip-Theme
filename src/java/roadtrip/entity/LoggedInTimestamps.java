@@ -6,8 +6,6 @@
 package roadtrip.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
