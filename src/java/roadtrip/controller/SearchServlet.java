@@ -20,8 +20,8 @@ import roadtrip.session.UserFacade;
  *
  * @author baturay
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/users/*"})
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
+public class SearchServlet extends HttpServlet {
     
     @EJB
     private UserFacade userFacade;
@@ -30,9 +30,6 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String URI = request.getRequestURL().toString();
-        String userName = URI.substring(URI.lastIndexOf('/') + 1);
-        getUserInfo(request);
         
         String url = "/WEB-INF/view/userpage.jsp";
         
@@ -55,8 +52,18 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String userPath = request.getServletPath();
+        String url = "/WEB-INF/view/search.jsp";
+     
+        String query = request.getParameter("search");
+        String user_page_url = "users/" + query;
+        String name_surname = searchUserInfo(query);
+        request.setAttribute("name_surname", name_surname);
+        request.setAttribute("url", user_page_url);
+        System.out.println(query);
         
-        String url = "/WEB-INF/view/userpage.jsp";       
+        System.out.println(url);
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -74,15 +81,15 @@ public class UserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void getUserInfo(HttpServletRequest request){
-            HttpSession session = request.getSession();
-            Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
+    
+    private String searchUserInfo(String username){
+            Integer userID;
+            userID = userFacade.getUserID(username);
+            User user = userFacade.find(userID);
             
             String name = user.getFirstname();
             String lastName = user.getSecondname();
             String name_surname = name + ' ' + lastName;
-            request.setAttribute("name_surname", name_surname);     
+            return name_surname;    
     }
-    
 }
