@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -70,6 +71,30 @@ public class User implements Serializable {
     
     @ManyToMany(mappedBy="users")
     private List<Achievement> achievements;
+    
+    @OneToMany
+    @JoinTable(name="VISITED")
+    private List<Checkpoint> visited;
+    
+    @OneToMany
+    @JoinTable(name="WANTTOVISIT")
+    private List<Checkpoint> wanttovisit;
+
+    public List<Checkpoint> getVisited() {
+        return visited;
+    }
+
+    public void setVisited(List<Checkpoint> visited) {
+        this.visited = visited;
+    }
+
+    public List<Checkpoint> getWanttovisit() {
+        return wanttovisit;
+    }
+
+    public void setWanttovisit(List<Checkpoint> wanttovisit) {
+        this.wanttovisit = wanttovisit;
+    }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
