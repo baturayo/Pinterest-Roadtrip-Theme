@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import roadtrip.entity.User;
 import roadtrip.session.UserFacade;
 
@@ -60,9 +59,6 @@ public class SearchServlet extends HttpServlet {
         String name_surname = searchUserInfo(query);
         request.setAttribute("name_surname", name_surname);
         request.setAttribute("url", user_page_url);
-        System.out.println(query);
-        
-        System.out.println(url);
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -82,7 +78,7 @@ public class SearchServlet extends HttpServlet {
     }// </editor-fold>
     
     
-    private String searchUserInfo(String username){
+    private String searchUserInfo(String username){           
             Integer userID;
             userID = userFacade.getUserID(username);
             User user = userFacade.find(userID);

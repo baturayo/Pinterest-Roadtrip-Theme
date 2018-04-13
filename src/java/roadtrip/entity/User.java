@@ -83,15 +83,15 @@ public class User implements Serializable {
     @JoinTable(name="WANTTOVISIT")
     private List<Checkpoint> wanttovisit;
     
-    @OneToMany
+    @ManyToMany
     @JoinTable(name="FOLLOWUSER")
     private List<User> followee;
 
-    public List<User> getFollower() {
+    public List<User> getFollowee() {
         return followee;
     }
 
-    public void setFollower(List<User> followee) {
+    public void setFollowee(List<User> followee) {
         this.followee = followee;
     }
     
