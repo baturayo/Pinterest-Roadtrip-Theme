@@ -147,40 +147,48 @@ public class Checkpointservlet extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/WEB-INF/view/checkpoint.jsp";
-
-        HttpSession session = request.getSession();
-        Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
-
-        Integer cid = Integer.parseInt(request.getParameter("id"));   
-        Checkpoint cp = checkpointFacade.find(cid);
         
-        if (request.getParameter("formName").equals("setvisited")){
+        String path = request.getServletPath();
+        if (path.equals("/checkpoint")) {
+
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            User user = userFacade.find(id);
+
+            Integer cid = Integer.parseInt(request.getParameter("id"));
+            Checkpoint cp = checkpointFacade.find(cid);
+
+            if (request.getParameter("visitbuttons").equals("setvisited")) {
+
+                List<Checkpoint> visited = user.getVisited();
+                visited.isEmpty();
+                if (!visited.contains(cp)) {
+                    visited.add(cp);
+                }
+                user.setVisited(visited);
+                userFacade.edit(user);
+
+            } else if (request.getParameter("visitbuttons").equals("setwanttovisit")) {
+                List<Checkpoint> wanttovisit = user.getWanttovisit();
+                wanttovisit.isEmpty();
+                if (!wanttovisit.contains(cp)) {
+                    wanttovisit.add(cp);
+                }
+                user.setWanttovisit(wanttovisit);
+                userFacade.edit(user);
+            }
             
-            List<Checkpoint> visited = user.getVisited();
-            visited.isEmpty();
-            if(!visited.contains(cp)) {
-                visited.add(cp);
+            List<Photo> photos = cp.getPhotos();
+            photos.isEmpty();
+
+            request.setAttribute("Checkpoint", cp);
+            request.setAttribute("photos", photos);
+
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            user.setVisited(visited);
-            userFacade.edit(user);
-
-        }
-        else if (request.getParameter("formName").equals("setwanttovisit")){
-            List<Checkpoint> wanttovisit = user.getWanttovisit();
-            wanttovisit.isEmpty();
-            if(!wanttovisit.contains(cp)) {
-                wanttovisit.add(cp);
-            }
-            user.setWanttovisit(wanttovisit);
-            userFacade.edit(user);
-        }
-
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 

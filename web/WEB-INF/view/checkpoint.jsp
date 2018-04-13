@@ -293,22 +293,14 @@
                     <p>${requestScope.Checkpoint.getDescription()}</p>
                     <div class="btn-group">
 
-                        <form name="setvisited" action="" method="POST">
-                            <div class="form-group">
-                                <input type="hidden" name="formName" value="setvisited" readonly="readonly"/>
-                            </div>
-                            <div class=form-group">
-                                <button type="submit" class="btn btn-info">Visited</button>
-                            </div>
-                        </form>
-                        <form name="setwanttovisit" action="" method="POST">
-                            <div class="form-group">
-                                <input type="hidden" name="formName" value="setwanttovisit" readonly="readonly"/>
-                            </div>
-                            <div class=form-group">
-                                <button type="submit" class="btn btn-success">I want to visit this checkpoint</button>
+                        <form name="setvisit" action="" method="POST">
+                            <div class="btn-group">
+
+                                <button type="submit" name="visitbuttons" value="setvisited" class="btn btn-info">Visited</button>
+                                <button type="submit" name="visitbuttons" value="setwanttovisit" class="btn btn-success">I want to visit this checkpoint</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
