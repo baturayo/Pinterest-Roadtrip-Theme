@@ -44,7 +44,7 @@ public class CountryServlet extends HttpServlet {
             String filename = countryFacade.getFile(parameters[1]);
             System.out.println(filename);
             if (filename.isEmpty()){
-                response.sendRedirect("unknown");
+                response.sendRedirect("/RoadTrip/unknown.html");
             }
             else{
                 request.setAttribute("country", filename);

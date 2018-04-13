@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -50,6 +51,9 @@ public class Checkpoint implements Serializable {
     @NotNull
     private Double x;
     
+    @ManyToMany(mappedBy="checkpoints")
+    private List<Road> roads;
+    
     
     @Basic(optional = false)
     @Column(name="y")
@@ -65,6 +69,14 @@ public class Checkpoint implements Serializable {
 
     public List<Photo> getPhotos() {
         return photos;
+    }
+
+    public List<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(List<Road> roads) {
+        this.roads = roads;
     }
 
     public void setPhotos(List<Photo> photos) {

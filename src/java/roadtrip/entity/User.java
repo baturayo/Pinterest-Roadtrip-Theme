@@ -69,6 +69,9 @@ public class User implements Serializable {
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
     private List<LoggedInTimestamps> loggedInTimeStamps;
     
+    @OneToMany(cascade=CascadeType.DETACH, mappedBy = "user")
+    private List<Road> roads;
+    
     @ManyToMany(mappedBy="users")
     private List<Achievement> achievements;
     
@@ -166,6 +169,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(List<Road> roads) {
+        this.roads = roads;
     }
     
     @Override
