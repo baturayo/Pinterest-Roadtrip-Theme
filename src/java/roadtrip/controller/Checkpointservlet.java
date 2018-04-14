@@ -66,29 +66,6 @@ public class Checkpointservlet extends HttpServlet {
             springfield.setX(1.0);
             springfield.setY(1.0);
 
-            Photo photo1 = new Photo();
-            photo1.setDescription("Krusty Burger");
-            photo1.setUrl("http://adn.blam.be/springfield/krustyburger.jpg");
-            photo1.setCheckpoint(springfield);
-
-            Photo photo2 = new Photo();
-            photo2.setDescription("Springfield Arms");
-            photo2.setUrl("https://vignette.wikia.nocookie.net/simpsons/images/3/39/Springfield_arms.png/revision/latest?cb=20100923185231");
-            photo2.setCheckpoint(springfield);
-
-            Photo photo3 = new Photo();
-            photo3.setDescription("Kwik-E-Mart");
-            photo3.setUrl("https://vignette.wikia.nocookie.net/simpsons/images/2/2e/Kwikemart.jpg/revision/latest?cb=20061223160324");
-            photo3.setCheckpoint(springfield);
-
-            List<Photo> fotos = new ArrayList<>();
-
-            fotos.add(photo1);
-            fotos.add(photo2);
-            fotos.add(photo3);
-
-            springfield.setPhotos(fotos);
-
             checkpointFacade.edit(springfield);
 
             Integer cid = Integer.parseInt(request.getParameter("id"));
@@ -147,40 +124,66 @@ public class Checkpointservlet extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/WEB-INF/view/checkpoint.jsp";
-
-        HttpSession session = request.getSession();
-        Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
-
-        Integer cid = Integer.parseInt(request.getParameter("id"));   
-        Checkpoint cp = checkpointFacade.find(cid);
         
-        if (request.getParameter("formName").equals("setvisited")){
+        String path = request.getServletPath();
+        if (path.equals("/checkpoint")) {
+
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            User user = userFacade.find(id);
+
+            Integer cid = Integer.parseInt(request.getParameter("id"));
+            Checkpoint cp = checkpointFacade.find(cid);
+
+            if (request.getParameter("cpform").equals("setvisited")) {
+
+                List<Checkpoint> visited = user.getVisited();
+                visited.isEmpty();
+                if (!visited.contains(cp)) {
+                    visited.add(cp);
+                }
+                user.setVisited(visited);
+                userFacade.edit(user);
+
+            }
+            if (request.getParameter("cpform").equals("setwanttovisit")) {
+                List<Checkpoint> wanttovisit = user.getWanttovisit();
+                wanttovisit.isEmpty();
+                if (!wanttovisit.contains(cp)) {
+                    wanttovisit.add(cp);
+                }
+                user.setWanttovisit(wanttovisit);
+                userFacade.edit(user);
+            }
+            if(request.getParameter("cpform").equals("addphoto1")){
+                
+                Photo photo = new Photo();
+                String photodescription = request.getParameter("newdescription");
+                String photourl = request.getParameter("newurl");
+                
+                photo.setDescription(photodescription);
+                photo.setUrl(photourl);
+                photo.setUser(user);
+                photo.setCheckpoint(cp);
+                
+                List<Photo> addedphoto = cp.getPhotos();
+                addedphoto.add(photo);
+                cp.setPhotos(addedphoto);
+                checkpointFacade.edit(cp);
+            }
             
-            List<Checkpoint> visited = user.getVisited();
-            visited.isEmpty();
-            if(!visited.contains(cp)) {
-                visited.add(cp);
+            Checkpoint cp2 = checkpointFacade.find(cid);
+            List<Photo> photos = cp2.getPhotos();
+            photos.isEmpty();
+
+            request.setAttribute("Checkpoint", cp2);
+            request.setAttribute("photos", photos);
+
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            user.setVisited(visited);
-            userFacade.edit(user);
-
-        }
-        else if (request.getParameter("formName").equals("setwanttovisit")){
-            List<Checkpoint> wanttovisit = user.getWanttovisit();
-            wanttovisit.isEmpty();
-            if(!wanttovisit.contains(cp)) {
-                wanttovisit.add(cp);
-            }
-            user.setWanttovisit(wanttovisit);
-            userFacade.edit(user);
-        }
-
-
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 

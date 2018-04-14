@@ -44,7 +44,7 @@ public class Photo implements Serializable {
     @NotNull
     private String url;
     
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private User user;
 

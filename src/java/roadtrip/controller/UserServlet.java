@@ -29,10 +29,20 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userFacade.find(id);
         
         String URI = request.getRequestURL().toString();
         String userName = URI.substring(URI.lastIndexOf('/') + 1);
-        getUserInfo(request);
+        
+        if(session.getAttribute("userID") == userFacade.getUserID(userName)){
+            getPrivateUserInfo(user, request);
+        }
+        else{
+            getPublicUserInfo(userName, request);
+        }
+        
         
         String url = "/WEB-INF/view/userpage.jsp";
         
@@ -74,13 +84,24 @@ public class UserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void getUserInfo(HttpServletRequest request){
-            HttpSession session = request.getSession();
-            Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
-            
+    private void getPrivateUserInfo(User user, HttpServletRequest request){          
             String name = user.getFirstname();
             String lastName = user.getSecondname();
+            Integer followerCount = user.getFollowee().size();
+            
+            System.out.print(followerCount);
+            String name_surname = name + ' ' + lastName;
+            request.setAttribute("name_surname", name_surname);     
+    }
+    
+    private void getPublicUserInfo(String userName, HttpServletRequest request){
+            Integer id = userFacade.getUserID(userName);
+            User user = userFacade.find(id);
+            String name = user.getFirstname();
+            String lastName = user.getSecondname();
+            Integer followerCount = user.getFollowee().size();
+            
+            System.out.print(followerCount);
             String name_surname = name + ' ' + lastName;
             request.setAttribute("name_surname", name_surname);     
     }

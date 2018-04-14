@@ -8,4 +8,7 @@
 <!DOCTYPE html>
 <html>
     <a href=${requestScope.url}>Name Surname: ${requestScope.name_surname}</a>
+    <c:forEach items="${searchList}" var="searchItem">
+        ${item}<br>
+    </c:forEach>
 </html>
