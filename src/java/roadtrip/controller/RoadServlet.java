@@ -52,7 +52,6 @@ public class RoadServlet extends HttpServlet {
         testRoad.setId(1);
         testRoad.setName("Cartoon Road");
         testRoad.setDescription("Visit all of your favorite cartoon towns and cities.");
-        Checkpoint springfield = checkpointFacade.find(15);
 
         Checkpoint southpark = new Checkpoint();
         southpark.setName("South Park");
@@ -82,7 +81,10 @@ public class RoadServlet extends HttpServlet {
         fotos.add(photo3);
 
         southpark.setPhotos(fotos);
-
+        
+        // Was Springfield in my case, put it here so it can be the same as the one above
+        Checkpoint springfield = checkpointFacade.find(1);
+        
         List<Checkpoint> tempcheckpoints = new ArrayList<>();
         tempcheckpoints.add(springfield);
         tempcheckpoints.add(southpark);
