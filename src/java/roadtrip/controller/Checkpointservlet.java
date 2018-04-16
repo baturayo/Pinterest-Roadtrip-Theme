@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Checkpoint;
 import roadtrip.entity.Photo;
+import roadtrip.entity.Road;
 import roadtrip.entity.User;
 import roadtrip.session.CheckpointFacade;
 import roadtrip.session.PhotoFacade;
@@ -73,9 +74,14 @@ public class Checkpointservlet extends HttpServlet {
 
             List<Photo> photos = cp.getPhotos();
             photos.isEmpty();
+            
+            List<Road> roads = cp.getRoads();
+            roads.isEmpty();
 
             request.setAttribute("Checkpoint", cp);
             request.setAttribute("photos", photos);
+            request.setAttribute("roads", roads);
+
 
         }
         else if (path.equals("/visited")) {
