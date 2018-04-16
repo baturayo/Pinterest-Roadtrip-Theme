@@ -42,6 +42,10 @@ public class Road implements Serializable {
     @JoinColumn(name = "user", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private User user;
+    
+    @JoinColumn(name="country", referencedColumnName="id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Country country;
 
     public Integer getId() {
         return id;
@@ -82,9 +86,15 @@ public class Road implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    
 
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

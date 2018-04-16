@@ -6,12 +6,16 @@
 package roadtrip.controller;
 
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import roadtrip.entity.Checkpoint;
+import roadtrip.entity.Country;
+import roadtrip.entity.Road;
 import roadtrip.session.CountryFacade;
 
 /**
@@ -41,13 +45,19 @@ public class CountryServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         } else {
             String url = "/WEB-INF/view/map.jsp";
-            String filename = countryFacade.getFile(parameters[1]);
-            System.out.println(filename);
-            if (filename.isEmpty()){
+            Integer countryId = countryFacade.getByCode(parameters[1]);
+            if (countryId == null){
                 response.sendRedirect("/RoadTrip/unknown.html");
             }
             else{
-                request.setAttribute("country", filename);
+                Country country = countryFacade.find(countryId);
+                List<Checkpoint> checkpoints = country.getCheckpoints();
+                checkpoints.isEmpty();
+                List<Road> roads = country.getRoads();
+                roads.isEmpty();
+                request.setAttribute("country", country);
+                request.setAttribute("checkpoints", checkpoints);
+                request.setAttribute("roads", roads);
                 request.getRequestDispatcher(url).forward(request, response);
             }
         }

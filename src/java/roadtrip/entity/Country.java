@@ -47,6 +47,9 @@ public class Country implements Serializable {
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "country")
     private List<Checkpoint> checkpoints;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    private List<Road> roads;
 
     public Integer getId() {
         return id;
@@ -86,6 +89,14 @@ public class Country implements Serializable {
 
     public void setCheckpoints(List<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
+    }
+
+    public List<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(List<Road> roads) {
+        this.roads = roads;
     }
 
     @Override

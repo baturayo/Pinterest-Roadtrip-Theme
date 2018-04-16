@@ -1,1 +1,1 @@
-insert into achieved values (0,0);
+insert into achieved values (1,1);

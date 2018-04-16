@@ -1,1 +1,1 @@
-INSERT INTO country VALUES (0,'US','usa2Low','United States');
+INSERT INTO country VALUES (1,'US','usa2Low','United States');

@@ -6,7 +6,6 @@
 package roadtrip.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,9 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import roadtrip.entity.Checkpoint;
+import roadtrip.entity.Country;
 import roadtrip.entity.Photo;
 import roadtrip.entity.Road;
 import roadtrip.session.CheckpointFacade;
+import roadtrip.session.CountryFacade;
 import roadtrip.session.RoadFacade;
 
 /**
@@ -33,6 +34,9 @@ public class RoadServlet extends HttpServlet {
 
     @EJB
     private CheckpointFacade checkpointFacade;
+    
+    @EJB
+    private CountryFacade countryFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,7 +53,6 @@ public class RoadServlet extends HttpServlet {
         //Generate road for testing purposes
         // TODO: Delete this road
         Road testRoad = new Road();
-        testRoad.setId(1);
         testRoad.setName("Cartoon Road");
         testRoad.setDescription("Visit all of your favorite cartoon towns and cities.");
 
@@ -89,7 +92,15 @@ public class RoadServlet extends HttpServlet {
         tempcheckpoints.add(springfield);
         tempcheckpoints.add(southpark);
         testRoad.setCheckpoints(tempcheckpoints);
+        
+        Integer id = countryFacade.getByCode("US");
+        Country country = countryFacade.find(id);
+        List<Road> roads = country.getRoads();
+        roads.add(testRoad);
+        country.setRoads(roads);
+        testRoad.setCountry(country);
         roadFacade.edit(testRoad);
+        countryFacade.edit(country);
         
         // END of TO BE DELETED
 

@@ -30,16 +30,17 @@ public class CountryFacade extends AbstractFacade<Country> {
         super(Country.class);
     }
     
-    public String getFile(String code){
-        List<String> lookUp = em.createQuery("SELECT c.filename FROM Country c WHERE c.code = 'US'")
-                //.setParameter("code", code)
+    public Integer getByCode(String code){
+        List<Integer> lookUp = em.createQuery("SELECT c.id FROM Country c WHERE c.code = :code")
+                .setParameter("code", code)
                 .getResultList();
         System.out.println(lookUp);
         if (lookUp.isEmpty()) {
-            return "";
+            return null;
         }
         return lookUp.get(0);
 
     }
+   
     
 }
