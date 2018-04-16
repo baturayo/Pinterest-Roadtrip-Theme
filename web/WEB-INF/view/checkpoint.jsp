@@ -320,8 +320,8 @@
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">${photo.getDescription()}</p>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="commentmodal${photo.getId()}">Toggle Comments</button>
-                            <div id="commentmodal${photo.getId()}">
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#commentmodal${photo.getId()}">Toggle Comments</button>
+                            <div id="commentmodal${photo.getId()}" class="collapse">
                                 Test
                             </div>
                         </div>
