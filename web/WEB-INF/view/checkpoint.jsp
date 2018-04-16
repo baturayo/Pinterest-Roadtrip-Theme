@@ -283,6 +283,37 @@
         <title>Checkpoint Page</title>
     </head>
     <body>
+        
+        
+        <c:forEach items="${photos}" var="photo">
+
+            <div class="modal fade" id="commentmodal${photo.getId()}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add A Comment</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form name="addcomment${photo.getId()}" action="settings" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="formName" value="hiddencomment${photo.getId()}" readonly="readonly"/>
+                                </div>
+                                <div class="form-group">
+                                    New Comment <input type="text" name="newcomment${photo.getId()}" required/>
+                                </div>
+                                <div class=form-group">
+                                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                                </div>
+                            </form>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+
+        </c:forEach>
 
         <div class="col-sm-4">
 
@@ -290,6 +321,12 @@
                 <div class="panel-heading">${requestScope.Checkpoint.getName()}</div>
                 <div class="panel-body">
                     <p>${requestScope.Checkpoint.getDescription()}</p>
+                    <p> The following roads contain this checkpoint: </p>
+                    <c:forEach items="${roads}" var="road">
+                        <p> ${road.getName()}</p>
+                    </c:forEach>
+
+
 
                         <form name="setvisit" action="" method="POST">
                             <div class="btn-group">
@@ -314,6 +351,8 @@
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">${photo.getDescription()}</p>
+                            <a href="commentmodal${photo.getId()}" data-toggle="modal" data-target="commentmodal${photo.getId()}">Show Comments</a>
+
                         </div>
                     </div>
                 </c:forEach>
