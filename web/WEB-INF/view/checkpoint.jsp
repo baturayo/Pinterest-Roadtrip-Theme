@@ -283,13 +283,19 @@
         <title>Checkpoint Page</title>
     </head>
     <body>
-
+        
         <div class="col-sm-4">
 
             <div class="panel panel-default">
                 <div class="panel-heading">${requestScope.Checkpoint.getName()}</div>
                 <div class="panel-body">
                     <p>${requestScope.Checkpoint.getDescription()}</p>
+                    <p> The following roads contain this checkpoint: </p>
+                    <c:forEach items="${roads}" var="road">
+                        <p> ${road.getName()}</p>
+                    </c:forEach>
+
+
 
                         <form name="setvisit" action="" method="POST">
                             <div class="btn-group">
@@ -314,6 +320,10 @@
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">${photo.getDescription()}</p>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#commentmodal${photo.getId()}">Toggle Comments</button>
+                            <div id="commentmodal${photo.getId()}" class="collapse">
+                                Test
+                            </div>
                         </div>
                     </div>
                 </c:forEach>
