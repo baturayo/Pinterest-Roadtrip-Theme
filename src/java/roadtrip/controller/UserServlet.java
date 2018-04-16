@@ -87,8 +87,11 @@ public class UserServlet extends HttpServlet {
         
         String url = "/WEB-INF/view/userpage.jsp";  
         
-        if(request.getParameter("follow").equals("Follow!")){
+        if(Objects.equals(request.getParameter("follow"),"Follow!")){
             userFacade.followUser(loggedInUser, visitedUser);
+        } 
+        else if(Objects.equals(request.getParameter("unfollow"),"Unfollow!")){
+            userFacade.unfollowUser(loggedInUser, visitedUser);
         }
         
       

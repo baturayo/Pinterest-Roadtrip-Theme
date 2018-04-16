@@ -105,7 +105,7 @@ border: 1px solid purple;
                   <input name = "follow" type="submit" value="Follow!" />
                 </c:when>
                 <c:when test="${canFollow == 0}">
-                  <input type="submit" value="Unfollow!"/>
+                  <input  name = "unfollow" type="submit" value="Unfollow!"/>
                 </c:when>
                 <c:otherwise>
 
