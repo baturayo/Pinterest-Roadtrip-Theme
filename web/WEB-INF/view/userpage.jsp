@@ -99,17 +99,30 @@ border: 1px solid purple;
     </div>
 
     <div id="Info">
+        <form name="followForm" method="POST">
+            <c:choose>
+                <c:when test="${canFollow == 1}">
+                  <input name = "follow" type="submit" value="Follow!" />
+                </c:when>
+                <c:when test="${canFollow == 0}">
+                  <input type="submit" value="Unfollow!"/>
+                </c:when>
+                <c:otherwise>
+
+                </c:otherwise>
+            </c:choose>
+        </form>
         <p>
-            <strong>Name:</strong>
-            <span>username: ${requestScope.name_surname}</span>
+            <strong>Name Surname:</strong>
+            <span>${requestScope.name_surname}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Followee:</strong>
+            <span>${requestScope.followee}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Follower:</strong>
+            <span>${requestScope.follower}</span>
         </p>
         <p>
             <strong>Name:</strong>
