@@ -60,25 +60,7 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return lookUp.get(0);
     }
-//    public String getUserFirstName(String username) {
-//        List<String> lookUp = em.createQuery("SELECT u.firstname FROM User u WHERE u.username = :username")
-//                .setParameter("username", username)
-//                .getResultList();
-//        if (lookUp.isEmpty()) {
-//            return "";
-//        }
-//        return lookUp.get(0);
-//    }
-//    
-//    public String getUserSecondName(String username) {
-//        List<String> lookUp = em.createQuery("SELECT u.secondname FROM User u WHERE u.username = :username")
-//                .setParameter("username", username)
-//                .getResultList();
-//        if (lookUp.isEmpty()) {
-//            return "";
-//        }
-//        return lookUp.get(0);
-//    }
+
     
     public Boolean checkUniqueEmail(String email) {
         List<String> lookUp;
