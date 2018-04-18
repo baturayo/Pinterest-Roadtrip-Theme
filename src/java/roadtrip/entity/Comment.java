@@ -29,11 +29,11 @@ public class Comment implements Serializable {
     private Integer id;
     
     
-    @JoinColumn(name = "userid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
     
-    @JoinColumn(name = "photoid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "photoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Photo photo;
     

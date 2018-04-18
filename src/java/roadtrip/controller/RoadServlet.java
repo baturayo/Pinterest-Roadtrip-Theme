@@ -95,12 +95,9 @@ public class RoadServlet extends HttpServlet {
         
         Integer id = countryFacade.getByCode("US");
         Country country = countryFacade.find(id);
-        List<Road> roads = country.getRoads();
-        roads.add(testRoad);
-        country.setRoads(roads);
+
         testRoad.setCountry(country);
         roadFacade.edit(testRoad);
-        countryFacade.edit(country);
         
         // END of TO BE DELETED
 

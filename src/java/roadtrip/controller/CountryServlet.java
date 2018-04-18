@@ -24,7 +24,7 @@ import roadtrip.session.CountryFacade;
  */
 @WebServlet(name = "CountryServlet", urlPatterns = {"/countries/*"})
 public class CountryServlet extends HttpServlet {
-
+    
     @EJB
     private CountryFacade countryFacade;
     

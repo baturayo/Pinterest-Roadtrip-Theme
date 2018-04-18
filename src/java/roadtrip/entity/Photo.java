@@ -28,7 +28,7 @@ public class Photo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @JoinColumn(name = "checkpointid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "checkpointid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Checkpoint checkpoint;
 
@@ -44,7 +44,7 @@ public class Photo implements Serializable {
     @NotNull
     private String url;
     
-    @JoinColumn(name = "userid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
 

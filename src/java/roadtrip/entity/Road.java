@@ -39,11 +39,11 @@ public class Road implements Serializable {
     @JoinTable(name="isOn")
     private List<Checkpoint> checkpoints;
     
-    @JoinColumn(name = "user", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user;
     
-    @JoinColumn(name="country", referencedColumnName="id", insertable = false, updatable = false)
+    @JoinColumn(name="country", referencedColumnName="id")
     @ManyToOne(optional = false)
     private Country country;
 

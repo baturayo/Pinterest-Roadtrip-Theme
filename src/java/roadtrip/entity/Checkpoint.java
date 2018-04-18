@@ -5,7 +5,6 @@
  */
 package roadtrip.entity;
 
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -60,7 +59,7 @@ public class Checkpoint implements Serializable {
     @NotNull
     private Double y;
 
-    @JoinColumn(name = "countryid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "countryid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Country country;
 
