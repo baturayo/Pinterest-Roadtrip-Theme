@@ -94,8 +94,9 @@ public class RoadServlet extends HttpServlet {
         testRoad.setCheckpoints(tempcheckpoints);
         
         Integer id = countryFacade.getByCode("US");
+        
         Country country = countryFacade.find(id);
-
+        southpark.setCountry(country);
         testRoad.setCountry(country);
         roadFacade.edit(testRoad);
         

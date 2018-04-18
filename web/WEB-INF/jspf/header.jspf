@@ -26,9 +26,9 @@
                         <li><a href="/RoadTrip/settings">Settings</a></li>
                         <li><a href="/RoadTrip/stats">Stats</a></li>
                         <li><a href="/RoadTrip/logout">Log Out</a></li>
-                        <form name="searchForm" action ="search" method="POST">
+                        <li><form name="searchForm" action ="search" method="POST">
                             <input type="text" name="search" placeholder="Search..">
-                        </form>                
+                            </form></li>                
                     </ul>
                 </div>
             </nav>
