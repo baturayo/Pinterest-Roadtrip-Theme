@@ -14,8 +14,8 @@
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <!--script src="scripts/FacebookLogin.js"></script-->
 
-        <script src="simplemap/mapdata.js"></script>
-        <script src="simplemap/worldmap.js"></script>
+        <script src="/RoadTrip/simplemap/mapdata.js"></script>
+        <script src="/RoadTrip/simplemap/worldmap.js"></script>
 
         <h1>HELLO ${sessionScope.title}</h1>
         <div id="map"></div>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <form name="loginForm" action="login" method="POST">
+                        <form name="loginForm" action="/RoadTrip/login" method="POST">
                             <div class="form-group">
                                 <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
                             </div>
