@@ -90,52 +90,70 @@ border: 1px solid purple;
 }
 </style>
 
-<div id="ProfilePage">
-    <div id="LeftCol">
-        <div id="Photo"></div>
-        <div id="ProfileOptions">
-        a
-        </div>
-    </div>
+    <c:choose>
+        <c:when test="${isBlocked == 0}">
+            <div id="ProfilePage">
+                <div id="LeftCol">
+                    <div id="Photo"></div>
+                    <div id="ProfileOptions">
+                    a
+                    </div>
+                </div>
 
-    <div id="Info">
-        <form name="followForm" method="POST">
-            <c:choose>
-                <c:when test="${canFollow == 1}">
-                  <input name = "follow" onClick="window.location.reload();" type="submit" value="Follow!" />
-                </c:when>
-                <c:when test="${canFollow == 0}">
-                  <input  name = "unfollow" onClick="window.location.reload();" type="submit" value="Unfollow!"/>
-                </c:when>
-                <c:otherwise>
+                <div id="Info">
+                    <form name="followForm" method="POST">
+                        <c:choose>
+                            <c:when test="${canFollow == 1}">
+                              <input name = "follow" type="submit" value="Follow!" />
+                            </c:when>
+                            <c:when test="${canFollow == 0}">
+                              <input  name = "unfollow" type="submit" value="Unfollow!"/>
+                            </c:when>
+                              
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+                              
+                        <c:choose>
+                            <c:when test="${canBlock == 1}">
+                               <input name = "block" type="submit" value="Block!" />
+                            </c:when>
+                            <c:when test="${canBlock == 0}">
+                                <input name = "block" type="submit" value="Unblock!" />
+                            </c:when>
+                            <c:otherwise>    
+                            </c:otherwise>    
+                        </c:choose>
+                    </form>
+                    <p>
+                        <strong>Name Surname:</strong>
+                        <span>${requestScope.name_surname}</span>
+                    </p>
+                    <p>
+                        <strong>Followee:</strong>
+                        <span>${requestScope.followee}</span>
+                    </p>
+                    <p>
+                        <strong>Follower:</strong>
+                        <span>${requestScope.follower}</span>
+                    </p>
+                    <p>
+                        <strong>Name:</strong>
+                        <span>Sirjon</span>
+                    </p>
+                    <p>
+                        <strong>Name:</strong>
+                        <span>Sirjon</span>
+                    </p>
+                </div>
 
-                </c:otherwise>
-            </c:choose>
-        </form>
-        <p>
-            <strong>Name Surname:</strong>
-            <span>${requestScope.name_surname}</span>
-        </p>
-        <p>
-            <strong>Followee:</strong>
-            <span>${requestScope.followee}</span>
-        </p>
-        <p>
-            <strong>Follower:</strong>
-            <span>${requestScope.follower}</span>
-        </p>
-        <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
-        </p>
-        <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
-        </p>
-    </div>
-
-    <!-- Needed because other elements inside ProfilePage have floats -->
-    <div style="clear:both"></div>
-</div>
+            <!-- Needed because other elements inside ProfilePage have floats -->
+            <div style="clear:both"></div>
+            </div>
+        </c:when>
+        <c:when test="${isBlocked == 1}">
+            You are banned!!
+        </c:when>
+    </c:choose>
     </body>
 </html>

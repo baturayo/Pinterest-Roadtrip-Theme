@@ -83,9 +83,6 @@ public class User implements Serializable {
     @JoinTable(name="WANTTOVISIT")
     private List<Checkpoint> wanttovisit;
     
-    @OneToMany
-    private List<Notification> notifications;
-    
     @ManyToMany
     @JoinTable(name="FOLLOWEE")
     private List<User> followee;
@@ -94,6 +91,17 @@ public class User implements Serializable {
     @JoinTable(name="FOLLOWER")
     private List<User> follower;
     
+    @ManyToMany
+    @JoinTable(name="BLOCKED")
+    private List<User> blocked;
+    
+    public List<User> getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(List<User> blocked) {
+        this.blocked = blocked;
+    }
     
     public List<User> getFollowee() {
         return followee;
@@ -205,14 +213,6 @@ public class User implements Serializable {
 
     public void setRoads(List<Road> roads) {
         this.roads = roads;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
     }
     
     @Override

@@ -43,6 +43,7 @@ public class UserServlet extends HttpServlet {
             getPrivateUserInfo(loggedInUser, request);
         }
         else{
+            
             getPublicUserInfo(loggedInUser, visitedUser, request);
         }
         
@@ -87,6 +88,7 @@ public class UserServlet extends HttpServlet {
         
         String url = "/WEB-INF/view/userpage.jsp";  
         
+        // Handles following
         if(Objects.equals(request.getParameter("follow"), "Follow!")){
             userFacade.followUser(loggedInUser, visitedUser);
         } 
@@ -94,7 +96,14 @@ public class UserServlet extends HttpServlet {
             userFacade.unfollowUser(loggedInUser, visitedUser);
         }
         
-      
+        // Handles blocking
+        if(Objects.equals(request.getParameter("block"), "Block!")){
+            userFacade.blockUser(loggedInUser, visitedUser);
+        } 
+        else if(Objects.equals(request.getParameter("block"), "Unblock!")){
+            userFacade.unblockUser(loggedInUser, visitedUser);
+        }
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -123,6 +132,8 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("followee", followeeCount);
             request.setAttribute("follower", followerCount);
             request.setAttribute("canFollow", -1); 
+            request.setAttribute("isBlocked", 0);
+            request.setAttribute("canBlock", -1);
               
     }
     
@@ -137,11 +148,27 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("followee", followeeCount);
             request.setAttribute("follower", followerCount);            
             
+            // Handles Following
             if (userFacade.checkFollowUser(loggedInUser, visitedUser)){
                 request.setAttribute("canFollow", 0); //If visited user has already followed
             } else{
                 request.setAttribute("canFollow", 1); //If visited user is not followed yet
             }
+            
+            // Handles Blocking User
+            if (userFacade.checkBlockedUser(loggedInUser, visitedUser)){              
+                request.setAttribute("isBlocked", 1); //If visited user blocs you
+            } else{
+                request.setAttribute("isBlocked", 0); //If visited user does not block you
+            }
+            
+            // Handles Unblocing User
+            if (userFacade.checkBlockedUser(visitedUser, loggedInUser)){  
+                request.setAttribute("canBlock", 0); //If visited user already blocked
+            } else{
+                request.setAttribute("canBlock", 1); //If visited user is not blocked
+            }
+            
             
               
     }
