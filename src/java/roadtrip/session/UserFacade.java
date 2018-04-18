@@ -5,7 +5,9 @@
  */
 package roadtrip.session;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,7 +63,38 @@ public class UserFacade extends AbstractFacade<User> {
         return lookUp.get(0);
     }
 
+    public void followUser(User follower, User followee){
+        List<User> followee_list;
+        followee_list = follower.getFollowee();
+        followee_list.add(0, followee);
+        follower.setFollowee(followee_list);
+        edit(follower);
+    }
     
+    public void unfollowUser(User follower, User followee){
+        List<User> followee_list;
+        followee_list = follower.getFollowee();
+        for (Iterator<User> iter = followee_list.listIterator(); iter.hasNext(); ) {
+            User user = iter.next();
+            if (Objects.equals(user.getId(), followee.getId())) {
+                iter.remove();
+            }
+        }
+        follower.setFollowee(followee_list);
+        edit(follower);
+    }
+    
+    public Boolean checkFollowUser(User follower, User followee){
+        List<User> followee_list;
+        followee_list = follower.getFollowee();
+        
+        for (User user : followee_list) {
+            if (Objects.equals(user.getId(), followee.getId())){
+                return true;
+            }
+        }
+       return false;
+    }
     public Boolean checkUniqueEmail(String email) {
         List<String> lookUp;
         lookUp = em.createQuery("SELECT u.email FROM User u WHERE u.email = :email")
