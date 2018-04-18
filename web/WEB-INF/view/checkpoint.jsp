@@ -24,7 +24,8 @@
                     <p>${requestScope.Checkpoint.getDescription()}</p>
                     <p> The following roads contain this checkpoint: </p>
                     <c:forEach items="${roads}" var="road">
-                        <a href="/RoadTrip/road/${road.getId()}"> ${road.getName()}</a>
+                        <p><a href="/RoadTrip/road/${road.getId()}"> ${road.getName()}</a></p>
+                        
                     </c:forEach>
 
 
@@ -58,14 +59,16 @@
                                 Toggle Comments
                             </a>
 
-                            <div id="commentmodal${photo.getId()}" class="collapse panel-colapse">
-                                <form name="addcomment${photo.getId()}" action="" method="POST">
+                            <div id="commentmodal${photo.getId()}" class="collapse">
+                                <form class="form-inline" name="addcomment${photo.getId()}" action="" method="POST">
 
-                                    <div class="form-group">
+                                    <div class="row">
+                                    <div class="form-group col-sm-8">
                                         <input type="text" name="newcomment${photo.getId()}" required/>
                                     </div>
-                                    <div class=form-group">
-                                        <button type="submit" class="btn btn-primary">Post Comment</button>
+                                    <div class="form-group col-sm-4">
+                                        <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                                    </div>
                                     </div>
                                 </form>
                             </div>
