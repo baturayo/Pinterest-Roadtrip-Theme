@@ -60,7 +60,7 @@
 
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
-                            <a class="card-title" href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a>
+                            <h5 class="card-title"><a href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a></h5>
 
                             <p class="card-text">${photo.getDescription()}</p>
                             <a  data-toggle="collapse" href="#commentmodal${photo.getId()}">

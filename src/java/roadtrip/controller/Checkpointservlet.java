@@ -57,26 +57,7 @@ public class Checkpointservlet extends HttpServlet {
         String path = request.getServletPath();
         if (path.equals("/checkpoint")) {
 
-            Checkpoint springfield = new Checkpoint();
-            springfield.setName("Springfield");
-            springfield.setDescription("Simpsons Town");
-            springfield.setX(1.0);
-            springfield.setY(1.0);
-
-            checkpointFacade.edit(springfield);
-
-            Integer cid = Integer.parseInt(request.getParameter("id"));
-            Checkpoint cp = checkpointFacade.find(cid);
-
-            List<Photo> photos = cp.getPhotos();
-            photos.isEmpty();
-            
-            List<Road> roads = cp.getRoads();
-            roads.isEmpty();
-
-            request.setAttribute("Checkpoint", cp);
-            request.setAttribute("photos", photos);
-            request.setAttribute("roads", roads);
+            handleCheckpointGET(request);
 
 
         }
@@ -113,6 +94,29 @@ public class Checkpointservlet extends HttpServlet {
         }
     }
 
+    private void handleCheckpointGET(HttpServletRequest request) throws NumberFormatException {
+        Checkpoint springfield = new Checkpoint();
+        springfield.setName("Springfield");
+        springfield.setDescription("Simpsons Town");
+        springfield.setX(1.0);
+        springfield.setY(1.0);
+        
+        checkpointFacade.edit(springfield);
+        
+        Integer cid = Integer.parseInt(request.getParameter("id"));
+        Checkpoint cp = checkpointFacade.find(cid);
+        
+        List<Photo> photos = cp.getPhotos();
+        photos.isEmpty();
+        
+        List<Road> roads = cp.getRoads();
+        roads.isEmpty();
+        
+        request.setAttribute("Checkpoint", cp);
+        request.setAttribute("photos", photos);
+        request.setAttribute("roads", roads);
+    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -139,39 +143,14 @@ public class Checkpointservlet extends HttpServlet {
 
             if (request.getParameter("cpform").equals("setvisited")) {
 
-                List<Checkpoint> visited = user.getVisited();
-                visited.isEmpty();
-                if (!visited.contains(cp)) {
-                    visited.add(cp);
-                }
-                user.setVisited(visited);
-                userFacade.edit(user);
-
+                handleVisitedButton(user, cp);
             }
             if (request.getParameter("cpform").equals("setwanttovisit")) {
-                List<Checkpoint> wanttovisit = user.getWanttovisit();
-                wanttovisit.isEmpty();
-                if (!wanttovisit.contains(cp)) {
-                    wanttovisit.add(cp);
-                }
-                user.setWanttovisit(wanttovisit);
-                userFacade.edit(user);
+                handleWantToVisitButton(user, cp);
             }
             if(request.getParameter("cpform").equals("addphoto1")){
                 
-                Photo photo = new Photo();
-                String photodescription = request.getParameter("newdescription");
-                String photourl = request.getParameter("newurl");
-                
-                photo.setDescription(photodescription);
-                photo.setUrl(photourl);
-                photo.setUser(user);
-                photo.setCheckpoint(cp);
-                
-                List<Photo> addedphoto = cp.getPhotos();
-                addedphoto.add(photo);
-                cp.setPhotos(addedphoto);
-                checkpointFacade.edit(cp);
+                handleAddPhoto(request, user, cp);
             }
             
             Checkpoint cp2 = checkpointFacade.find(cid);
@@ -180,13 +159,49 @@ public class Checkpointservlet extends HttpServlet {
 
             request.setAttribute("Checkpoint", cp2);
             request.setAttribute("photos", photos);
-
+            
             try {
                 request.getRequestDispatcher(url).forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private void handleAddPhoto(HttpServletRequest request, User user, Checkpoint cp) {
+        Photo photo = new Photo();
+        String photodescription = request.getParameter("newdescription");
+        String photourl = request.getParameter("newurl");
+        
+        photo.setDescription(photodescription);
+        photo.setUrl(photourl);
+        photo.setUser(user);
+        photo.setCheckpoint(cp);
+        
+        List<Photo> addedphoto = cp.getPhotos();
+        addedphoto.add(photo);
+        cp.setPhotos(addedphoto);
+        checkpointFacade.edit(cp);
+    }
+
+    private void handleWantToVisitButton(User user, Checkpoint cp) {
+        List<Checkpoint> wanttovisit = user.getWanttovisit();
+        wanttovisit.isEmpty();
+        if (!wanttovisit.contains(cp)) {
+            wanttovisit.add(cp);
+        }
+        user.setWanttovisit(wanttovisit);
+        userFacade.edit(user);
+    }
+
+    private void handleVisitedButton(User user, Checkpoint cp) {
+        List<Checkpoint> visited = user.getVisited();
+        visited.isEmpty();
+        if (!visited.contains(cp)) {
+            visited.add(cp);
+        }
+        user.setVisited(visited);
+        userFacade.edit(user);
     }
 
     /**

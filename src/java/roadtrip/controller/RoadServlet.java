@@ -64,7 +64,7 @@ public class RoadServlet extends HttpServlet {
 
         Photo photo1 = new Photo();
         photo1.setDescription("Town");
-        photo1.setUrl("http://adn.blam.be/springfield/krustyburger.jpghttp://urbansome.com/wp-content/uploads/2016/04/south_park-1000x600.jpeg");
+        photo1.setUrl("http://urbansome.com/wp-content/uploads/2016/04/south_park-1000x600.jpeg");
         photo1.setCheckpoint(southpark);
 
         Photo photo2 = new Photo();
