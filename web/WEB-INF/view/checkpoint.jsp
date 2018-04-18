@@ -10,8 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="card.css">
 
         <title>Checkpoint Page</title>
@@ -60,7 +58,7 @@
                                 Toggle Comments
                             </a>
 
-                            <div id="commentmodal${photo.getId()}" class="collapse">
+                            <div id="commentmodal${photo.getId()}" class="collapse panel-colapse">
                                 <form name="addcomment${photo.getId()}" action="" method="POST">
 
                                     <div class="form-group">
