@@ -10,8 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="card.css">
 
         <title>Checkpoint Page</title>
@@ -29,8 +28,6 @@
                         <p><a href="/RoadTrip/road/${road.getId()}"> ${road.getName()}</a></p>
                         
                     </c:forEach>
-
-
 
                         <form name="setvisit" action="" method="POST">
                             <div class="btn-group">
@@ -52,6 +49,15 @@
                 <c:forEach items="${photos}" var="photo">
 
                     <div class="card">
+                        <c:if test = "${photo.getUser().getId() == sessionScope.userId}">
+                            <div class="pull-right">
+                                <form name="updatephoto${photo.getId()}" action="" method="POST">
+                                    <button><i type="submit" name="cpform" value="updatephoto${photo.getId()}" class="fa fa-gear"></i></button>
+                                    <button><i type="submit" name="cpform" value="deletephoto${photo.getId()}" class="fa fa-close"></i></button>
+                                </form>
+                            </div>
+                        </c:if>
+
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
                             <a class="card-title" href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a>
