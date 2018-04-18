@@ -91,6 +91,17 @@ public class User implements Serializable {
     @JoinTable(name="FOLLOWER")
     private List<User> follower;
     
+    @ManyToMany
+    @JoinTable(name="BLOCKED")
+    private List<User> blocked;
+    
+    public List<User> getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(List<User> blocked) {
+        this.blocked = blocked;
+    }
     
     public List<User> getFollowee() {
         return followee;

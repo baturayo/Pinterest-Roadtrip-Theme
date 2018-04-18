@@ -45,9 +45,6 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(!LoginRedirect(request,response)){
-            return;
-        }
         String path = request.getServletPath();
         String url = "/WEB-INF/view/"+path+".jsp";
         if(path.equals("/stats")){
@@ -90,10 +87,6 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        if(!LoginRedirect(request,response)){
-            return;
-        }
         String path = request.getServletPath();
     
         if(path.equals("/settings")){
@@ -119,17 +112,6 @@ public class MainServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private Boolean LoginRedirect(HttpServletRequest request,HttpServletResponse response)
-            throws ServletException, IOException{
-        HttpSession session = request.getSession();
-        Integer id = (Integer) session.getAttribute("userId");
-        if (null == id) {
-            request.setAttribute("loginError", "Please log in!");
-            request.getRequestDispatcher("WEB-INF/login/login.jsp").forward(request, response);
-            return false;
-        }
-        return true;
-    }
     private void changeUserInfo(HttpServletRequest request,HttpServletResponse response){
         if (request.getParameter("formName").equals("changeemail1")){
                 changeUserEmail(request, response);

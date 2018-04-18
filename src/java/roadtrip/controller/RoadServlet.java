@@ -85,6 +85,10 @@ public class RoadServlet extends HttpServlet {
 
         southpark.setPhotos(fotos);
         
+        List<Road> temproads = new ArrayList<>();
+        temproads.add(testRoad);
+        southpark.setRoads(temproads);
+        
         // Was Springfield in my case, put it here so it can be the same as the one above
         Checkpoint springfield = checkpointFacade.find(1);
         
@@ -96,10 +100,17 @@ public class RoadServlet extends HttpServlet {
         Integer id = countryFacade.getByCode("US");
         
         Country country = countryFacade.find(id);
+        country.getRoads().add(testRoad);
+        country.getCheckpoints().add(southpark);
         southpark.setCountry(country);
         testRoad.setCountry(country);
-        roadFacade.edit(testRoad);
         
+        springfield.getRoads().add(testRoad);
+        
+        roadFacade.edit(testRoad);
+        checkpointFacade.edit(southpark);
+        checkpointFacade.edit(springfield);
+        countryFacade.edit(country);
         // END of TO BE DELETED
 
         String pathInfo = request.getPathInfo();

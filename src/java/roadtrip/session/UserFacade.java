@@ -62,7 +62,30 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return lookUp.get(0);
     }
-
+    public void blockUser(User loggedInUser, User blockedUser){
+        // Update Blocked Table        
+        List<User> blocked_list;
+        blocked_list = loggedInUser.getBlocked();
+        blocked_list.add(0, blockedUser);
+        loggedInUser.setBlocked(blocked_list);
+        edit(loggedInUser);
+    }
+    
+    public void unblockUser(User loggedInUser, User blockedUser){
+        System.out.println("cdascsadcdscsd");
+        // Update Blocked Table        
+        List<User> blocked_list;
+        blocked_list = loggedInUser.getBlocked();
+        for (Iterator<User> iter = blocked_list.listIterator(); iter.hasNext(); ) {
+            User user = iter.next();
+            if (Objects.equals(user.getId(), blockedUser.getId())) {
+                iter.remove();
+            }
+        }
+        loggedInUser.setBlocked(blocked_list);
+        edit(loggedInUser);  
+    }
+    
     public void followUser(User follower, User followee){
         // Update Followee Table        
         List<User> followee_list;
@@ -117,6 +140,19 @@ public class UserFacade extends AbstractFacade<User> {
         }
        return false;
     }
+    
+    public Boolean checkBlockedUser(User loggedInUser, User visitedUser){
+        List<User> blocked_list;
+        blocked_list = visitedUser.getBlocked();
+        
+        for (User user : blocked_list) {
+            if (Objects.equals(user.getId(), loggedInUser.getId())){
+                return true;
+            }
+        }
+       return false;
+    }
+    
     public Boolean checkUniqueEmail(String email) {
         List<String> lookUp;
         lookUp = em.createQuery("SELECT u.email FROM User u WHERE u.email = :email")
