@@ -100,6 +100,8 @@ public class RoadServlet extends HttpServlet {
         Integer id = countryFacade.getByCode("US");
         
         Country country = countryFacade.find(id);
+        country.getRoads().add(testRoad);
+        country.getCheckpoints().add(southpark);
         southpark.setCountry(country);
         testRoad.setCountry(country);
         
@@ -108,6 +110,7 @@ public class RoadServlet extends HttpServlet {
         roadFacade.edit(testRoad);
         checkpointFacade.edit(southpark);
         checkpointFacade.edit(springfield);
+        countryFacade.edit(country);
         // END of TO BE DELETED
 
         String pathInfo = request.getPathInfo();
