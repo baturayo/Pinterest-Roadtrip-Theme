@@ -26,7 +26,7 @@
                     <p>${requestScope.Checkpoint.getDescription()}</p>
                     <p> The following roads contain this checkpoint: </p>
                     <c:forEach items="${roads}" var="road">
-                        <p> ${road.getName()}</p>
+                        <a href="/RoadTrip/road/${road.getId()}"> ${road.getName()}</a>
                     </c:forEach>
 
 
@@ -53,6 +53,8 @@
                     <div class="card">
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
+                            <a class="card-title" href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a>
+
                             <p class="card-text">${photo.getDescription()}</p>
                             <a  data-toggle="collapse" href="#commentmodal${photo.getId()}">
                                 Toggle Comments
