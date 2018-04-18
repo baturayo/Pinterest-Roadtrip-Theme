@@ -92,7 +92,7 @@ public class UserServlet extends HttpServlet {
         if(Objects.equals(request.getParameter("follow"), "Follow!")){
             userFacade.followUser(loggedInUser, visitedUser);
         } 
-        else if(Objects.equals(request.getParameter("unfollow"), "Unfollow!")){
+        else if(Objects.equals(request.getParameter("follow"), "Unfollow!")){
             userFacade.unfollowUser(loggedInUser, visitedUser);
         }
         
@@ -102,6 +102,12 @@ public class UserServlet extends HttpServlet {
         } 
         else if(Objects.equals(request.getParameter("block"), "Unblock!")){
             userFacade.unblockUser(loggedInUser, visitedUser);
+        }
+        
+        // Refresh pages if necessary
+        if(request.getParameter("block") != null ||
+           request.getParameter("follow") != null){
+            response.sendRedirect(URI);
         }
         
         try {
@@ -167,10 +173,7 @@ public class UserServlet extends HttpServlet {
                 request.setAttribute("canBlock", 0); //If visited user already blocked
             } else{
                 request.setAttribute("canBlock", 1); //If visited user is not blocked
-            }
-            
-            
-              
+            }     
     }
     
 }
