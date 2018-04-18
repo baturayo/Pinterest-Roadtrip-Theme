@@ -87,10 +87,10 @@ public class UserServlet extends HttpServlet {
         
         String url = "/WEB-INF/view/userpage.jsp";  
         
-        if(Objects.equals(request.getParameter("follow"),"Follow!")){
+        if(Objects.equals(request.getParameter("follow"), "Follow!")){
             userFacade.followUser(loggedInUser, visitedUser);
         } 
-        else if(Objects.equals(request.getParameter("unfollow"),"Unfollow!")){
+        else if(Objects.equals(request.getParameter("unfollow"), "Unfollow!")){
             userFacade.unfollowUser(loggedInUser, visitedUser);
         }
         
@@ -116,10 +116,12 @@ public class UserServlet extends HttpServlet {
             String name = loggedInUser.getFirstname();
             String lastName = loggedInUser.getSecondname();
             Integer followeeCount = loggedInUser.getFollowee().size();
+            Integer followerCount = loggedInUser.getFollower().size();
             
             String name_surname = name + ' ' + lastName;
             request.setAttribute("name_surname", name_surname);
             request.setAttribute("followee", followeeCount);
+            request.setAttribute("follower", followerCount);
             request.setAttribute("canFollow", -1); 
               
     }
@@ -128,10 +130,12 @@ public class UserServlet extends HttpServlet {
             String name = visitedUser.getFirstname();
             String lastName = visitedUser.getSecondname();
             Integer followeeCount = visitedUser.getFollowee().size();
-
+            Integer followerCount = visitedUser.getFollower().size();
+            
             String name_surname = name + ' ' + lastName;
-            request.setAttribute("name_surname", name_surname); 
+            request.setAttribute("name_surname", name_surname);
             request.setAttribute("followee", followeeCount);
+            request.setAttribute("follower", followerCount);            
             
             if (userFacade.checkFollowUser(loggedInUser, visitedUser)){
                 request.setAttribute("canFollow", 0); //If visited user has already followed

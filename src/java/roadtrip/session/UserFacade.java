@@ -64,14 +64,24 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public void followUser(User follower, User followee){
+        // Update Followee Table        
         List<User> followee_list;
         followee_list = follower.getFollowee();
         followee_list.add(0, followee);
         follower.setFollowee(followee_list);
         edit(follower);
+        
+        // Update Follower Table
+        List<User> follower_list;
+        follower_list = followee.getFollower();
+        follower_list.add(0, follower);
+        followee.setFollower(follower_list);
+        edit(followee);
+
     }
     
     public void unfollowUser(User follower, User followee){
+        // Update FOLLOWEE table
         List<User> followee_list;
         followee_list = follower.getFollowee();
         for (Iterator<User> iter = followee_list.listIterator(); iter.hasNext(); ) {
@@ -82,6 +92,18 @@ public class UserFacade extends AbstractFacade<User> {
         }
         follower.setFollowee(followee_list);
         edit(follower);
+        
+        // Update FOLLOWER Table
+        List<User> follower_list;
+        follower_list = followee.getFollower();
+        for (Iterator<User> iter = follower_list.listIterator(); iter.hasNext(); ) {
+            User user = iter.next();
+            if (Objects.equals(user.getId(), follower.getId())) {
+                iter.remove();
+            }
+        }
+        followee.setFollower(follower_list);
+        edit(followee);
     }
     
     public Boolean checkFollowUser(User follower, User followee){

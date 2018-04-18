@@ -102,10 +102,10 @@ border: 1px solid purple;
         <form name="followForm" method="POST">
             <c:choose>
                 <c:when test="${canFollow == 1}">
-                  <input name = "follow" type="submit" value="Follow!" />
+                  <input name = "follow" onClick="window.location.reload();" type="submit" value="Follow!" />
                 </c:when>
                 <c:when test="${canFollow == 0}">
-                  <input  name = "unfollow" type="submit" value="Unfollow!"/>
+                  <input  name = "unfollow" onClick="window.location.reload();" type="submit" value="Unfollow!"/>
                 </c:when>
                 <c:otherwise>
 
