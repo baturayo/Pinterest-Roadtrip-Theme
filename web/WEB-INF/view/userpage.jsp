@@ -101,6 +101,10 @@ border: 1px solid purple;
                 </div>
 
                 <div id="Info">
+                    <form name="messageForm" method="POST">
+                        <input type="text" name="message"/>
+                        <button type="submit" name="postMessage">Submit</button>
+                    </form>
                     <form name="followForm" method="POST">
                         <c:choose>
                             <c:when test="${canFollow == 1}">
