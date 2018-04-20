@@ -16,6 +16,32 @@
         <title>Checkpoint Page</title>
     </head>
     <body>
+        <c:forEach items="${photos}" var="photo">
+            <div class="modal fade" id="updatephotomodal${photo.getId()}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Photo</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form name="updatephotoform${photo.getId()}" action="" method="POST">
+
+                                <div class="form-group">
+                                    New Description: <input type="text" name="updatedescription${photo.getId()}" required/>
+                                </div>
+
+                                <div class=form-group">
+                                    <button type="submit" class="btn btn-primary">Update Photo</button>
+                                </div>
+                            </form>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
         
         <div class="col-sm-4">
 
@@ -51,9 +77,12 @@
                     <div class="card">
                         <c:if test = "${photo.getUser().getId() == sessionScope.userId}">
                             <div class="pull-right">
-                                <form name="editphoto${photo.getId()}" action="" method="POST">
-                                    <button><i type="submit" name="photoform" value="updatephoto${photo.getId()}" class="fa fa-gear"></i></button>
-                                    <button><i type="submit" name="photoform" value="deletephoto${photo.getId()}" class="fa fa-close"></i></button>
+                                <button data-toggle="modal" data-target="#updatephotomodal${photo.getId()}">
+                                    <i class="fa fa-gear"></i>
+                                </button>
+                                <form class="form-inline" name="editphoto${photo.getId()}" action="" method="POST">
+
+                                    <button type="submit" name="photoform" value="deletephoto${photo.getId()}"><i class="fa fa-close"></i></button>
                                 </form>
                             </div>
                         </c:if>
@@ -115,7 +144,9 @@
             </div>
         </div>
     </div>
-
+                    
+                    
+                    
 
 
     </body>

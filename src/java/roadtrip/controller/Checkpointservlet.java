@@ -145,7 +145,6 @@ public class Checkpointservlet extends HttpServlet {
             String photoformvalue = request.getParameter("photoform");
 
             if(cpformvalue == null){
-                System.out.println("say whaaaaat");
             }
 
             else if (cpformvalue.equals("setvisited")) {
@@ -161,20 +160,19 @@ public class Checkpointservlet extends HttpServlet {
             }
             
             if (photoformvalue == null) {
-                System.out.println("say whaaaaat22222222222");
             }
             else if(photoformvalue.startsWith("deletephoto")) {
-                System.out.println("1111");
-                String s = request.getParameter("cpform");
+                String s = request.getParameter("photoform");
                 Integer photoid = Integer.parseInt((s.substring(s.lastIndexOf('o') + 1)));
                 Photo tobedeleted = photoFacade.find(photoid);
-                photoFacade.remove(tobedeleted);
-                System.out.println("22222");
-
+                List<Photo> cpphotos = cp.getPhotos();
+                cpphotos.remove(tobedeleted);
+                cp.setPhotos(cpphotos);
+                checkpointFacade.edit(cp);
+                
             }
             else if(photoformvalue.startsWith("updatephoto")) {
                 
-                System.out.println("33333333");
             }
             
             Checkpoint cp2 = checkpointFacade.find(cid);
