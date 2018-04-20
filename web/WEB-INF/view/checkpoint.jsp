@@ -30,7 +30,11 @@
                             <form name="updatephotoform${photo.getId()}" action="" method="POST">
 
                                 <div class="form-group">
-                                    New Description: <input type="text" name="updatedescription${photo.getId()}" required/>
+                                    <input type="hidden" name="photoform" value="hiddenupdatephoto${photo.getId()}" readonly="readonly"/>
+                                </div>
+
+                                <div class="form-group">
+                                    New Description: <input type="text" name="updatedescription" required/>
                                 </div>
 
                                 <div class=form-group">
@@ -81,7 +85,6 @@
                                     <i class="fa fa-gear"></i>
                                 </button>
                                 <form class="form-inline" name="editphoto${photo.getId()}" action="" method="POST">
-
                                     <button type="submit" name="photoform" value="deletephoto${photo.getId()}"><i class="fa fa-close"></i></button>
                                 </form>
                             </div>

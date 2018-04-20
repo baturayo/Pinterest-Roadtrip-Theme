@@ -182,7 +182,18 @@ public class Checkpointservlet extends HttpServlet {
                 checkpointFacade.edit(cp);
                 
             }
-            else if(photoformvalue.startsWith("updatephoto")) {
+            else if(photoformvalue.startsWith("hiddenupdatephoto")) {
+                String s = request.getParameter("photoform");
+                Integer photoid = Integer.parseInt((s.substring(s.lastIndexOf('o') + 1)));
+                Photo tobeupdated = photoFacade.find(photoid);
+                List<Photo> cpphotos = cp.getPhotos();
+                
+                String updateddescription = request.getParameter("updatedescription");
+                Integer index = cpphotos.indexOf(tobeupdated);
+                
+                cpphotos.get(index).setDescription(updateddescription);
+                cp.setPhotos(cpphotos);
+                checkpointFacade.edit(cp);
                 
             }
             
