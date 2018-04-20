@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package roadtrip.controller;
+package roadtrip.session;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

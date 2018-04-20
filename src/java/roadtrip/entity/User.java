@@ -69,6 +69,9 @@ public class User implements Serializable {
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
     private List<LoggedInTimestamps> loggedInTimeStamps;
     
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+    private List<Notification> notifications;
+    
     @OneToMany(cascade=CascadeType.DETACH, mappedBy = "user")
     private List<Road> roads;
     
@@ -213,6 +216,14 @@ public class User implements Serializable {
 
     public void setRoads(List<Road> roads) {
         this.roads = roads;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
     
     @Override
