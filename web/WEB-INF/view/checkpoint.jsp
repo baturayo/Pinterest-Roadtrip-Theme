@@ -51,9 +51,9 @@
                     <div class="card">
                         <c:if test = "${photo.getUser().getId() == sessionScope.userId}">
                             <div class="pull-right">
-                                <form name="updatephoto${photo.getId()}" action="" method="POST">
-                                    <button><i type="submit" name="cpform" value="updatephoto${photo.getId()}" class="fa fa-gear"></i></button>
-                                    <button><i type="submit" name="cpform" value="deletephoto${photo.getId()}" class="fa fa-close"></i></button>
+                                <form name="editphoto${photo.getId()}" action="" method="POST">
+                                    <button><i type="submit" name="photoform" value="updatephoto${photo.getId()}" class="fa fa-gear"></i></button>
+                                    <button><i type="submit" name="photoform" value="deletephoto${photo.getId()}" class="fa fa-close"></i></button>
                                 </form>
                             </div>
                         </c:if>

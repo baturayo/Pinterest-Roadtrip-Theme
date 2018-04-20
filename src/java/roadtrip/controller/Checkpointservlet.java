@@ -140,25 +140,54 @@ public class Checkpointservlet extends HttpServlet {
 
             Integer cid = Integer.parseInt(request.getParameter("id"));
             Checkpoint cp = checkpointFacade.find(cid);
+            
+            String cpformvalue = request.getParameter("cpform");
+            String photoformvalue = request.getParameter("photoform");
 
-            if (request.getParameter("cpform").equals("setvisited")) {
+            if(cpformvalue == null){
+                System.out.println("say whaaaaat");
+            }
+
+            else if (cpformvalue.equals("setvisited")) {
 
                 handleVisitedButton(user, cp);
             }
-            if (request.getParameter("cpform").equals("setwanttovisit")) {
+            else if (cpformvalue.equals("setwanttovisit")) {
                 handleWantToVisitButton(user, cp);
             }
-            if(request.getParameter("cpform").equals("addphoto1")){
+            else if(cpformvalue.equals("addphoto1")){
                 
                 handleAddPhoto(request, user, cp);
+            }
+            
+            if (photoformvalue == null) {
+                System.out.println("say whaaaaat22222222222");
+            }
+            else if(photoformvalue.startsWith("deletephoto")) {
+                System.out.println("1111");
+                String s = request.getParameter("cpform");
+                Integer photoid = Integer.parseInt((s.substring(s.lastIndexOf('o') + 1)));
+                Photo tobedeleted = photoFacade.find(photoid);
+                photoFacade.remove(tobedeleted);
+                System.out.println("22222");
+
+            }
+            else if(photoformvalue.startsWith("updatephoto")) {
+                
+                System.out.println("33333333");
             }
             
             Checkpoint cp2 = checkpointFacade.find(cid);
             List<Photo> photos = cp2.getPhotos();
             photos.isEmpty();
+            
+            List<Road> roads = cp2.getRoads();
+            roads.isEmpty();
 
             request.setAttribute("Checkpoint", cp2);
             request.setAttribute("photos", photos);
+            request.setAttribute("roads", roads);
+
             
             try {
                 request.getRequestDispatcher(url).forward(request, response);
