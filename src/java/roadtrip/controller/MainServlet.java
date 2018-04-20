@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.LoggedInTimestamps;
+import roadtrip.entity.Notification;
 import roadtrip.entity.User;
 import roadtrip.session.UserFacade;
 
@@ -27,7 +28,7 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats"})
+@WebServlet(name = "MainServlet", urlPatterns = {"/main","/settings","/stats","/notifications"})
 public class MainServlet extends HttpServlet {
         
     @EJB
@@ -68,6 +69,17 @@ public class MainServlet extends HttpServlet {
         }
         if(path.equals("/settings")){
             setSettingsAttributes(request);
+        }
+        if(path.equals("/notifications")){
+            HttpSession session = request.getSession();
+            Integer id = (Integer) session.getAttribute("userId");
+            if (id != null){
+                User user = userFacade.find(id);
+                List<Notification> notifications = user.getNotifications();
+                notifications.isEmpty();
+                request.setAttribute("tripnotifications", notifications);
+            }
+            
         }
         try {
             request.getRequestDispatcher(url).forward(request, response);

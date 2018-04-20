@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Checkpoint;
+import roadtrip.entity.Notification;
 import roadtrip.entity.Photo;
 import roadtrip.entity.Road;
 import roadtrip.entity.User;
 import roadtrip.session.CheckpointFacade;
+import roadtrip.session.NotificationFacade;
 import roadtrip.session.PhotoFacade;
 import roadtrip.session.UserFacade;
 
@@ -37,7 +39,9 @@ public class Checkpointservlet extends HttpServlet {
 
     @EJB
     private UserFacade userFacade;
-
+    
+    @EJB
+    private NotificationFacade notificationFacade;
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -69,7 +73,7 @@ public class Checkpointservlet extends HttpServlet {
             User user = userFacade.find(id);
             List<Checkpoint> visited = user.getVisited();
             visited.isEmpty();
-            
+                        
             request.setAttribute("user", user);
             request.setAttribute("visited", visited);
 
@@ -148,6 +152,13 @@ public class Checkpointservlet extends HttpServlet {
             }
 
             else if (cpformvalue.equals("setvisited")) {
+                Notification notification = new Notification();
+                notification.setText("you visited a checkpoint");
+                notification.setUser(user);
+                notificationFacade.create(notification);
+                
+                user.getNotifications().add(notification);
+                userFacade.edit(user);
 
                 handleVisitedButton(user, cp);
             }

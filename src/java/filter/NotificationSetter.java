@@ -6,6 +6,8 @@
 package filter;
 
 import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,16 +17,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.User;
+import roadtrip.session.UserFacade;
 
 /**
  *
  * @author cekef
  */
-@WebFilter(filterName = "LogInFilter", urlPatterns = {"/stats", "/settings", "/search/*", "/user/*", "/road/*", "/checkpoint/*", "/countries/*"})
-public class LogInFilter implements Filter {
+@WebFilter(filterName = "NotificationSetter", urlPatterns = {"/*"})
+public class NotificationSetter implements Filter {
+    
+    @EJB
+    private UserFacade userFacade;
+    
+    public NotificationSetter() {
+    }    
 
-    public LogInFilter() {
-    }   
     /**
      *
      * @param request The servlet request we are processing
@@ -40,25 +48,22 @@ public class LogInFilter implements Filter {
             throws IOException, ServletException {
         
         HttpServletRequest hrequest = (HttpServletRequest) request;
-        HttpSession session = hrequest.getSession();
+        HttpSession session = hrequest.getSession();    
         Integer id = (Integer) session.getAttribute("userId");
-        if (null == id) {
-            request.setAttribute("loginError", "Please log in!");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-            return;
+        if (id != null){
+            User thisUser = userFacade.find(id);
+            List notifications = thisUser.getNotifications();
+            notifications.isEmpty();
+            System.out.println(notifications.size());
+            request.setAttribute("notifications", notifications.size());
         }
         chain.doFilter(request, response);
-
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
 
-    
-    
 }

@@ -32,11 +32,11 @@ public class RoadServlet extends HttpServlet {
     @EJB
     private RoadFacade roadFacade;
 
-    @EJB
-    private CheckpointFacade checkpointFacade;
-    
-    @EJB
-    private CountryFacade countryFacade;
+//    @EJB
+//    private CheckpointFacade checkpointFacade;
+//    
+//    @EJB
+//    private CountryFacade countryFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
