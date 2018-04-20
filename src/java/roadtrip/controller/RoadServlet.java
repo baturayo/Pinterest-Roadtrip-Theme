@@ -51,66 +51,66 @@ public class RoadServlet extends HttpServlet {
             throws ServletException, IOException {
 
         //Generate road for testing purposes
-        // TODO: Delete this road
-        Road testRoad = new Road();
-        testRoad.setName("Cartoon Road");
-        testRoad.setDescription("Visit all of your favorite cartoon towns and cities.");
-
-        Checkpoint southpark = new Checkpoint();
-        southpark.setName("South Park");
-        southpark.setDescription("Quiet town in Colorado");
-        southpark.setX(1.0);
-        southpark.setY(1.0);
-
-        Photo photo1 = new Photo();
-        photo1.setDescription("Town");
-        photo1.setUrl("http://urbansome.com/wp-content/uploads/2016/04/south_park-1000x600.jpeg");
-        photo1.setCheckpoint(southpark);
-
-        Photo photo2 = new Photo();
-        photo2.setDescription("Bus stop");
-        photo2.setUrl("https://vignette.wikia.nocookie.net/southpark/images/c/c8/Busstop.jpg");
-        photo2.setCheckpoint(southpark);
-
-        Photo photo3 = new Photo();
-        photo3.setDescription("South Park Elementary");
-        photo3.setUrl("https://vignette.wikia.nocookie.net/southpark/images/9/92/School_6.png");
-        photo3.setCheckpoint(southpark);
-
-        List<Photo> fotos = new ArrayList<>();
-
-        fotos.add(photo1);
-        fotos.add(photo2);
-        fotos.add(photo3);
-
-        southpark.setPhotos(fotos);
-        
-        List<Road> temproads = new ArrayList<>();
-        temproads.add(testRoad);
-        southpark.setRoads(temproads);
-        
-        // Was Springfield in my case, put it here so it can be the same as the one above
-        Checkpoint springfield = checkpointFacade.find(1);
-        
-        List<Checkpoint> tempcheckpoints = new ArrayList<>();
-        tempcheckpoints.add(springfield);
-        tempcheckpoints.add(southpark);
-        testRoad.setCheckpoints(tempcheckpoints);
-        
-        Integer id = countryFacade.getByCode("US");
-        
-        Country country = countryFacade.find(id);
-        country.getRoads().add(testRoad);
-        country.getCheckpoints().add(southpark);
-        southpark.setCountry(country);
-        testRoad.setCountry(country);
-        
-        springfield.getRoads().add(testRoad);
-        
-        roadFacade.edit(testRoad);
-        checkpointFacade.edit(southpark);
-        checkpointFacade.edit(springfield);
-        countryFacade.edit(country);
+//        // TODO: Delete this road
+//        Road testRoad = new Road();
+//        testRoad.setName("Cartoon Road");
+//        testRoad.setDescription("Visit all of your favorite cartoon towns and cities.");
+//
+//        Checkpoint southpark = new Checkpoint();
+//        southpark.setName("South Park");
+//        southpark.setDescription("Quiet town in Colorado");
+//        southpark.setX(1.0);
+//        southpark.setY(1.0);
+//
+//        Photo photo1 = new Photo();
+//        photo1.setDescription("Town");
+//        photo1.setUrl("http://urbansome.com/wp-content/uploads/2016/04/south_park-1000x600.jpeg");
+//        photo1.setCheckpoint(southpark);
+//
+//        Photo photo2 = new Photo();
+//        photo2.setDescription("Bus stop");
+//        photo2.setUrl("https://vignette.wikia.nocookie.net/southpark/images/c/c8/Busstop.jpg");
+//        photo2.setCheckpoint(southpark);
+//
+//        Photo photo3 = new Photo();
+//        photo3.setDescription("South Park Elementary");
+//        photo3.setUrl("https://vignette.wikia.nocookie.net/southpark/images/9/92/School_6.png");
+//        photo3.setCheckpoint(southpark);
+//
+//        List<Photo> fotos = new ArrayList<>();
+//
+//        fotos.add(photo1);
+//        fotos.add(photo2);
+//        fotos.add(photo3);
+//
+//        southpark.setPhotos(fotos);
+//        
+//        List<Road> temproads = new ArrayList<>();
+//        temproads.add(testRoad);
+//        southpark.setRoads(temproads);
+//        
+//        // Was Springfield in my case, put it here so it can be the same as the one above
+//        Checkpoint springfield = checkpointFacade.find(1);
+//        
+//        List<Checkpoint> tempcheckpoints = new ArrayList<>();
+//        tempcheckpoints.add(springfield);
+//        tempcheckpoints.add(southpark);
+//        testRoad.setCheckpoints(tempcheckpoints);
+//        
+//        Integer id = countryFacade.getByCode("US");
+//        
+//        Country country = countryFacade.find(id);
+//        country.getRoads().add(testRoad);
+//        country.getCheckpoints().add(southpark);
+//        southpark.setCountry(country);
+//        testRoad.setCountry(country);
+//        
+//        springfield.getRoads().add(testRoad);
+//        
+//        roadFacade.edit(testRoad);
+//        checkpointFacade.edit(southpark);
+//        checkpointFacade.edit(springfield);
+//        countryFacade.edit(country);
         // END of TO BE DELETED
 
         String pathInfo = request.getPathInfo();

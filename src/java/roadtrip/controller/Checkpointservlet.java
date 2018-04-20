@@ -95,13 +95,13 @@ public class Checkpointservlet extends HttpServlet {
     }
 
     private void handleCheckpointGET(HttpServletRequest request) throws NumberFormatException {
-        Checkpoint springfield = new Checkpoint();
-        springfield.setName("Springfield");
-        springfield.setDescription("Simpsons Town");
-        springfield.setX(1.0);
-        springfield.setY(1.0);
-        
-        checkpointFacade.edit(springfield);
+//        Checkpoint springfield = new Checkpoint();
+//        springfield.setName("Springfield");
+//        springfield.setDescription("Simpsons Town");
+//        springfield.setX(1.0);
+//        springfield.setY(1.0);
+//        
+//        checkpointFacade.edit(springfield);
         
         Integer cid = Integer.parseInt(request.getParameter("id"));
         Checkpoint cp = checkpointFacade.find(cid);
