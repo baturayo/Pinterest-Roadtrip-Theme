@@ -190,7 +190,7 @@
                         <div class="media-body">
                             <small class="pull-right time"><i class="fa fa-clock-o"></i>${message.getCreatedAt()}</small>
 
-                            <h5 class="media-heading">${message.getReceiver().getUsername()}</h5>
+                            <h5 class="media-heading">${message.getSender().getUsername()}</h5>
                             <small class="col-lg-10">${message.getMessage()}</small>
                         </div>
                     </div>

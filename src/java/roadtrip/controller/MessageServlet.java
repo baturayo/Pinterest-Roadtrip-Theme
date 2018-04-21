@@ -7,7 +7,6 @@ package roadtrip.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +42,7 @@ public class MessageServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
         User loggedInUser = userFacade.find(loggedInUserId);
-        
+        String URI = "http://localhost:8080/RoadTrip/messages";
         if (getReceiverUser() != null) {
             // Show messages
             List<Message> messages = getMessages(loggedInUser, getReceiverUser(), request);
@@ -58,8 +57,8 @@ public class MessageServlet extends HttpServlet {
         try {
             if (request.getParameter("formName").equals("MessageForm")) {
                 String txtMessage = request.getParameter("sendMessage");
-                System.out.println(getReceiverUser());
                 sendMessage(txtMessage, loggedInUser, getReceiverUser(), request);
+                response.sendRedirect(URI);
             }
         } catch (NullPointerException ex) {
             System.out.println("No Message yet!");
@@ -151,9 +150,8 @@ public class MessageServlet extends HttpServlet {
         List<Message> allMessages;
         allMessages = new ArrayList<>(sentMessages);
         allMessages.addAll(receivedMessages);
-        System.out.println(allMessages.size());
-        
-        // Create a set that user has been messaged
+                
+        // Create a user set that has been messaged
         Set<String> userNames;
         userNames = new HashSet<String>() {{
             allMessages.stream().map((message) -> message.getReceiver().getUsername())
@@ -162,7 +160,15 @@ public class MessageServlet extends HttpServlet {
                     // Don't add loggedInUser to Message List
                 }else{
                     add(userName);
-                }              
+                }                          
+            });
+            allMessages.stream().map((message) -> message.getSender().getUsername())
+                    .forEachOrdered((userName) -> {
+                if (userName.equals(loggedInUser.getUsername())){
+                    // Don't add loggedInUser to Message List
+                }else{
+                    add(userName);
+                }           
             });
         }};
         return userNames;        
@@ -174,7 +180,5 @@ public class MessageServlet extends HttpServlet {
 
     public void setReceiverUser(User receiverUser) {
         this.receiverUser = receiverUser;
-    }
-    
-    
+    }    
 }
