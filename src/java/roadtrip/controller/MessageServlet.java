@@ -6,6 +6,8 @@
 package roadtrip.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,14 +60,20 @@ public class MessageServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        //User loggedInUser = userFacade.find(loggedInUserId);
+        
+        //TODO: SET THE USERID because the above gave an error
+        User loggedInUser = userFacade.find(1);
         
         String receiverUserName = request.getParameter("formName");
         Integer receiverUserId = userFacade.getUserID(receiverUserName);
-        //User receiverUser = userFacade.find(receiverUserId);
+        
+        //TODO: SET THE USERID because the above gave an error
+        User receiverUser = userFacade.find(2);
         
         if(request.getParameter("formName").equals("bora")){
-           sendMessage(loggedInUserId, receiverUserId, request);
+           sendMessage(loggedInUser, receiverUser, request);
+           List<Message> messages = getMessages(loggedInUser, receiverUser, request);
+           request.setAttribute("messages", messages);
         } 
         
         try {
@@ -85,12 +93,11 @@ public class MessageServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void sendMessage(Integer loggedInUserId, Integer receiverUserId, HttpServletRequest request){
+    private void sendMessage(User sender, User receiver, HttpServletRequest request){
             String message = "message";
 //            System.out.println(loggedInUserId);
 //            System.out.println(receiverUserId);
-            User sender = userFacade.find(1);
-            User receiver = userFacade.find(2);
+
             Message msg = new Message();
             msg.setMessage(message);
             msg.setSender(sender);
@@ -102,9 +109,16 @@ public class MessageServlet extends HttpServlet {
             userFacade.edit(receiver);
     }
     
-    private void getMessages(User loggedInUser, User listenerUser, HttpServletRequest request){
-            String name = listenerUser.getFirstname();
-            String lastName = listenerUser.getSecondname();       
+    private List<Message> getMessages(User loggedInUser, User receiverUser,  HttpServletRequest request){
+            List<Integer> messageIds = messageFacade.getMessages(loggedInUser, receiverUser);
+            List<Message> messages;
+            messages = new ArrayList<>();
+            messageIds.forEach((messageId) -> {
+                Message message = messageFacade.find(messageId);
+                messages.add(message);
+            });
+            return messages;
+             
     }
     
     
