@@ -102,8 +102,7 @@ border: 1px solid purple;
 
                 <div id="Info">
                     <form name="messageForm" method="POST">
-                        <input type="text" name="message"/>
-                        <button type="submit" name="postMessage">Submit</button>
+                        <input name = "sendMessage" type="submit" value="Send Message!" />                      
                     </form>
                     <form name="followForm" method="POST">
                         <c:choose>

@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.Message;
 import roadtrip.entity.User;
+import roadtrip.session.MessageFacade;
 import roadtrip.session.UserFacade;
 
 /**
@@ -26,6 +28,9 @@ public class UserServlet extends HttpServlet {
     
     @EJB
     private UserFacade userFacade;
+    
+    @EJB
+    private MessageFacade messageFacade;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -104,6 +109,15 @@ public class UserServlet extends HttpServlet {
             userFacade.unblockUser(loggedInUser, visitedUser);
         }
         
+        // Handles Messaging User
+        if(Objects.equals(request.getParameter("sendMessage"), "Send Message!")){
+            // Create an empty message to be able to start a conversation
+            // Creating an empty message will also add visited user into messaged people list
+            sendMessage("", loggedInUser, visitedUser, request);
+            response.sendRedirect("/RoadTrip/messages");
+        } 
+
+            
         // Refresh pages if necessary
         if(request.getParameter("block") != null ||
            request.getParameter("follow") != null){
@@ -173,7 +187,19 @@ public class UserServlet extends HttpServlet {
                 request.setAttribute("canBlock", 0); //If visited user already blocked
             } else{
                 request.setAttribute("canBlock", 1); //If visited user is not blocked
-            }     
+            }
+            
+    }
+    private void sendMessage(String txt_message, User sender, User receiver, HttpServletRequest request){
+        Message msg = new Message();
+        msg.setMessage(txt_message);
+        msg.setSender(sender);
+        msg.setReceiver(receiver);
+        sender.getSent().add(msg);
+        receiver.getReceived().add(msg);
+        messageFacade.create(msg);
+        userFacade.edit(sender);
+        userFacade.edit(receiver);
     }
     
 }

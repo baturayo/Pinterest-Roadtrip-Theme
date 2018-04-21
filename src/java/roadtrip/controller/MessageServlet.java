@@ -137,7 +137,9 @@ public class MessageServlet extends HttpServlet {
             messages = new ArrayList<>();
             messageIds.forEach((messageId) -> {
                 Message message = messageFacade.find(messageId);
-                messages.add(message);
+                if (!message.getMessage().equals("")){
+                    messages.add(message);
+                }      
             });
             return messages;
              
