@@ -24,14 +24,6 @@ public class MessageFacade extends AbstractFacade<Message> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    public void createMessage(Integer senderUserId, Integer receiverUserId, String text_message){
-        Message message = new Message();
-        message.setMessage(text_message);
-        message.setReceiverUserId(receiverUserId);
-        message.setSenderUserId(senderUserId);
-        create(message);
-    }
 
     public MessageFacade() {
         super(Message.class);

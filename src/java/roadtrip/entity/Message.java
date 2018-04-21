@@ -6,6 +6,7 @@
 package roadtrip.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -34,13 +35,13 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Basic(optional = false)
-    @Column(name = "SenderUserId")
-    private Integer senderUserId;
+    @JoinColumn(name = "sender", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User sender;
     
-    @Basic(optional = false)
-    @Column(name = "ReceiverUserId")
-    private Integer receiverUserId;
+    @JoinColumn(name = "receiver", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User receiver;
     
     @Basic(optional = false)
     @Column(name="Message")
@@ -48,28 +49,33 @@ public class Message implements Serializable {
     private String message;
     
     @Column(name = "created_at")
-    public Date createdAt;
+    private java.sql.Timestamp createdAt;
     
     @PrePersist
     void createdAt() {
-        this.createdAt = new Date();
-    }
-    public Integer getSenderUserId() {
-        return senderUserId;
+        this.createdAt = new java.sql.Timestamp(System.currentTimeMillis());
     }
 
-    public void setSenderUserId(Integer senderUserId) {
-        this.senderUserId = senderUserId;
+    public User getSender() {
+        return sender;
     }
 
-    public Integer getReceiverUserId() {
-        return receiverUserId;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public void setReceiverUserId(Integer receiverUserId) {
-        this.receiverUserId = receiverUserId;
+    public User getReceiver() {
+        return receiver;
     }
 
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+    
     public String getMessage() {
         return message;
     }

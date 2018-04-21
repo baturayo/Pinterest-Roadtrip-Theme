@@ -72,6 +72,12 @@ public class User implements Serializable {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
     private List<Notification> notifications;
     
+    @OneToMany(mappedBy="sender")
+    private List<Message> sent;
+    
+    @OneToMany(mappedBy="receiver")
+    private List<Message> received;
+    
     @OneToMany(cascade=CascadeType.DETACH, mappedBy = "user")
     private List<Road> roads;
     
@@ -225,8 +231,22 @@ public class User implements Serializable {
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
-    
-  
+
+    public List<Message> getSent() {
+        return sent;
+    }
+
+    public void setSent(List<Message> sent) {
+        this.sent = sent;
+    }
+
+    public List<Message> getReceived() {
+        return received;
+    }
+
+    public void setReceived(List<Message> received) {
+        this.received = received;
+    }
     
     @Override
     public int hashCode() {

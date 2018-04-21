@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.Message;
 import roadtrip.entity.User;
 import roadtrip.session.MessageFacade;
 import roadtrip.session.UserFacade;
@@ -57,11 +58,11 @@ public class MessageServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        User loggedInUser = userFacade.find(loggedInUserId);
+        //User loggedInUser = userFacade.find(loggedInUserId);
         
         String receiverUserName = request.getParameter("formName");
         Integer receiverUserId = userFacade.getUserID(receiverUserName);
-        User receiverUser = userFacade.find(receiverUserId);
+        //User receiverUser = userFacade.find(receiverUserId);
         
         if(request.getParameter("formName").equals("bora")){
            sendMessage(loggedInUserId, receiverUserId, request);
@@ -86,9 +87,19 @@ public class MessageServlet extends HttpServlet {
     
     private void sendMessage(Integer loggedInUserId, Integer receiverUserId, HttpServletRequest request){
             String message = "message";
-            System.out.println(loggedInUserId);
-            System.out.println(receiverUserId);
-            messageFacade.createMessage(loggedInUserId, receiverUserId, message);     
+//            System.out.println(loggedInUserId);
+//            System.out.println(receiverUserId);
+            User sender = userFacade.find(1);
+            User receiver = userFacade.find(2);
+            Message msg = new Message();
+            msg.setMessage(message);
+            msg.setSender(sender);
+            msg.setReceiver(receiver);
+            sender.getSent().add(msg);
+            receiver.getReceived().add(msg);
+            messageFacade.create(msg);
+            userFacade.edit(sender);
+            userFacade.edit(receiver);
     }
     
     private void getMessages(User loggedInUser, User listenerUser, HttpServletRequest request){
