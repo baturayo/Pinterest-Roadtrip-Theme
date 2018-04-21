@@ -35,6 +35,8 @@ public class MessageServlet extends HttpServlet {
     @EJB
     private MessageFacade messageFacade;
     
+    private User receiverUser;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
@@ -42,10 +44,26 @@ public class MessageServlet extends HttpServlet {
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
         User loggedInUser = userFacade.find(loggedInUserId);
         
+        if (getReceiverUser() != null) {
+            // Show messages
+            List<Message> messages = getMessages(loggedInUser, getReceiverUser(), request);
+            request.setAttribute("messages", messages);
+        }
+        
         // Show the list of usernames that loggedIn user messaged before
         Set<String> userNames = getMessagedUserNames(loggedInUser);
         request.setAttribute("userNames", userNames);
         
+        // Get new text message from browser and add it to DB
+        try {
+            if (request.getParameter("formName").equals("MessageForm")) {
+                String txtMessage = request.getParameter("sendMessage");
+                System.out.println(getReceiverUser());
+                sendMessage(txtMessage, loggedInUser, getReceiverUser(), request);
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("No Message yet!");
+        }
         String url = "/WEB-INF/view/message.jsp";
         
         try {
@@ -73,20 +91,18 @@ public class MessageServlet extends HttpServlet {
         User loggedInUser = userFacade.find(loggedInUserId);
         
         String receiverUserName = request.getParameter("receiverUserName");
-        System.out.println("Receiver :"+receiverUserName);
         Integer receiverUserId = userFacade.getUserID(receiverUserName);
-        User receiverUser = userFacade.find(receiverUserId);
+        setReceiverUser(userFacade.find(receiverUserId)); 
         
         // Show the list of usernames that loggedIn user messaged before
         Set<String> userNames = getMessagedUserNames(loggedInUser);
         request.setAttribute("userNames", userNames);
         
-        
         // Show messages
-        List<Message> messages = getMessages(loggedInUser, receiverUser, request);
+        List<Message> messages = getMessages(loggedInUser, getReceiverUser(), request);
         request.setAttribute("messages", messages);
-         
         
+ 
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -104,10 +120,9 @@ public class MessageServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void sendMessage(User sender, User receiver, HttpServletRequest request){
-            String message = "message";
+    private void sendMessage(String txt_message, User sender, User receiver, HttpServletRequest request){
             Message msg = new Message();
-            msg.setMessage(message);
+            msg.setMessage(txt_message);
             msg.setSender(sender);
             msg.setReceiver(receiver);
             sender.getSent().add(msg);
@@ -117,7 +132,7 @@ public class MessageServlet extends HttpServlet {
             userFacade.edit(receiver);
     }
     
-    private List<Message> getMessages(User loggedInUser, User receiverUser,  HttpServletRequest request){
+    private List<Message> getMessages(User loggedInUser, User receiverUser,  HttpServletRequest request){            
             List<Integer> messageIds = messageFacade.getMessages(loggedInUser, receiverUser);
             List<Message> messages;
             messages = new ArrayList<>();
@@ -151,6 +166,14 @@ public class MessageServlet extends HttpServlet {
             });
         }};
         return userNames;        
+    }
+
+    public User getReceiverUser() {
+        return receiverUser;
+    }
+
+    public void setReceiverUser(User receiverUser) {
+        this.receiverUser = receiverUser;
     }
     
     
