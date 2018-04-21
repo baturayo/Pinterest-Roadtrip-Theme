@@ -7,7 +7,10 @@ package roadtrip.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +38,13 @@ public class MessageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
+        HttpSession session = request.getSession();
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        User loggedInUser = userFacade.find(loggedInUserId);
+        
+        // Show the list of usernames that loggedIn user messaged before
+        Set<String> userNames = getMessagedUserNames(loggedInUser);
+        request.setAttribute("userNames", userNames);
         
         String url = "/WEB-INF/view/message.jsp";
         
@@ -60,21 +70,22 @@ public class MessageServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        User loggedInUser = userFacade.find(loggedInUserId);
         
-        //TODO: SET THE USERID because the above gave an error
-        User loggedInUser = userFacade.find(1);
-        
-        String receiverUserName = request.getParameter("formName");
+        String receiverUserName = request.getParameter("receiverUserName");
+        System.out.println("Receiver :"+receiverUserName);
         Integer receiverUserId = userFacade.getUserID(receiverUserName);
+        User receiverUser = userFacade.find(receiverUserId);
         
-        //TODO: SET THE USERID because the above gave an error
-        User receiverUser = userFacade.find(2);
+        // Show the list of usernames that loggedIn user messaged before
+        Set<String> userNames = getMessagedUserNames(loggedInUser);
+        request.setAttribute("userNames", userNames);
         
-        if(request.getParameter("formName").equals("bora")){
-           sendMessage(loggedInUser, receiverUser, request);
-           List<Message> messages = getMessages(loggedInUser, receiverUser, request);
-           request.setAttribute("messages", messages);
-        } 
+        
+        // Show messages
+        List<Message> messages = getMessages(loggedInUser, receiverUser, request);
+        request.setAttribute("messages", messages);
+         
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -95,9 +106,6 @@ public class MessageServlet extends HttpServlet {
     
     private void sendMessage(User sender, User receiver, HttpServletRequest request){
             String message = "message";
-//            System.out.println(loggedInUserId);
-//            System.out.println(receiverUserId);
-
             Message msg = new Message();
             msg.setMessage(message);
             msg.setSender(sender);
@@ -119,6 +127,30 @@ public class MessageServlet extends HttpServlet {
             });
             return messages;
              
+    }
+    
+    private Set<String> getMessagedUserNames(User loggedInUser){
+        // Create a list that include all messages of the logged in user
+        List<Message> sentMessages = loggedInUser.getSent();
+        List<Message> receivedMessages = loggedInUser.getReceived();
+        List<Message> allMessages;
+        allMessages = new ArrayList<>(sentMessages);
+        allMessages.addAll(receivedMessages);
+        System.out.println(allMessages.size());
+        
+        // Create a set that user has been messaged
+        Set<String> userNames;
+        userNames = new HashSet<String>() {{
+            allMessages.stream().map((message) -> message.getReceiver().getUsername())
+                    .forEachOrdered((userName) -> {
+                if (userName.equals(loggedInUser.getUsername())){
+                    // Don't add loggedInUser to Message List
+                }else{
+                    add(userName);
+                }              
+            });
+        }};
+        return userNames;        
     }
     
     
