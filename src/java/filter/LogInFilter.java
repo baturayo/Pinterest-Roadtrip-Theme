@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author cekef
  */
-@WebFilter(filterName = "LogInFilter", urlPatterns = {"/stats", "/settings", "/search/*", "/user/*", "/road/*", "/checkpoint/*", "/countries/*"})
+@WebFilter(filterName = "LogInFilter", urlPatterns = {"/stats", "/settings", "/search/*", "/user/*", "/road/*", "/checkpoint/*", "/countries/*","/messages"})
 public class LogInFilter implements Filter {
 
     public LogInFilter() {
