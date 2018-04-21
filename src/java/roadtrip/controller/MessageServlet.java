@@ -12,6 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import roadtrip.entity.User;
+import roadtrip.session.MessageFacade;
+import roadtrip.session.UserFacade;
 
 /**
  *
@@ -19,14 +23,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MessageServlet", urlPatterns = {"/messages"})
 public class MessageServlet extends HttpServlet {
+    @EJB
+    private UserFacade userFacade;
+    
+    @EJB
+    private MessageFacade messageFacade;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException { 
         
         String url = "/WEB-INF/view/message.jsp";
-        
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -46,7 +53,20 @@ public class MessageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/WEB-INF/view/message.jsp";    
+        String url = "/WEB-INF/view/message.jsp";
+        
+        HttpSession session = request.getSession();
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        User loggedInUser = userFacade.find(loggedInUserId);
+        
+        String receiverUserName = request.getParameter("formName");
+        Integer receiverUserId = userFacade.getUserID(receiverUserName);
+        User receiverUser = userFacade.find(receiverUserId);
+        
+        if(request.getParameter("formName").equals("bora")){
+           sendMessage(loggedInUserId, receiverUserId, request);
+        } 
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -64,6 +84,17 @@ public class MessageServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
+    private void sendMessage(Integer loggedInUserId, Integer receiverUserId, HttpServletRequest request){
+            String message = "message";
+            System.out.println(loggedInUserId);
+            System.out.println(receiverUserId);
+            messageFacade.createMessage(loggedInUserId, receiverUserId, message);     
+    }
+    
+    private void getMessages(User loggedInUser, User listenerUser, HttpServletRequest request){
+            String name = listenerUser.getFirstname();
+            String lastName = listenerUser.getSecondname();       
+    }
     
     
 }

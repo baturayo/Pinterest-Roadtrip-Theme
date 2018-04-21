@@ -226,6 +226,8 @@ public class User implements Serializable {
         this.notifications = notifications;
     }
     
+  
+    
     @Override
     public int hashCode() {
         int hash = 0;
