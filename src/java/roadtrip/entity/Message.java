@@ -48,7 +48,8 @@ public class Message implements Serializable {
     private String message;
     
     @Column(name = "created_at")
-    public Date createdAt;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date createdAt;
     
     @PrePersist
     void createdAt() {
@@ -58,6 +59,10 @@ public class Message implements Serializable {
         return senderUserId;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
     public void setSenderUserId(Integer senderUserId) {
         this.senderUserId = senderUserId;
     }

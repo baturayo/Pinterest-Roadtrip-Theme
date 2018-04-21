@@ -6,6 +6,8 @@
 package roadtrip.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.Message;
 import roadtrip.entity.User;
 import roadtrip.session.MessageFacade;
 import roadtrip.session.UserFacade;
@@ -64,7 +67,9 @@ public class MessageServlet extends HttpServlet {
         User receiverUser = userFacade.find(receiverUserId);
         
         if(request.getParameter("formName").equals("bora")){
-           sendMessage(loggedInUserId, receiverUserId, request);
+           //sendMessage(loggedInUserId, receiverUserId, request);
+           List<Message> messages = getMessages(loggedInUserId, receiverUserId, request);
+           request.setAttribute("messages", messages);
         } 
         
         try {
@@ -86,14 +91,19 @@ public class MessageServlet extends HttpServlet {
     
     private void sendMessage(Integer loggedInUserId, Integer receiverUserId, HttpServletRequest request){
             String message = "message";
-            System.out.println(loggedInUserId);
-            System.out.println(receiverUserId);
             messageFacade.createMessage(loggedInUserId, receiverUserId, message);     
     }
     
-    private void getMessages(User loggedInUser, User listenerUser, HttpServletRequest request){
-            String name = listenerUser.getFirstname();
-            String lastName = listenerUser.getSecondname();       
+    private List<Message> getMessages(Integer loggedInUserId, Integer receiverUserId,  HttpServletRequest request){
+            List<Integer> messageIds = messageFacade.getMessages(loggedInUserId, receiverUserId);
+            List<Message> messages;
+            messages = new ArrayList<>();
+            messageIds.forEach((messageId) -> {
+                Message message = messageFacade.find(messageId);
+                messages.add(message);
+            });
+            return messages;
+             
     }
     
     

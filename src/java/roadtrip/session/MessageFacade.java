@@ -5,6 +5,7 @@
  */
 package roadtrip.session;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +32,17 @@ public class MessageFacade extends AbstractFacade<Message> {
         message.setReceiverUserId(receiverUserId);
         message.setSenderUserId(senderUserId);
         create(message);
+    }
+    
+    public List<Integer> getMessages(Integer senderUserId, Integer receiverUserId) {
+        System.out.println(senderUserId+ "sender:");
+        System.out.println(receiverUserId+ "receiver:");
+        List<Integer> lookUp;
+        lookUp = em.createQuery("SELECT m.id FROM Message m WHERE m.senderUserId = :senderUserId AND m.receiverUserId = :receiverUserId")
+                .setParameter("senderUserId", senderUserId)
+                .setParameter("receiverUserId", receiverUserId)
+                .getResultList();
+        return lookUp;
     }
 
     public MessageFacade() {
