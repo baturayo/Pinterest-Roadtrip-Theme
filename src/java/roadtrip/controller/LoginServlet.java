@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import roadtrip.entity.Notification;
 import roadtrip.entity.User;
 import roadtrip.session.LoggedInTimestampsFacade;
+import roadtrip.session.NotificationFacade;
 import roadtrip.session.TitleFacade;
 import roadtrip.session.UserFacade;
 
@@ -34,6 +36,9 @@ public class LoginServlet extends HttpServlet {
 
     @EJB
     private TitleFacade titleFacade;
+    
+    @EJB
+    private NotificationFacade notificationFacade;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -163,11 +168,18 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     userFacade.create(user);
                     Integer id = userFacade.getUserID(username);
+                    user = userFacade.find(id);
                     timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
                     Integer score = 0;
-
+                    Notification notification = new Notification();
+                    notification.setText("Welcome to our website");
+                    notification.setUser(user);
+                    notificationFacade.create(notification);
+                
+                    user.getNotifications().add(notification);
+                    userFacade.edit(user);
                     session.setAttribute("title", titleFacade.getTitle(score));
                     try {
                         response.sendRedirect("/RoadTrip");
