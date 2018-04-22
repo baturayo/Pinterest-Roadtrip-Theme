@@ -32,10 +32,9 @@ public class MessageFacade extends AbstractFacade<Message> {
     }
     
     public List<Integer> getMessages(User senderUserId, User receiverUserId) {
-        System.out.println(senderUserId+ "sender:");
-        System.out.println(receiverUserId+ "receiver:");
         List<Integer> lookUp;
-        lookUp = em.createQuery("SELECT m.id FROM Message m WHERE m.sender = :senderUserId AND m.receiver = :receiverUserId")
+        lookUp = em.createQuery("SELECT m.id FROM Message m WHERE (m.sender = :senderUserId AND m.receiver = :receiverUserId)"
+                + "OR (m.sender = :receiverUserId AND m.receiver = :senderUserId)")
                 .setParameter("senderUserId", senderUserId)
                 .setParameter("receiverUserId", receiverUserId)
                 .getResultList();
