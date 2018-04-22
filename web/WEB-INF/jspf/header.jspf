@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <title>Login</title>
+        <title>RoadTrip</title>
     </head>
     <body>
         <div id="main">
@@ -25,7 +25,9 @@
                         <li><a href="/RoadTrip">Home</a></li>
                         <li><a href="/RoadTrip/settings">Settings</a></li>
                         <li><a href="/RoadTrip/stats">Stats</a></li>
-                        <li><a href="/RoadTrip/logout">Log Out</a></li>
+                        <c:if test="${sessionScope.userId != null}">
+                            <li><a href="/RoadTrip/logout">Log Out</a></li>
+                        </c:if>
                         <li>
                             <form name="searchForm" action ="/RoadTrip/search" method="POST">
                                 <input type="text" name="search" placeholder="Search..">

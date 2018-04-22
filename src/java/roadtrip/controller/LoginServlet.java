@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.User;
 import roadtrip.session.LoggedInTimestampsFacade;
-import roadtrip.session.Register;
 import roadtrip.session.TitleFacade;
 import roadtrip.session.UserFacade;
 
@@ -24,18 +23,15 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/logout","/register","/login"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/logout", "/register", "/login"})
 public class LoginServlet extends HttpServlet {
 
     @EJB
     private UserFacade userFacade;
 
     @EJB
-    private Register register;
-    
-    @EJB
     private LoggedInTimestampsFacade timestampFacade;
-    
+
     @EJB
     private TitleFacade titleFacade;
 
@@ -54,10 +50,10 @@ public class LoginServlet extends HttpServlet {
         String userPath = request.getServletPath();
         String url = "";
         // use RequestDispatcher to forward request internally
-        if(userPath.equals("/register")) {
+        if (userPath.equals("/register")) {
             url = "/WEB-INF/login/register.jsp";
         }
-        if (userPath.equals("/logout")){
+        if (userPath.equals("/logout")) {
             HttpSession session = request.getSession();
             session.invalidate();
             response.sendRedirect("");
@@ -101,8 +97,7 @@ public class LoginServlet extends HttpServlet {
                     User user = userFacade.find(id);
                     Integer score = 0;
                     score = user.getAchievements().stream().map((ach) -> ach.getPoints()).reduce(score, Integer::sum);
-                    
-                    
+
                     session.setAttribute("title", titleFacade.getTitle(score));
                     try {
                         response.sendRedirect("");
@@ -112,10 +107,9 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-            } 
-            
-        }
-        else if (userPath.equals("/register")) {
+            }
+
+        } else if (userPath.equals("/register")) {
             if (request.getParameter("formName").equals("RegisterForm")) {
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");
@@ -140,15 +134,49 @@ public class LoginServlet extends HttpServlet {
                     default:
                         break;
                 }
-                System.out.println("username: " + firstName);
-                System.out.println("username: " + lastName);
-                System.out.println("username: " + country);
-                System.out.println("username: " + genderDB);
-                System.out.println("username: " + username);
-                System.out.println("username: " + email);
-                System.out.println("username: " + password);
+                User user = new User();
+                user.setFirstname(firstName);
+                user.setSecondname(lastName);
+                user.setCountry(country);
+                user.setGender(genderDB);
+                user.setUsername(username);
+                user.setEmail(email);
+                user.setPassword(password);
 
-                register.placeOrder(firstName, lastName, country, genderDB, username, email, password);
+                Boolean failed = false;
+
+                if (!userFacade.checkUniqueEmail(email)) {
+                    failed = true;
+                    request.setAttribute("error", "E-mail address is already in use.");
+                }
+                if (!userFacade.checkUniqueUsername(username)) {
+                    failed = true;
+                    request.setAttribute("error", "Username is already in use.");
+                }
+                if (failed) {
+                    String url = "/WEB-INF/login/register.jsp";
+                    try {
+                        request.getRequestDispatcher(url).forward(request, response);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    userFacade.create(user);
+                    Integer id = userFacade.getUserID(username);
+                    timestampFacade.AddNew(id);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("userId", id);
+                    Integer score = 0;
+
+                    session.setAttribute("title", titleFacade.getTitle(score));
+                    try {
+                        response.sendRedirect("/RoadTrip");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+                return;
             }
         }
         // use RequestDispatcher to forward request internally
