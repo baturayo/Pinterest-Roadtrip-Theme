@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Checkpoint;
+import roadtrip.entity.Comment;
 import roadtrip.entity.Notification;
 import roadtrip.entity.Photo;
 import roadtrip.entity.Road;
@@ -147,6 +148,8 @@ public class Checkpointservlet extends HttpServlet {
             
             String cpformvalue = request.getParameter("cpform");
             String photoformvalue = request.getParameter("photoform");
+            String commentformvalue = request.getParameter("commentform");
+
 
             if(cpformvalue == null){
             }
@@ -194,7 +197,31 @@ public class Checkpointservlet extends HttpServlet {
                 cpphotos.get(index).setDescription(updateddescription);
                 cp.setPhotos(cpphotos);
                 checkpointFacade.edit(cp);
+            }
+            if(commentformvalue == null){}
+            else if(commentformvalue.startsWith("hiddenpostcomment")){
+                String s = request.getParameter("commentform");
+                Integer photoid = Integer.parseInt((s.substring(s.lastIndexOf('t') + 1)));
+                Photo toaddcomment = photoFacade.find(photoid);
                 
+                String ctext = request.getParameter("postcomment");
+                
+                Comment comment = new Comment();
+                comment.setText(ctext);
+                comment.setPhoto(toaddcomment);
+                comment.setUser(user);
+                
+                List<Comment> pcomments = toaddcomment.getComments();
+                pcomments.add(comment);
+                toaddcomment.setComments(pcomments);
+                
+                List<Photo> cpphotos = cp.getPhotos();
+                Integer photoindex = cpphotos.indexOf(toaddcomment);
+                cpphotos.set(photoindex, toaddcomment);
+                
+                cp.setPhotos(cpphotos);
+                checkpointFacade.edit(cp);
+
             }
             
             Checkpoint cp2 = checkpointFacade.find(cid);

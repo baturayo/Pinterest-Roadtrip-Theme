@@ -66,20 +66,27 @@
                                     <p> ${photo.getDescription()} </p>
                                 </div>
                             </div>
+                            <c:forEach items="${photo.getComments()}" var ="comment">
+                                <div class="well well-sm">
+                                    <p><a href="/RoadTrip/users/${photo.getUser().getUsername()}"> ${photo.getUser().getUsername()}</a></p>
+                                    <p>${comment.getText()}</p>
+                                </div>
 
-                                <form  name="postcommentform${photo.getId()}" action="" method="POST">
-                                    <div class="form-group">
-                                        <input type="hidden" name="commentform" value="hiddenpostcomment${photo.getId()}" readonly="readonly"/>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <input type="text" name="postcomment" required/>
-                                    </div>
+                            </c:forEach>
+                            <form  name="postcommentform${photo.getId()}" action="" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="commentform" value="hiddenpostcomment${photo.getId()}" readonly="readonly"/>
+                                </div>
 
-                                    <div class=form-group">
-                                        <button type="submit" class="btn btn-primary">Post Comment</button>
-                                    </div>
-                                </form>
+                                <div class="form-group">
+                                    <input type="text" name="postcomment" required/>
+                                </div>
+
+                                <div class=form-group">
+                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                                </div>
+                            </form>
                         </div>      
                     </div>
                 </div>
