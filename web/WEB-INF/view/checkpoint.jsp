@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="card.css">
+ 
 
         <title>Checkpoint Page</title>
     </head>
@@ -66,14 +67,17 @@
                                     <p> ${photo.getDescription()} </p>
                                 </div>
                             </div>
-                            <c:forEach items="${photo.getComments()}" var ="comment">
-                                <div class="well well-sm">
-                                    <p><a href="/RoadTrip/users/${photo.getUser().getUsername()}"> ${photo.getUser().getUsername()}</a></p>
-                                    <p>${comment.getText()}</p>
-                                </div>
+                            <div style="overflow:auto;height:200px;">
+                                <c:forEach items="${photo.getComments()}" var ="comment">
+                                    <div class="well well-sm">
+                                        <p><a href="/RoadTrip/users/${photo.getUser().getUsername()}"> ${photo.getUser().getUsername()}</a></p>
+                                        <p>${comment.getText()}</p>
+                                    </div>
 
 
-                            </c:forEach>
+                                </c:forEach>
+                            </div>
+
                             <form  name="postcommentform${photo.getId()}" action="" method="POST">
                                 <div class="form-group">
                                     <input type="hidden" name="commentform" value="hiddenpostcomment${photo.getId()}" readonly="readonly"/>
@@ -142,7 +146,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><a href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a></h5>
                             <p class="card-text">${photo.getDescription()}</p>
-                            <a  data-toggle="modal" data-target="#commentmodal${photo.getId()}">
+                            <a data-toggle="modal" data-target="#commentmodal${photo.getId()}" data-backdrop="static">
                                 Show Comments
                             </a>
                         </div>
