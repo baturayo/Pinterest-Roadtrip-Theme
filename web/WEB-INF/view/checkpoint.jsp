@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="card.css">
+ 
 
         <title>Checkpoint Page</title>
     </head>
@@ -46,6 +47,57 @@
                 </div>
             </div>
         </c:forEach>
+ 
+         <c:forEach items="${photos}" var="photo">
+            <div class="modal fade" id="commentmodal${photo.getId()}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add A Comment</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-sm-8">
+                                    <img class="img-responsive" src="${photo.getUrl()}" alt="Card image cap">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <p> ${photo.getDescription()} </p>
+                                </div>
+                            </div>
+                            <div style="overflow:auto;height:200px;">
+                                <c:forEach items="${photo.getComments()}" var ="comment">
+                                    <div class="well well-sm">
+                                        <p><a href="/RoadTrip/users/${photo.getUser().getUsername()}"> ${photo.getUser().getUsername()}</a></p>
+                                        <p>${comment.getText()}</p>
+                                    </div>
+
+
+                                </c:forEach>
+                            </div>
+
+                            <form  name="postcommentform${photo.getId()}" action="" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="commentform" value="hiddenpostcomment${photo.getId()}" readonly="readonly"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="postcomment" required/>
+                                </div>
+
+                                <div class=form-group">
+                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                                </div>
+                            </form>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+        
+
         
         <div class="col-sm-4">
 
@@ -93,25 +145,10 @@
                         <img class="card-img-top" src="${photo.getUrl()}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><a href="/RoadTrip/users/${photo.getUser().getUsername()}">${photo.getUser().getUsername()}</a></h5>
-
                             <p class="card-text">${photo.getDescription()}</p>
-                            <a  data-toggle="collapse" href="#commentmodal${photo.getId()}">
-                                Toggle Comments
+                            <a data-toggle="modal" data-target="#commentmodal${photo.getId()}" data-backdrop="static">
+                                Show Comments
                             </a>
-
-                            <div id="commentmodal${photo.getId()}" class="collapse">
-                                <form class="form-inline" name="addcomment${photo.getId()}" action="" method="POST">
-
-                                    <div class="row">
-                                    <div class="form-group col-sm-8">
-                                        <input type="text" name="newcomment${photo.getId()}" required/>
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <button type="submit" class="btn btn-primary btn-sm">Post</button>
-                                    </div>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </c:forEach>
