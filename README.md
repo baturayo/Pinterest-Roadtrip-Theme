@@ -1,9 +1,9 @@
 #Distributed Computing
 ## Prerequisites
-* MySQL
+* MySQL  
 For this demo, we used a MySQL database. This can be installed anywhere but has to run and have a database with name roadtrip. 
 In web\WEB-INF\glassfish-resources.xml you can change the server where MySQL is running, the port it is listening to, the database name, the MySQL user with access to the database and the URL.
-* NetBeans EE
+* NetBeans EE  
 We tested everything using NetBeans EE and GlassFish. This is the default configuration of NetBeans EE.
 
 ## Downloading
