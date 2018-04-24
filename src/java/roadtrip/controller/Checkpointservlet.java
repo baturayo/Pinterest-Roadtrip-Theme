@@ -221,6 +221,11 @@ public class Checkpointservlet extends HttpServlet {
                 
                 cp.setPhotos(cpphotos);
                 checkpointFacade.edit(cp);
+                
+                Notification notification2 = new Notification();
+                notification2.setText("Somebody commented on your photo.");
+                notification2.setUser(user);
+                notificationFacade.create(notification2);
 
             }
             
