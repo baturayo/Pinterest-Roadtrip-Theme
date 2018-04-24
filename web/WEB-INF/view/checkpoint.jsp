@@ -70,7 +70,7 @@
                             <div style="overflow:auto;height:200px;">
                                 <c:forEach items="${photo.getComments()}" var ="comment">
                                     <div class="well well-sm">
-                                        <p><a href="/RoadTrip/users/${photo.getUser().getUsername()}"> ${photo.getUser().getUsername()}</a></p>
+                                        <p><a href="/RoadTrip/users/${comment.getUser().getUsername()}"> ${comment.getUser().getUsername()}</a></p>
                                         <p>${comment.getText()}</p>
                                     </div>
 
