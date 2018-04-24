@@ -47,18 +47,23 @@ INSERT INTO country VALUES (1,'US','usa2Low','United States');
 
 insert into achievement values (1,'some stupid achievement','inserted manually',5,'insert into achieved values (:userid,0);');
 
+insert into achieved values (1,1);
+
 insert into title values (1,'some stupid title','person',0);
 insert into title values (2,'some stupid title','VIP',1);
 
-insert into checkpoint values(1,'Simpsons Town','Springfield',1,1,1);
-insert into checkpoint values(2,'Quiet town in Colorado','South Park',1,1,1);
+insert into checkpoint values(1,'Beautiful town in Illinois.','Chicago',1,1,1);
+insert into checkpoint values(2,'The middle of route 66.','Midpoint Cafe',1,1,1);
+insert into checkpoint values(3,'The enormous canyon in the middle of Amerca.','Grand Canyon',1,1,1);
 
-insert into road values(1,'Visit all of your favorite cartoon towns and cities.','Cartoon Road',1,3);
+insert into road values(1,'Follow the classic Route 66.','Route 66',1,3);
 
 insert into ison values(1,1);
 insert into ison values(2,1);
+insert into ison values(3,1);
 
-insert into photo values (1,'Town','http://urbansome.com/wp-content/uploads/2016/04/south_park-1000x600.jpeg',2,1);
-insert into photo values (2,'Bus stop','https://vignette.wikia.nocookie.net/southpark/images/c/c8/Busstop.jpg',2,1);
-insert into photo values (3,'South Park Elementary','https://vignette.wikia.nocookie.net/southpark/images/9/92/School_6.png',2,2);
+insert into photo values (1,'City','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278001.jpg',1,1);
+insert into photo values (2,'The middle','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278574.jpg',2,1);
+insert into photo values (3,'The cafe','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278591.jpg',2,2);
+insert into photo values (4,'Sunset at the Canyon','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278990.jpg',3,2);
 
