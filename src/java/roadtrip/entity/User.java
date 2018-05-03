@@ -57,6 +57,10 @@ public class User implements Serializable {
     private String country;
     
     @Basic(optional = false)
+    @Column(name = "isAdmin")
+    private Boolean isAdmin = false;
+    
+    @Basic(optional = false)
     @NotNull
     @Column(name = "gender")
     private Integer gender;
@@ -246,6 +250,14 @@ public class User implements Serializable {
 
     public void setReceived(List<Message> received) {
         this.received = received;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
     @Override
