@@ -53,7 +53,7 @@ public class UserServlet extends HttpServlet {
         }
         
         
-        String url = "/WEB-INF/view/userpage.jsp";
+        String url = "/WEB-INF/view/profilepage.jsp";
         
         
         try {
@@ -91,30 +91,42 @@ public class UserServlet extends HttpServlet {
             getPublicUserInfo(loggedInUser, visitedUser, request);
         }
         
-        String url = "/WEB-INF/view/userpage.jsp";  
+        String url = "/WEB-INF/view/profilepage.jsp";  
         
         // Handles following
-        if(Objects.equals(request.getParameter("follow"), "Follow!")){
+        if(Objects.equals(request.getParameter("follow"), "Follow")){
             userFacade.followUser(loggedInUser, visitedUser);
         } 
-        else if(Objects.equals(request.getParameter("follow"), "Unfollow!")){
+        else if(Objects.equals(request.getParameter("follow"), "Unfollow")){
             userFacade.unfollowUser(loggedInUser, visitedUser);
         }
         
         // Handles blocking
-        if(Objects.equals(request.getParameter("block"), "Block!")){
+        if(Objects.equals(request.getParameter("block"), "Block")){
             userFacade.blockUser(loggedInUser, visitedUser);
         } 
-        else if(Objects.equals(request.getParameter("block"), "Unblock!")){
+        else if(Objects.equals(request.getParameter("block"), "Unblock")){
             userFacade.unblockUser(loggedInUser, visitedUser);
         }
         
         // Handles Messaging User
-        if(Objects.equals(request.getParameter("sendMessage"), "Send Message!")){
+        if(Objects.equals(request.getParameter("sendMessage"), "Message")){
             // Create an empty message to be able to start a conversation
             // Creating an empty message will also add visited user into messaged people list
             sendMessage("", loggedInUser, visitedUser, request);
             response.sendRedirect("/RoadTrip/messages");
+        } 
+        
+        // Handles Showing Followers
+        if(Objects.equals(request.getParameter("showFollowers"), "showFollowers")){
+            session.setAttribute("searchList", visitedUser.getFollower());
+            response.sendRedirect("/RoadTrip/search");
+        } 
+        
+        // Handles Showing Followees
+        if(Objects.equals(request.getParameter("showFollowees"), "showFollowees")){
+            session.setAttribute("searchList", visitedUser.getFollowee());
+            response.sendRedirect("/RoadTrip/search");
         } 
 
             
@@ -144,13 +156,20 @@ public class UserServlet extends HttpServlet {
     private void getPrivateUserInfo(User loggedInUser, HttpServletRequest request){          
             String name = loggedInUser.getFirstname();
             String lastName = loggedInUser.getSecondname();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1); // Make first letter capital letter
+            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1); // Make first letter capital letter
+            String name_surname = name + ' ' + lastName;
+            
             Integer followeeCount = loggedInUser.getFollowee().size();
             Integer followerCount = loggedInUser.getFollower().size();
             
-            String name_surname = name + ' ' + lastName;
+            String country = loggedInUser.getCountry();
+            country = country.substring(0, 1).toUpperCase() + country.substring(1); // Make first letter capital letter
+            
             request.setAttribute("name_surname", name_surname);
             request.setAttribute("followee", followeeCount);
             request.setAttribute("follower", followerCount);
+            request.setAttribute("country", country);
             request.setAttribute("canFollow", -1); 
             request.setAttribute("isBlocked", 0);
             request.setAttribute("canBlock", -1);
@@ -160,14 +179,21 @@ public class UserServlet extends HttpServlet {
     private void getPublicUserInfo(User loggedInUser, User visitedUser, HttpServletRequest request){
             String name = visitedUser.getFirstname();
             String lastName = visitedUser.getSecondname();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1); // Make first letter capital letter
+            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1); // Make first letter capital letter
+   
+            String name_surname = name + ' ' + lastName;
+            
             Integer followeeCount = visitedUser.getFollowee().size();
             Integer followerCount = visitedUser.getFollower().size();
             
-            String name_surname = name + ' ' + lastName;
+            String country = loggedInUser.getCountry();
+            country = country.substring(0, 1).toUpperCase() + country.substring(1); // Make first letter capital letter
+            
             request.setAttribute("name_surname", name_surname);
             request.setAttribute("followee", followeeCount);
             request.setAttribute("follower", followerCount);            
-            
+            request.setAttribute("country", country);
             // Handles Following
             if (userFacade.checkFollowUser(loggedInUser, visitedUser)){
                 request.setAttribute("canFollow", 0); //If visited user has already followed

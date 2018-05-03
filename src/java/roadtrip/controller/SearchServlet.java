@@ -6,12 +6,15 @@
 package roadtrip.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import roadtrip.entity.User;
 import roadtrip.session.UserFacade;
 
@@ -29,10 +32,11 @@ public class SearchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
-        String url = "/WEB-INF/view/userpage.jsp";
-        
-        
+        HttpSession session = request.getSession();
+        String url = "/WEB-INF/view/search.jsp";
+        List<User> searchList = (List<User>) session.getAttribute("searchList");
+        request.setAttribute("searchList", searchList);
+        System.out.println("users: " + searchList);
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -55,10 +59,10 @@ public class SearchServlet extends HttpServlet {
         String url = "/WEB-INF/view/search.jsp";
      
         String query = request.getParameter("search");
-        String user_page_url = "users/" + query;
-        String name_surname = searchUserInfo(query);
-        request.setAttribute("name_surname", name_surname);
-        request.setAttribute("url", user_page_url);
+        List<User> users = new ArrayList<User>();
+        users = searchUserInfo(request, query, users);
+        request.setAttribute("searchList", users);
+       
         
         try {
             request.getRequestDispatcher(url).forward(request, response);
@@ -78,14 +82,11 @@ public class SearchServlet extends HttpServlet {
     }// </editor-fold>
     
     
-    private String searchUserInfo(String username){           
+    private List<User> searchUserInfo(HttpServletRequest request, String query, List<User> users){           
             Integer userID;
-            userID = userFacade.getUserID(username);
+            userID = userFacade.getUserID(query); // Query is the userName in this case
             User user = userFacade.find(userID);
-            
-            String name = user.getFirstname();
-            String lastName = user.getSecondname();
-            String name_surname = name + ' ' + lastName;
-            return name_surname;    
+            users.add(user);    
+            return users;
     }
 }
