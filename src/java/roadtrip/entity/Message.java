@@ -37,11 +37,11 @@ public class Message implements Serializable {
     
     @JoinColumn(name = "sender", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User sender;
+    private RoadTripUser sender;
     
     @JoinColumn(name = "receiver", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User receiver;
+    private RoadTripUser receiver;
     
     @Basic(optional = false)
     @Column(name="Message")
@@ -56,19 +56,19 @@ public class Message implements Serializable {
         this.createdAt = new java.sql.Timestamp(System.currentTimeMillis());
     }
 
-    public User getSender() {
+    public RoadTripUser getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(RoadTripUser sender) {
         this.sender = sender;
     }
 
-    public User getReceiver() {
+    public RoadTripUser getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(RoadTripUser receiver) {
         this.receiver = receiver;
     }
 

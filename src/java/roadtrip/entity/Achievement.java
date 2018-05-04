@@ -46,7 +46,7 @@ public class Achievement implements Serializable {
     
     @ManyToMany
     @JoinTable(name="achieved")
-    private List<User> users;
+    private List<RoadTripUser> users;
     
     @Basic(optional = false)
     @NotNull
@@ -85,11 +85,11 @@ public class Achievement implements Serializable {
         this.requirement = requirement;
     }
 
-    public List<User> getUsers() {
+    public List<RoadTripUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<RoadTripUser> users) {
         this.users = users;
     }
 

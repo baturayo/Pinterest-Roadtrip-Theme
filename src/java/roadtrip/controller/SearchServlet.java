@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.UserFacade;
 
 /**
@@ -34,7 +34,7 @@ public class SearchServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         String url = "/WEB-INF/view/search.jsp";
-        List<User> searchList = (List<User>) session.getAttribute("searchList");
+        List<RoadTripUser> searchList = (List<RoadTripUser>) session.getAttribute("searchList");
         request.setAttribute("searchList", searchList);
         System.out.println("users: " + searchList);
         try {
@@ -59,7 +59,7 @@ public class SearchServlet extends HttpServlet {
         String url = "/WEB-INF/view/search.jsp";
      
         String query = request.getParameter("search");
-        List<User> users = new ArrayList<User>();
+        List<RoadTripUser> users = new ArrayList<RoadTripUser>();
         users = searchUserInfo(request, query, users);
         request.setAttribute("searchList", users);
        
@@ -82,10 +82,10 @@ public class SearchServlet extends HttpServlet {
     }// </editor-fold>
     
     
-    private List<User> searchUserInfo(HttpServletRequest request, String query, List<User> users){           
+    private List<RoadTripUser> searchUserInfo(HttpServletRequest request, String query, List<RoadTripUser> users){           
             Integer userID;
             userID = userFacade.getUserID(query); // Query is the userName in this case
-            User user = userFacade.find(userID);
+            RoadTripUser user = userFacade.find(userID);
             users.add(user);    
             return users;
     }

@@ -41,7 +41,7 @@ public class Road implements Serializable {
     
     @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
     
     @JoinColumn(name="country", referencedColumnName="id")
     @ManyToOne(optional = false)
@@ -79,11 +79,11 @@ public class Road implements Serializable {
         this.checkpoints = checkpoints;
     }
 
-    public User getUser() {
+    public RoadTripUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RoadTripUser user) {
         this.user = user;
     }
 

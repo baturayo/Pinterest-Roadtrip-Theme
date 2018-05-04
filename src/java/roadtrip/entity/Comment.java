@@ -31,7 +31,7 @@ public class Comment implements Serializable {
     
     @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
     
     @JoinColumn(name = "photoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -43,11 +43,11 @@ public class Comment implements Serializable {
     @NotNull
     private String text;
 
-    public User getUser() {
+    public RoadTripUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RoadTripUser user) {
         this.user = user;
     }
 

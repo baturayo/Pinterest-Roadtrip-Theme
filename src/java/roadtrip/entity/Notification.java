@@ -35,7 +35,7 @@ public class Notification implements Serializable {
     
     @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
 
     public Long getId() {
         return id;
@@ -53,11 +53,11 @@ public class Notification implements Serializable {
         this.text = text;
     }
 
-    public User getUser() {
+    public RoadTripUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RoadTripUser user) {
         this.user = user;
     }
     

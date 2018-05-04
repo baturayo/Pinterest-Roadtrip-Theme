@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.LoggedInTimestamps;
 import roadtrip.entity.Notification;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.UserFacade;
 
 /**
@@ -74,7 +74,7 @@ public class MainServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
             if (id != null){
-                User user = userFacade.find(id);
+                RoadTripUser user = userFacade.find(id);
                 List<Notification> notifications = user.getNotifications();
                 notifications.isEmpty();
                 request.setAttribute("tripnotifications", notifications);
@@ -150,7 +150,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserEmail(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newemail = request.getParameter("newemail");
         if (userFacade.checkUniqueEmail(newemail)){
             user.setEmail(newemail);
@@ -163,7 +163,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newusername = request.getParameter("newusername");
         if(userFacade.checkUniqueUsername(newusername)){
             user.setUsername(newusername);
@@ -177,7 +177,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserPassword(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         
         String oldpassword = request.getParameter("oldpassword");
         String newpassword = request.getParameter("newpassword");
@@ -194,7 +194,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserFirstName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newfirstname = request.getParameter("newfirstname");
         user.setFirstname(newfirstname);
 
@@ -204,7 +204,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserLastName(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newlastname = request.getParameter("newlastname");
         user.setSecondname(newlastname);
 
@@ -213,7 +213,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserCountry(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newcountry = request.getParameter("newcountry");
         user.setCountry(newcountry);
 
@@ -222,7 +222,7 @@ public class MainServlet extends HttpServlet {
     private void changeUserGender(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("userId");
-        User user = userFacade.find(id);
+        RoadTripUser user = userFacade.find(id);
         String newgender = request.getParameter("newgender");
               
         Integer genderDB = null;
@@ -246,7 +246,7 @@ public class MainServlet extends HttpServlet {
     private void setSettingsAttributes(HttpServletRequest request){
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
+            RoadTripUser user = userFacade.find(id);
             
             request.setAttribute("settingsusername",user.getUsername());
             request.setAttribute("settingsemail",user.getEmail());
