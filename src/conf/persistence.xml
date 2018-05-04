@@ -5,8 +5,10 @@
     <jta-data-source>java:app/jdbc/roadtrip</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINEST"/>
+      <property name="eclipselink.deploy-on-startup" value="true" />
+
     </properties>
   </persistence-unit>
 </persistence>
