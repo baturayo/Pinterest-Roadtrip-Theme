@@ -168,7 +168,12 @@ public class UserFacade extends AbstractFacade<User> {
                 .getResultList();
         return lookUp.isEmpty();
     }
-
+    
+    public void makeAdmin(User visitedUser, Boolean isAdmin) {
+        visitedUser.setIsAdmin(isAdmin);
+        edit(visitedUser);
+    }
+    
     @Override
     public void create(User user) {
         try {
@@ -177,5 +182,7 @@ public class UserFacade extends AbstractFacade<User> {
             e.printStackTrace();
         }
     }
+
+    
     
 }

@@ -36,7 +36,6 @@ public class SearchServlet extends HttpServlet {
         String url = "/WEB-INF/view/search.jsp";
         List<User> searchList = (List<User>) session.getAttribute("searchList");
         request.setAttribute("searchList", searchList);
-        System.out.println("users: " + searchList);
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
