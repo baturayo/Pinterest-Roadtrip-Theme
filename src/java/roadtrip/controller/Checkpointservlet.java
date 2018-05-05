@@ -19,7 +19,7 @@ import roadtrip.entity.Comment;
 import roadtrip.entity.Notification;
 import roadtrip.entity.Photo;
 import roadtrip.entity.Road;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.CheckpointFacade;
 import roadtrip.session.NotificationFacade;
 import roadtrip.session.PhotoFacade;
@@ -71,7 +71,7 @@ public class Checkpointservlet extends HttpServlet {
             
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
+            RoadTripUser user = userFacade.find(id);
             List<Checkpoint> visited = user.getVisited();
             visited.isEmpty();
                         
@@ -84,7 +84,7 @@ public class Checkpointservlet extends HttpServlet {
             
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
+            RoadTripUser user = userFacade.find(id);
             List<Checkpoint> wanttovisit = user.getWanttovisit();
             wanttovisit.isEmpty();
             
@@ -141,7 +141,7 @@ public class Checkpointservlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
-            User user = userFacade.find(id);
+            RoadTripUser user = userFacade.find(id);
 
             Integer cid = Integer.parseInt(request.getParameter("id"));
             Checkpoint cp = checkpointFacade.find(cid);
@@ -221,7 +221,7 @@ public class Checkpointservlet extends HttpServlet {
                 
                 cp.setPhotos(cpphotos);
                 checkpointFacade.edit(cp);
-                User photoUser = toaddcomment.getUser();
+                RoadTripUser photoUser = toaddcomment.getUser();
                 Notification notification2 = new Notification();
                 notification2.setText("Somebody commented on your photo.");
                 notification2.setUser(photoUser);
@@ -252,7 +252,7 @@ public class Checkpointservlet extends HttpServlet {
         }
     }
 
-    private void handleAddPhoto(HttpServletRequest request, User user, Checkpoint cp) {
+    private void handleAddPhoto(HttpServletRequest request, RoadTripUser user, Checkpoint cp) {
         Photo photo = new Photo();
         String photodescription = request.getParameter("newdescription");
         String photourl = request.getParameter("newurl");
@@ -268,7 +268,7 @@ public class Checkpointservlet extends HttpServlet {
         checkpointFacade.edit(cp);
     }
 
-    private void handleWantToVisitButton(User user, Checkpoint cp) {
+    private void handleWantToVisitButton(RoadTripUser user, Checkpoint cp) {
         List<Checkpoint> wanttovisit = user.getWanttovisit();
         wanttovisit.isEmpty();
         if (!wanttovisit.contains(cp)) {
@@ -278,7 +278,7 @@ public class Checkpointservlet extends HttpServlet {
         userFacade.edit(user);
     }
 
-    private void handleVisitedButton(User user, Checkpoint cp) {
+    private void handleVisitedButton(RoadTripUser user, Checkpoint cp) {
         List<Checkpoint> visited = user.getVisited();
         visited.isEmpty();
         if (!visited.contains(cp)) {

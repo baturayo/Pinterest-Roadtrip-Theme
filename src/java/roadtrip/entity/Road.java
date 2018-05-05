@@ -7,15 +7,16 @@ package roadtrip.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,21 +28,25 @@ public class Road implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Integer id;
     
+    @Basic(optional = false)
     @Column(name="name")
+    @NotNull
     private String name;
     
+    @Basic(optional = false)
     @Column(name="description")
+    @NotNull
     private String description;
     
-    @ManyToMany
-    @JoinTable(name="isOn")
+    @ManyToMany(mappedBy = "roads")
     private List<Checkpoint> checkpoints;
     
-    @JoinColumn(name = "user", referencedColumnName = "id")
+    @JoinColumn(name = "creator", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
     
     @JoinColumn(name="country", referencedColumnName="id")
     @ManyToOne(optional = false)
@@ -79,11 +84,11 @@ public class Road implements Serializable {
         this.checkpoints = checkpoints;
     }
 
-    public User getUser() {
+    public RoadTripUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RoadTripUser user) {
         this.user = user;
     }
 

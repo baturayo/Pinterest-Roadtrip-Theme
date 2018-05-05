@@ -17,7 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.UserFacade;
 
 /**
@@ -51,7 +51,7 @@ public class NotificationSetter implements Filter {
         HttpSession session = hrequest.getSession();    
         Integer id = (Integer) session.getAttribute("userId");
         if (id != null){
-            User thisUser = userFacade.find(id);
+            RoadTripUser thisUser = userFacade.find(id);
             List notifications = thisUser.getNotifications();
             notifications.isEmpty();
             System.out.println(notifications.size());

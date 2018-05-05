@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import roadtrip.entity.Message;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 
 /**
  *
@@ -31,7 +31,7 @@ public class MessageFacade extends AbstractFacade<Message> {
         super(Message.class);
     }
     
-    public List<Integer> getMessages(User senderUserId, User receiverUserId) {
+    public List<Integer> getMessages(RoadTripUser senderUserId, RoadTripUser receiverUserId) {
         List<Integer> lookUp;
         lookUp = em.createQuery("SELECT m.id FROM Message m WHERE (m.sender = :senderUserId AND m.receiver = :receiverUserId)"
                 + "OR (m.sender = :receiverUserId AND m.receiver = :senderUserId)")

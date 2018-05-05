@@ -11,14 +11,14 @@ import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 
 /**
  *
  * @author cekef
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User> {
+public class UserFacade extends AbstractFacade<RoadTripUser> {
 
     @PersistenceContext(unitName = "RoadTripPU")
     private EntityManager em;
@@ -29,11 +29,11 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public UserFacade() {
-        super(User.class);
+        super(RoadTripUser.class);
     }
     
     public Integer Login(String email, String password) {
-        List<Integer> lookUp = em.createQuery("SELECT u.id FROM User u WHERE u.email = :email AND u.password = :password")
+        List<Integer> lookUp = em.createQuery("SELECT u.id FROM RoadTripUser u WHERE u.email = :email AND u.password = :password")
                 .setParameter("email", email)
                 .setParameter("password", password)
                 .getResultList();
@@ -44,7 +44,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
     
     public String getCurrentUserPassword(Integer id) {
-        List<String> lookUp = em.createQuery("SELECT u.password FROM User u WHERE u.id = :id")
+        List<String> lookUp = em.createQuery("SELECT u.password FROM RoadTripUser u WHERE u.id = :id")
                 .setParameter("id", id)
                 .getResultList();
         if (lookUp.isEmpty()) {
@@ -54,7 +54,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
     
     public Integer getUserID(String username) {
-        List<Integer> lookUp = em.createQuery("SELECT u.id FROM User u WHERE u.username = :username")
+        List<Integer> lookUp = em.createQuery("SELECT u.id FROM RoadTripUser u WHERE u.username = :username")
                 .setParameter("username", username)
                 .getResultList();
         if (lookUp.isEmpty()) {
@@ -62,22 +62,22 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return lookUp.get(0);
     }
-    public void blockUser(User loggedInUser, User blockedUser){
+    public void blockUser(RoadTripUser loggedInUser, RoadTripUser blockedUser){
         // Update Blocked Table        
-        List<User> blocked_list;
+        List<RoadTripUser> blocked_list;
         blocked_list = loggedInUser.getBlocked();
         blocked_list.add(0, blockedUser);
         loggedInUser.setBlocked(blocked_list);
         edit(loggedInUser);
     }
     
-    public void unblockUser(User loggedInUser, User blockedUser){
+    public void unblockUser(RoadTripUser loggedInUser, RoadTripUser blockedUser){
         System.out.println("cdascsadcdscsd");
         // Update Blocked Table        
-        List<User> blocked_list;
+        List<RoadTripUser> blocked_list;
         blocked_list = loggedInUser.getBlocked();
-        for (Iterator<User> iter = blocked_list.listIterator(); iter.hasNext(); ) {
-            User user = iter.next();
+        for (Iterator<RoadTripUser> iter = blocked_list.listIterator(); iter.hasNext(); ) {
+            RoadTripUser user = iter.next();
             if (Objects.equals(user.getId(), blockedUser.getId())) {
                 iter.remove();
             }
@@ -86,16 +86,16 @@ public class UserFacade extends AbstractFacade<User> {
         edit(loggedInUser);  
     }
     
-    public void followUser(User follower, User followee){
+    public void followUser(RoadTripUser follower, RoadTripUser followee){
         // Update Followee Table        
-        List<User> followee_list;
+        List<RoadTripUser> followee_list;
         followee_list = follower.getFollowee();
         followee_list.add(0, followee);
         follower.setFollowee(followee_list);
         edit(follower);
         
         // Update Follower Table
-        List<User> follower_list;
+        List<RoadTripUser> follower_list;
         follower_list = followee.getFollower();
         follower_list.add(0, follower);
         followee.setFollower(follower_list);
@@ -103,12 +103,12 @@ public class UserFacade extends AbstractFacade<User> {
 
     }
     
-    public void unfollowUser(User follower, User followee){
+    public void unfollowUser(RoadTripUser follower, RoadTripUser followee){
         // Update FOLLOWEE table
-        List<User> followee_list;
+        List<RoadTripUser> followee_list;
         followee_list = follower.getFollowee();
-        for (Iterator<User> iter = followee_list.listIterator(); iter.hasNext(); ) {
-            User user = iter.next();
+        for (Iterator<RoadTripUser> iter = followee_list.listIterator(); iter.hasNext(); ) {
+            RoadTripUser user = iter.next();
             if (Objects.equals(user.getId(), followee.getId())) {
                 iter.remove();
             }
@@ -117,10 +117,10 @@ public class UserFacade extends AbstractFacade<User> {
         edit(follower);
         
         // Update FOLLOWER Table
-        List<User> follower_list;
+        List<RoadTripUser> follower_list;
         follower_list = followee.getFollower();
-        for (Iterator<User> iter = follower_list.listIterator(); iter.hasNext(); ) {
-            User user = iter.next();
+        for (Iterator<RoadTripUser> iter = follower_list.listIterator(); iter.hasNext(); ) {
+            RoadTripUser user = iter.next();
             if (Objects.equals(user.getId(), follower.getId())) {
                 iter.remove();
             }
@@ -129,11 +129,11 @@ public class UserFacade extends AbstractFacade<User> {
         edit(followee);
     }
     
-    public Boolean checkFollowUser(User follower, User followee){
-        List<User> followee_list;
+    public Boolean checkFollowUser(RoadTripUser follower, RoadTripUser followee){
+        List<RoadTripUser> followee_list;
         followee_list = follower.getFollowee();
         
-        for (User user : followee_list) {
+        for (RoadTripUser user : followee_list) {
             if (Objects.equals(user.getId(), followee.getId())){
                 return true;
             }
@@ -141,11 +141,11 @@ public class UserFacade extends AbstractFacade<User> {
        return false;
     }
     
-    public Boolean checkBlockedUser(User loggedInUser, User visitedUser){
-        List<User> blocked_list;
+    public Boolean checkBlockedUser(RoadTripUser loggedInUser, RoadTripUser visitedUser){
+        List<RoadTripUser> blocked_list;
         blocked_list = visitedUser.getBlocked();
         
-        for (User user : blocked_list) {
+        for (RoadTripUser user : blocked_list) {
             if (Objects.equals(user.getId(), loggedInUser.getId())){
                 return true;
             }
@@ -155,7 +155,7 @@ public class UserFacade extends AbstractFacade<User> {
     
     public Boolean checkUniqueEmail(String email) {
         List<String> lookUp;
-        lookUp = em.createQuery("SELECT u.email FROM User u WHERE u.email = :email")
+        lookUp = em.createQuery("SELECT u.email FROM RoadTripUser u WHERE u.email = :email")
                 .setParameter("email", email)
                 .getResultList();
         return lookUp.isEmpty();
@@ -163,7 +163,7 @@ public class UserFacade extends AbstractFacade<User> {
     
     public Boolean checkUniqueUsername(String username) {
         List<String> lookUp;
-        lookUp = em.createQuery("SELECT u.username FROM User u WHERE u.username = :username")
+        lookUp = em.createQuery("SELECT u.username FROM RoadTripUser u WHERE u.username = :username")
                 .setParameter("username", username)
                 .getResultList();
         return lookUp.isEmpty();
@@ -175,7 +175,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
     
     @Override
-    public void create(User user) {
+    public void create(RoadTripUser user) {
         try {
             em.persist(user);
         } catch (Exception e) {

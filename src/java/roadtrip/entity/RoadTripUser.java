@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author baturay
  */
 @Entity
-public class User implements Serializable {
+public class RoadTripUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -99,37 +99,37 @@ public class User implements Serializable {
     
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="FOLLOWEE")
-    private List<User> followee;
+    private List<RoadTripUser> followee;
     
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="FOLLOWER")
-    private List<User> follower;
+    private List<RoadTripUser> follower;
     
     @ManyToMany
     @JoinTable(name="BLOCKED")
-    private List<User> blocked;
+    private List<RoadTripUser> blocked;
     
-    public List<User> getBlocked() {
+    public List<RoadTripUser> getBlocked() {
         return blocked;
     }
 
-    public void setBlocked(List<User> blocked) {
+    public void setBlocked(List<RoadTripUser> blocked) {
         this.blocked = blocked;
     }
     
-    public List<User> getFollowee() {
+    public List<RoadTripUser> getFollowee() {
         return followee;
     }
 
-    public void setFollowee(List<User> followee) {
+    public void setFollowee(List<RoadTripUser> followee) {
         this.followee = followee;
     }
     
-    public List<User> getFollower() {
+    public List<RoadTripUser> getFollower() {
         return follower;
     }
 
-    public void setFollower(List<User> follower) {
+    public void setFollower(List<RoadTripUser> follower) {
         this.follower = follower;
     }
     
@@ -279,10 +279,10 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof RoadTripUser)) {
             return false;
         }
-        User other = (User) object;
+        RoadTripUser other = (RoadTripUser) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

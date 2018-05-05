@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Message;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.MessageFacade;
 import roadtrip.session.UserFacade;
 
@@ -37,12 +37,12 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        User loggedInUser = userFacade.find(loggedInUserId);
+        RoadTripUser loggedInUser = userFacade.find(loggedInUserId);
         
         String URI = request.getRequestURL().toString();
         String visitedUser_name = URI.substring(URI.lastIndexOf('/') + 1);
         Integer visitedUserId = userFacade.getUserID(visitedUser_name);
-        User visitedUser = userFacade.find(visitedUserId);
+        RoadTripUser visitedUser = userFacade.find(visitedUserId);
         
         if(Objects.equals(loggedInUserId, visitedUserId)){
             getPrivateUserInfo(loggedInUser, request);
@@ -76,12 +76,12 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        User loggedInUser = userFacade.find(loggedInUserId);
+        RoadTripUser loggedInUser = userFacade.find(loggedInUserId);
         
         String URI = request.getRequestURL().toString();
         String visitedUser_name = URI.substring(URI.lastIndexOf('/') + 1);
         Integer visitedUserId = userFacade.getUserID(visitedUser_name);
-        User visitedUser = userFacade.find(visitedUserId);
+        RoadTripUser visitedUser = userFacade.find(visitedUserId);
         
         
         if(Objects.equals(loggedInUserId, visitedUserId)){
@@ -109,7 +109,7 @@ public class UserServlet extends HttpServlet {
             userFacade.unblockUser(loggedInUser, visitedUser);
         }
         
-        // Handles Messaging User
+        // Handles Messaging RoadTripUser
         if(Objects.equals(request.getParameter("sendMessage"), "Message")){
             // Create an empty message to be able to start a conversation
             // Creating an empty message will also add visited user into messaged people list
@@ -163,7 +163,7 @@ public class UserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void getPrivateUserInfo(User loggedInUser, HttpServletRequest request){          
+    private void getPrivateUserInfo(RoadTripUser loggedInUser, HttpServletRequest request){          
             String name = loggedInUser.getFirstname();
             String lastName = loggedInUser.getSecondname();
             name = name.substring(0, 1).toUpperCase() + name.substring(1); // Make first letter capital letter
@@ -187,7 +187,7 @@ public class UserServlet extends HttpServlet {
               
     }
     
-    private void getPublicUserInfo(User loggedInUser, User visitedUser, HttpServletRequest request){
+    private void getPublicUserInfo(RoadTripUser loggedInUser, RoadTripUser visitedUser, HttpServletRequest request){
             String name = visitedUser.getFirstname();
             String lastName = visitedUser.getSecondname();
             name = name.substring(0, 1).toUpperCase() + name.substring(1); // Make first letter capital letter
@@ -214,14 +214,14 @@ public class UserServlet extends HttpServlet {
                 request.setAttribute("canFollow", 1); //If visited user is not followed yet
             }
             
-            // Handles Blocking User
+            // Handles Blocking RoadTripUser
             if (userFacade.checkBlockedUser(loggedInUser, visitedUser)){              
                 request.setAttribute("isBlocked", 1); //If visited user blocs you
             } else{
                 request.setAttribute("isBlocked", 0); //If visited user does not block you
             }
             
-            // Handles Unblocing User
+            // Handles Unblocing RoadTripUser
             if (userFacade.checkBlockedUser(visitedUser, loggedInUser)){  
                 request.setAttribute("canBlock", 0); //If visited user already blocked
             } else{
@@ -237,7 +237,7 @@ public class UserServlet extends HttpServlet {
             
             
     }
-    private void sendMessage(String txt_message, User sender, User receiver, HttpServletRequest request){
+    private void sendMessage(String txt_message, RoadTripUser sender, RoadTripUser receiver, HttpServletRequest request){
         Message msg = new Message();
         msg.setMessage(txt_message);
         msg.setSender(sender);

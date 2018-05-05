@@ -24,7 +24,7 @@ public class LoggedInTimestamps implements Serializable {
     
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
     
     public LoggedInTimestamps(){
     }
@@ -45,11 +45,11 @@ public class LoggedInTimestamps implements Serializable {
         this.loggedInTimestampsPK = loggedInTimestampsPK;
     }
 
-    public User getUser_id() {
+    public RoadTripUser getUser_id() {
         return user;
     }
 
-    public void setUser_id(User user_id) {
+    public void setUser_id(RoadTripUser user_id) {
         this.user = user_id;
     }
 

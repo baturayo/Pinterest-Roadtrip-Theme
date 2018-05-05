@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Notification;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.LoggedInTimestampsFacade;
 import roadtrip.session.NotificationFacade;
 import roadtrip.session.TitleFacade;
@@ -98,7 +98,7 @@ public class LoginServlet extends HttpServlet {
                     timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
-                    User user = userFacade.find(id);
+                    RoadTripUser user = userFacade.find(id);
                     Integer score = 0;
                     score = user.getAchievements().stream().map((ach) -> ach.getPoints()).reduce(score, Integer::sum);
 
@@ -138,7 +138,7 @@ public class LoginServlet extends HttpServlet {
                     default:
                         break;
                 }
-                User user = new User();
+                RoadTripUser user = new RoadTripUser();
                 user.setFirstname(firstName);
                 user.setSecondname(lastName);
                 user.setCountry(country);

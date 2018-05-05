@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Message;
-import roadtrip.entity.User;
+import roadtrip.entity.RoadTripUser;
 import roadtrip.session.MessageFacade;
 import roadtrip.session.UserFacade;
 
@@ -34,14 +34,14 @@ public class MessageServlet extends HttpServlet {
     @EJB
     private MessageFacade messageFacade;
     
-    private User receiverUser;
+    private RoadTripUser receiverUser;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        User loggedInUser = userFacade.find(loggedInUserId);
+        RoadTripUser loggedInUser = userFacade.find(loggedInUserId);
         String URI = "http://localhost:8080/RoadTrip/messages";
         if (getReceiverUser() != null) {
             // Show messages
@@ -87,7 +87,7 @@ public class MessageServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
-        User loggedInUser = userFacade.find(loggedInUserId);
+        RoadTripUser loggedInUser = userFacade.find(loggedInUserId);
         
         String receiverUserName = request.getParameter("receiverUserName");
         Integer receiverUserId = userFacade.getUserID(receiverUserName);
@@ -119,7 +119,7 @@ public class MessageServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private void sendMessage(String txt_message, User sender, User receiver, HttpServletRequest request){
+    private void sendMessage(String txt_message, RoadTripUser sender, RoadTripUser receiver, HttpServletRequest request){
             Message msg = new Message();
             msg.setMessage(txt_message);
             msg.setSender(sender);
@@ -131,7 +131,7 @@ public class MessageServlet extends HttpServlet {
             userFacade.edit(receiver);
     }
     
-    private List<Message> getMessages(User loggedInUser, User receiverUser,  HttpServletRequest request){            
+    private List<Message> getMessages(RoadTripUser loggedInUser, RoadTripUser receiverUser,  HttpServletRequest request){            
             List<Integer> messageIds = messageFacade.getMessages(loggedInUser, receiverUser);
             List<Message> messages;
             messages = new ArrayList<>();
@@ -145,7 +145,7 @@ public class MessageServlet extends HttpServlet {
              
     }
     
-    private Set<String> getMessagedUserNames(User loggedInUser){
+    private Set<String> getMessagedUserNames(RoadTripUser loggedInUser){
         // Create a list that include all messages of the logged in user
         List<Message> sentMessages = loggedInUser.getSent();
         List<Message> receivedMessages = loggedInUser.getReceived();
@@ -176,11 +176,11 @@ public class MessageServlet extends HttpServlet {
         return userNames;        
     }
 
-    public User getReceiverUser() {
+    public RoadTripUser getReceiverUser() {
         return receiverUser;
     }
 
-    public void setReceiverUser(User receiverUser) {
+    public void setReceiverUser(RoadTripUser receiverUser) {
         this.receiverUser = receiverUser;
     }    
 }

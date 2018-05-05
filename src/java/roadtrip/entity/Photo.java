@@ -49,7 +49,7 @@ public class Photo implements Serializable {
     
     @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private RoadTripUser user;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "photo")
     private List<Comment> comments;
@@ -62,11 +62,11 @@ public class Photo implements Serializable {
         this.comments = comments;
     }
 
-    public User getUser() {
+    public RoadTripUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RoadTripUser user) {
         this.user = user;
     }
 
