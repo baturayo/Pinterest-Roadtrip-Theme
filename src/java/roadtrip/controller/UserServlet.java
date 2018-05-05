@@ -128,11 +128,21 @@ public class UserServlet extends HttpServlet {
             session.setAttribute("searchList", visitedUser.getFollowee());
             response.sendRedirect("/RoadTrip/search");
         } 
-
+        
+        // Handles Making a regular user to an admin
+        if(Objects.equals(request.getParameter("Make Admin"), "Make Admin")){
+            userFacade.makeAdmin(visitedUser, true);
+        } 
+        
+        // Handles Deleting an Admin and make him/her a regular user
+        if(Objects.equals(request.getParameter("Make Admin"), "Delete Admin")){
+            userFacade.makeAdmin(visitedUser, false);
+        } 
             
         // Refresh pages if necessary
         if(request.getParameter("block") != null ||
-           request.getParameter("follow") != null){
+           request.getParameter("follow") != null ||
+           request.getParameter("Make Admin") != null){
             response.sendRedirect(URI);
         }
         
@@ -171,6 +181,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("follower", followerCount);
             request.setAttribute("country", country);
             request.setAttribute("canFollow", -1); 
+            request.setAttribute("isAdmin", 0); 
             request.setAttribute("isBlocked", 0);
             request.setAttribute("canBlock", -1);
               
@@ -187,13 +198,15 @@ public class UserServlet extends HttpServlet {
             Integer followeeCount = visitedUser.getFollowee().size();
             Integer followerCount = visitedUser.getFollower().size();
             
+            Integer isAdmin = loggedInUser.getIsAdmin() ? 1 : 0;
             String country = loggedInUser.getCountry();
             country = country.substring(0, 1).toUpperCase() + country.substring(1); // Make first letter capital letter
             
             request.setAttribute("name_surname", name_surname);
             request.setAttribute("followee", followeeCount);
             request.setAttribute("follower", followerCount);            
-            request.setAttribute("country", country);
+            request.setAttribute("country", country); 
+            request.setAttribute("isAdmin", isAdmin);
             // Handles Following
             if (userFacade.checkFollowUser(loggedInUser, visitedUser)){
                 request.setAttribute("canFollow", 0); //If visited user has already followed
@@ -214,6 +227,14 @@ public class UserServlet extends HttpServlet {
             } else{
                 request.setAttribute("canBlock", 1); //If visited user is not blocked
             }
+            
+            // Handles Making a User Admin or Deleting an Admin
+            if (visitedUser.getIsAdmin() && loggedInUser.getIsAdmin()){  
+                request.setAttribute("canMakeAdmin", 0); //If visited user and loggedin user are admins
+            } else{
+                request.setAttribute("canMakeAdmin", 1); //If visited user is not an admin
+            }
+            
             
     }
     private void sendMessage(String txt_message, User sender, User receiver, HttpServletRequest request){
