@@ -150,9 +150,26 @@
                                 <!-- END SIDEBAR USER TITLE -->
                                 <!-- SIDEBAR BUTTONS -->
                                 <div class="profile-userbuttons">
+                                    
                                     <form name="messageForm" method="POST">
                                         <input class="btn btn-success btn-sm" name = "sendMessage" type="submit" value="Message" />                      
                                     </form>
+                                    <c:choose>
+                                        <c:when test="${isAdmin == 1}">
+                                            <c:choose>
+                                                <c:when test="${canMakeAdmin == 1}">
+                                                    <form name="adminForm" method="POST">
+                                                        <input class="btn btn-success btn-sm" name = "Make Admin" type="submit" value="Make Admin" />                      
+                                                    </form>
+                                                </c:when>
+                                                <c:when test="${canMakeAdmin == 0}">
+                                                    <form name="adminForm" method="POST">
+                                                        <input class="btn btn-danger btn-sm" name = "Make Admin" type="submit" value="Delete Admin" />                      
+                                                    </form>
+                                                </c:when>
+                                            </c:choose>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                                 <div class="profile-userbuttons">
                                     <form name="followForm" method="POST">
@@ -178,8 +195,8 @@
                                             <c:otherwise>    
                                             </c:otherwise>    
                                         </c:choose>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             
 
                                 <!-- END SIDEBAR BUTTONS -->
