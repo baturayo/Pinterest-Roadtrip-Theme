@@ -62,8 +62,8 @@ insert into ISON values(1,1);
 insert into ISON values(2,1);
 insert into ISON values(3,1);
 
-insert into PHOTO values (1,'City','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278001.jpg',1,1);
-insert into PHOTO values (2,'The middle','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278574.jpg',2,1);
-insert into PHOTO values (3,'The cafe','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278591.jpg',2,2);
-insert into PHOTO values (4,'Sunset at the Canyon','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278990.jpg',3,2);
+-- insert into PHOTO values (1,'City','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278001.jpg',1,1);
+-- insert into PHOTO values (2,'The middle','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278574.jpg',2,1);
+-- insert into PHOTO values (3,'The cafe','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278591.jpg',2,2);
+-- insert into PHOTO values (4,'Sunset at the Canyon','https://www.rondreis.nl/media/inline/bezienswaardigheden/old/201512/1450278990.jpg',3,2);
 
