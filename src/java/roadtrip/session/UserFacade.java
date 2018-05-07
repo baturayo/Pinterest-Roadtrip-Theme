@@ -169,7 +169,7 @@ public class UserFacade extends AbstractFacade<RoadTripUser> {
         return lookUp.isEmpty();
     }
     
-    public void makeAdmin(User visitedUser, Boolean isAdmin) {
+    public void makeAdmin(RoadTripUser visitedUser, Boolean isAdmin) {
         visitedUser.setIsAdmin(isAdmin);
         edit(visitedUser);
     }
