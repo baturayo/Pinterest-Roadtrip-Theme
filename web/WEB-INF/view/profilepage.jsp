@@ -238,6 +238,16 @@
                                             Account Settings </a>
                                         </li>
                                         <li>
+                                            <a href="/RoadTrip/followcp">
+                                            <i class="glyphicon glyphicon-road"></i>
+                                            Followed Checkpoints </a>
+                                        </li>
+                                        <li>
+                                            <a href="/RoadTrip/visited">
+                                            <i class="glyphicon glyphicon-globe"></i>
+                                            Visited Checkpoints </a>
+                                        </li>
+                                        <li>
                                             <a href="#" target="_blank">
                                             <i class="glyphicon glyphicon-ok"></i>
                                             Tasks </a>

@@ -29,7 +29,7 @@ import roadtrip.session.UserFacade;
  *
  * @author Michael
  */
-@WebServlet(name = "Checkpointservlet", urlPatterns = {"/checkpoint","/visited","/wanttovisit"})
+@WebServlet(name = "Checkpointservlet", urlPatterns = {"/checkpoint","/visited","/followcp"})
 public class Checkpointservlet extends HttpServlet {
     
     @EJB
@@ -79,8 +79,8 @@ public class Checkpointservlet extends HttpServlet {
             request.setAttribute("visited", visited);
 
         }
-        else if (path.equals("/wanttovisit")) {
-            url = "/WEB-INF/view/wanttovisit.jsp";
+        else if (path.equals("/followcp")) {
+            url = "/WEB-INF/view/followcp.jsp";
             
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
@@ -89,7 +89,7 @@ public class Checkpointservlet extends HttpServlet {
             followcp.isEmpty();
             
             request.setAttribute("user", user);
-            request.setAttribute("wanttovisit", followcp);
+            request.setAttribute("followcp", followcp);
         }
         
         try {

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : visited
-    Created on : Apr 12, 2018, 10:00:16 PM
+    Document   : wanttovisit
+    Created on : Apr 12, 2018, 10:21:10 PM
     Author     : Michael
 --%>
 
@@ -9,11 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Visited Page</title>
+        <title>FollowCP</title>
     </head>
     <body>
-        <h5> ${user.getUsername()} has visited these checkpoints:</h5>
-        <c:forEach items="${visited}" var="checkpoint">
+        <h5> ${user.getUsername()} is following these checkpoints: </h5>
+        <c:forEach items="${followcp}" var="checkpoint">
             <div class="well">
                 <a href="/RoadTrip/checkpoint?id=${checkpoint.getId()}"> <p>${checkpoint.getName()}</p></a>
                 <p>This checkpoint is on the following roads:</p>
