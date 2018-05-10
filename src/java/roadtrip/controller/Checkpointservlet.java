@@ -85,13 +85,13 @@ public class Checkpointservlet extends HttpServlet {
             HttpSession session = request.getSession();
             Integer id = (Integer) session.getAttribute("userId");
             RoadTripUser user = userFacade.find(id);
-            List<Checkpoint> wanttovisit = user.getWanttovisit();
-            wanttovisit.isEmpty();
+            List<Checkpoint> followcp = user.getFollowCp();
+            followcp.isEmpty();
             
             request.setAttribute("user", user);
-            request.setAttribute("wanttovisit", wanttovisit);
+            request.setAttribute("wanttovisit", followcp);
         }
-
+        
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
@@ -111,6 +111,10 @@ public class Checkpointservlet extends HttpServlet {
         Integer cid = Integer.parseInt(request.getParameter("id"));
         Checkpoint cp = checkpointFacade.find(cid);
         
+        HttpSession session = request.getSession();
+        Integer userid = (Integer) session.getAttribute("userId");
+        RoadTripUser user = userFacade.find(userid);
+        
         List<Photo> photos = cp.getPhotos();
         photos.isEmpty();
         
@@ -120,6 +124,12 @@ public class Checkpointservlet extends HttpServlet {
         request.setAttribute("Checkpoint", cp);
         request.setAttribute("photos", photos);
         request.setAttribute("roads", roads);
+        
+        if (user.getFollowCp().contains(cp)) {
+            request.setAttribute("canFollow", 0);
+        } else {
+            request.setAttribute("canFollow", 1);
+        }
     }
 
     /**
@@ -135,6 +145,15 @@ public class Checkpointservlet extends HttpServlet {
             throws ServletException, IOException {
         
         String url = "/WEB-INF/view/checkpoint.jsp";
+        
+        String URI = request.getRequestURL().toString();
+        if (request.getQueryString() != null) {
+            URI  += "?" + request.getQueryString();
+        }
+
+
+        
+        Boolean refresh = false;
         
         String path = request.getServletPath();
         if (path.equals("/checkpoint")) {
@@ -165,8 +184,13 @@ public class Checkpointservlet extends HttpServlet {
 
                 handleVisitedButton(user, cp);
             }
-            else if (cpformvalue.equals("setwanttovisit")) {
-                handleWantToVisitButton(user, cp);
+            else if (cpformvalue.equals("setfollowcp")) {
+                handleFollowButton(user, cp);
+                refresh = true;
+            }
+            else if (cpformvalue.equals("setunfollowcp")) {
+                handleUnFollowButton(user, cp);
+                refresh = true;
             }
             else if(cpformvalue.equals("addphoto1")){
                 
@@ -242,6 +266,10 @@ public class Checkpointservlet extends HttpServlet {
             request.setAttribute("Checkpoint", cp2);
             request.setAttribute("photos", photos);
             request.setAttribute("roads", roads);
+            
+            if(refresh){
+                response.sendRedirect(URI);
+            }
 
             
             try {
@@ -265,16 +293,27 @@ public class Checkpointservlet extends HttpServlet {
         List<Photo> addedphoto = cp.getPhotos();
         addedphoto.add(photo);
         cp.setPhotos(addedphoto);
+        
         checkpointFacade.edit(cp);
     }
 
-    private void handleWantToVisitButton(RoadTripUser user, Checkpoint cp) {
-        List<Checkpoint> wanttovisit = user.getWanttovisit();
-        wanttovisit.isEmpty();
-        if (!wanttovisit.contains(cp)) {
-            wanttovisit.add(cp);
+    private void handleFollowButton(RoadTripUser user, Checkpoint cp) {
+        List<Checkpoint> followcp = user.getFollowCp();
+        followcp.isEmpty();
+        if (!followcp.contains(cp)) {
+            followcp.add(cp);
         }
-        user.setWanttovisit(wanttovisit);
+        user.setFollowCp(followcp);
+        userFacade.edit(user);
+    }
+    
+    private void handleUnFollowButton(RoadTripUser user, Checkpoint cp) {
+        List<Checkpoint> followcp = user.getFollowCp();
+        followcp.isEmpty();
+        if (followcp.contains(cp)) {
+            followcp.remove(cp);
+        }
+        user.setFollowCp(followcp);
         userFacade.edit(user);
     }
 

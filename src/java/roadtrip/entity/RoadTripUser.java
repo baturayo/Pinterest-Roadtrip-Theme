@@ -94,8 +94,10 @@ public class RoadTripUser implements Serializable {
     private List<Checkpoint> visited;
     
     @OneToMany
-    @JoinTable(name="WANTTOVISIT")
-    private List<Checkpoint> wanttovisit;
+    @JoinTable(name="FOLLOWCP")
+    private List<Checkpoint> FollowCp;
+
+
     
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="FOLLOWEE")
@@ -108,6 +110,14 @@ public class RoadTripUser implements Serializable {
     @ManyToMany
     @JoinTable(name="BLOCKED")
     private List<RoadTripUser> blocked;
+    
+    public List<Checkpoint> getFollowCp() {
+        return FollowCp;
+    }
+
+    public void setFollowCp(List<Checkpoint> FollowCp) {
+        this.FollowCp = FollowCp;
+    }
     
     public List<RoadTripUser> getBlocked() {
         return blocked;
@@ -139,14 +149,6 @@ public class RoadTripUser implements Serializable {
 
     public void setVisited(List<Checkpoint> visited) {
         this.visited = visited;
-    }
-
-    public List<Checkpoint> getWanttovisit() {
-        return wanttovisit;
-    }
-
-    public void setWanttovisit(List<Checkpoint> wanttovisit) {
-        this.wanttovisit = wanttovisit;
     }
 
     public void setFirstname(String firstname) {

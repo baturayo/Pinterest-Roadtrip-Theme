@@ -114,7 +114,18 @@
                         <form name="setvisit" action="" method="POST">
                             <div class="btn-group">
                                 <button type="submit" name="cpform" value="setvisited" class="btn btn-info">Visited</button>
-                                <button type="submit" name="cpform" value="setwanttovisit" class="btn btn-success">I want to visit this checkpoint</button>
+                                <c:choose>
+                                    <c:when test="${canFollow == 1}">
+                                        <button type="submit" name="cpform" value="setfollowcp" class="btn btn-success">Follow</button>
+                                    </c:when>
+                                    <c:when test="${canFollow == 0}">
+                                        <button type="submit" name="cpform" value="setunfollowcp" class="btn btn-danger">Unfollow</button>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </div>
                         </form>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#addphotomodal">
