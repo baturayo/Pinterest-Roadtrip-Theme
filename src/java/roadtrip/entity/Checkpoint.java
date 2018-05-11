@@ -67,6 +67,30 @@ public class Checkpoint implements Serializable {
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "checkpoint")
     private List<Photo> photos;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "checkpoint")
+    private List<CheckpointRating> ratings;
+
+    public List<CheckpointRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<CheckpointRating> ratings) {
+        this.ratings = ratings;
+    }
+    
+    public Double getAverageRating() {
+        Double val = 0.0;
+        for(CheckpointRating it : ratings) {
+            val += it.getRatingvalue();
+        }
+        if(ratings.isEmpty()) {
+            return -1.0;
+        }
+        val = val/ratings.size();
+        return val;
+        
+    }
 
     public List<Photo> getPhotos() {
         return photos;

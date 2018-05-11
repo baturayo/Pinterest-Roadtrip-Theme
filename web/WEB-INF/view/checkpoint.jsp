@@ -141,8 +141,11 @@
         <div class="col-sm-4">
 
             <div class="panel panel-default">
-                <div class="panel-heading">${requestScope.Checkpoint.getName()}</div>
+                <div class="panel-heading">
+                    ${requestScope.Checkpoint.getName()}
+                </div>
                 <div class="panel-body">
+                    <h5>rating: ${requestScope.Checkpoint.getAverageRating()} </h5>
                     <p>${requestScope.Checkpoint.getDescription()}</p>
                     <p> The following roads contain this checkpoint: </p>
                     <c:forEach items="${roads}" var="road">

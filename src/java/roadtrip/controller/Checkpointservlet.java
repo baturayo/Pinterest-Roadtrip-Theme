@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Checkpoint;
+import roadtrip.entity.CheckpointRating;
 import roadtrip.entity.Comment;
 import roadtrip.entity.Notification;
 import roadtrip.entity.Photo;
@@ -168,7 +169,7 @@ public class Checkpointservlet extends HttpServlet {
             String cpformvalue = request.getParameter("cpform");
             String photoformvalue = request.getParameter("photoform");
             String commentformvalue = request.getParameter("commentform");
-
+            String ratingformvalue = request.getParameter("rateradio");
 
 
             if(cpformvalue == null){
@@ -256,6 +257,20 @@ public class Checkpointservlet extends HttpServlet {
                 userFacade.edit(photoUser);
 
             }
+            if(ratingformvalue == null){}
+            else {
+                Double r = Double.parseDouble(ratingformvalue);
+                CheckpointRating cpr = new CheckpointRating();
+                cpr.setCheckpoint(cp);
+                cpr.setUser(user);
+                cpr.setRatingvalue(r);
+                
+                cp.getRatings().add(cpr);
+                checkpointFacade.edit(cp);
+                
+                
+            }
+
             if (user.getFollowCp().contains(cp)) {
                 request.setAttribute("canFollow", 0);
             } else {
