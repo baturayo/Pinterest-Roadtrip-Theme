@@ -88,7 +88,7 @@ public class Checkpoint implements Serializable {
             return -1.0;
         }
         val = val/ratings.size();
-        return val;
+        return Math.round(val * 2) / 2.0;
         
     }
 

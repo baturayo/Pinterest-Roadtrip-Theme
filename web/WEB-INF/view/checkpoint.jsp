@@ -138,14 +138,15 @@
         
 
         
-        <div class="col-sm-4">
+        <div class="col-sm-6">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     ${requestScope.Checkpoint.getName()}
                 </div>
                 <div class="panel-body">
-                    <h5>rating: ${requestScope.Checkpoint.getAverageRating()} </h5>
+                    <h5>rating:</h5>
+                    <input id="input-id" name="input-name" value="${requestScope.Checkpoint.getAverageRating()}" type="number" class="rating" min=0 max=5 displayOnly="true">
                     <p>${requestScope.Checkpoint.getDescription()}</p>
                     <p> The following roads contain this checkpoint: </p>
                     <c:forEach items="${roads}" var="road">
@@ -183,7 +184,7 @@
 
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-6">
 
             <div class="card-columns">
                 <c:forEach items="${photos}" var="photo">
