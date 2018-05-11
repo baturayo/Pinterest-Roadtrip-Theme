@@ -170,6 +170,7 @@ public class Checkpointservlet extends HttpServlet {
             String commentformvalue = request.getParameter("commentform");
 
 
+
             if(cpformvalue == null){
             }
 
@@ -255,6 +256,12 @@ public class Checkpointservlet extends HttpServlet {
                 userFacade.edit(photoUser);
 
             }
+            if (user.getFollowCp().contains(cp)) {
+                request.setAttribute("canFollow", 0);
+            } else {
+                request.setAttribute("canFollow", 1);
+            }
+
             
             Checkpoint cp2 = checkpointFacade.find(cid);
             List<Photo> photos = cp2.getPhotos();

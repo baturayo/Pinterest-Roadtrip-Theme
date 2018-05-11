@@ -12,11 +12,50 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="card.css">
+        <link rel="stylesheet" href="style/star_rating_css/star-rating.css" media="all" type="text/css"/>
+
+        
+        <script src="scripts/star_rating_js/star-rating.js" type="text/javascript"></script>
+
  
 
         <title>Checkpoint Page</title>
     </head>
     <body>
+        
+        <div class="modal fade" id="cpratingmodal">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Rating</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form name="ratecpform" action="" method="POST">
+
+                        <div class="radio">
+                          <label><input type="radio" name="rateradio" value="1">1 Wheel</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="rateradio" value="2">2 Wheels</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="rateradio" value="3">3 Wheels</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="rateradio" value="4">4 Wheels</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="rateradio" value="5">5 Wheels</label>
+                        </div>
+
+                        <div class=form-group">
+                            <button type="submit" class="btn btn-primary">Post Rating</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <c:forEach items="${photos}" var="photo">
             <div class="modal fade" id="updatephotomodal${photo.getId()}">
                 <div class="modal-dialog">
@@ -110,9 +149,14 @@
                         <p><a href="/RoadTrip/road/${road.getId()}"> ${road.getName()}</a></p>
                         
                     </c:forEach>
+                        
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cpratingmodal">
+                            Post Rating
+                        </button>
 
                         <form name="setvisit" action="" method="POST">
                             <div class="btn-group">
+
                                 <button type="submit" name="cpform" value="setvisited" class="btn btn-info">Visited</button>
                                 <c:choose>
                                     <c:when test="${canFollow == 1}">
