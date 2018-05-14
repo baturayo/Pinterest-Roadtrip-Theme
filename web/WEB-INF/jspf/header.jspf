@@ -29,6 +29,9 @@
                         <li><a href="/RoadTrip">Home</a></li>
                         <li><a href="/RoadTrip/settings">Settings</a></li>
                         <li><a href="/RoadTrip/stats">Stats</a></li>
+                        <c:if test="${sessionScope.loggedinuser.getIsAdmin()}">
+                            <li><a href="/RoadTrip/create">Create</a></li>
+                        </c:if>
                         <c:if test="${sessionScope.userId != null}">
                             <li><a href="/RoadTrip/logout">Log Out</a></li>
                         </c:if>

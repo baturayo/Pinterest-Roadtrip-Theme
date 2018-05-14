@@ -99,6 +99,8 @@ public class LoginServlet extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
                     RoadTripUser user = userFacade.find(id);
+                    session.setAttribute("loggedinuser", user);
+
                     Integer score = 0;
                     score = user.getAchievements().stream().map((ach) -> ach.getPoints()).reduce(score, Integer::sum);
 
@@ -179,6 +181,8 @@ public class LoginServlet extends HttpServlet {
                 
                     user.getNotifications().add(notification);
                     userFacade.edit(user);
+                    session.setAttribute("loggedinuser", user);
+
                     session.setAttribute("title", titleFacade.getTitle(score));
                     try {
                         response.sendRedirect("/RoadTrip");
