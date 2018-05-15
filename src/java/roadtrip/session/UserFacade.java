@@ -43,6 +43,17 @@ public class UserFacade extends AbstractFacade<RoadTripUser> {
         return lookUp.get(0);
     }
     
+    public Integer GoogleLogin(String email, String password) {
+        List<Integer> lookUp = em.createQuery("SELECT u.isGoogleUser FROM RoadTripUser u WHERE u.email = :email AND u.password = :password")
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getResultList();
+        if (lookUp.isEmpty() || lookUp.get(0) == 1) {
+            return -1;
+        }
+        return lookUp.get(0);
+    }
+    
     public String getCurrentUserPassword(Integer id) {
         List<String> lookUp = em.createQuery("SELECT u.password FROM RoadTripUser u WHERE u.id = :id")
                 .setParameter("id", id)
