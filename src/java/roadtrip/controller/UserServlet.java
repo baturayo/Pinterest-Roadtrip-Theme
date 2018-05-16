@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import roadtrip.entity.Message;
+import roadtrip.entity.Notification;
 import roadtrip.entity.RoadTripUser;
 import roadtrip.session.MessageFacade;
+import roadtrip.session.NotificationFacade;
 import roadtrip.session.UserFacade;
 
 /**
@@ -28,6 +30,9 @@ public class UserServlet extends HttpServlet {
     
     @EJB
     private UserFacade userFacade;
+    
+    @EJB
+    private NotificationFacade notificationFacade;
     
     @EJB
     private MessageFacade messageFacade;
@@ -96,17 +101,89 @@ public class UserServlet extends HttpServlet {
         // Handles following
         if(Objects.equals(request.getParameter("follow"), "Follow")){
             userFacade.followUser(loggedInUser, visitedUser);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " has followed you!");
+            notification.setUser(visitedUser);
+            notification.setType(1);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You are following " +visitedUser.getUsername() +"!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(1);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);
         } 
         else if(Objects.equals(request.getParameter("follow"), "Unfollow")){
             userFacade.unfollowUser(loggedInUser, visitedUser);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " has unfollowed you!");
+            notification.setUser(visitedUser);
+            notification.setType(4);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You are unfollowing " +visitedUser.getUsername() +"!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(3);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);
         }
         
         // Handles blocking
         if(Objects.equals(request.getParameter("block"), "Block")){
             userFacade.blockUser(loggedInUser, visitedUser);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " has blocked you!");
+            notification.setUser(visitedUser);
+            notification.setType(4);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You are blocking " +visitedUser.getUsername() +"!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(3);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);
         } 
         else if(Objects.equals(request.getParameter("block"), "Unblock")){
             userFacade.unblockUser(loggedInUser, visitedUser);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " has unblocked you!");
+            notification.setUser(visitedUser);
+            notification.setType(2);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You are unblocking " +visitedUser.getUsername() +"!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(2);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);
         }
         
         // Handles Messaging RoadTripUser
@@ -115,6 +192,15 @@ public class UserServlet extends HttpServlet {
             // Creating an empty message will also add visited user into messaged people list
             sendMessage("", loggedInUser, visitedUser, request);
             response.sendRedirect("/RoadTrip/messages");
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText("You have one new message from "  + loggedInUser.getUsername());
+            notification.setUser(visitedUser);
+            notification.setType(1);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
         } 
         
         // Handles Showing Followers
@@ -131,12 +217,52 @@ public class UserServlet extends HttpServlet {
         
         // Handles Making a regular user to an admin
         if(Objects.equals(request.getParameter("Make Admin"), "Make Admin")){
+            userFacade.unblockUser(loggedInUser, visitedUser);
             userFacade.makeAdmin(visitedUser, true);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " has made you admin!");
+            notification.setUser(visitedUser);
+            notification.setType(2);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You made " +visitedUser.getUsername() +" an admin!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(2);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);
+            
+            
         } 
         
         // Handles Deleting an Admin and make him/her a regular user
         if(Objects.equals(request.getParameter("Make Admin"), "Delete Admin")){
             userFacade.makeAdmin(visitedUser, false);
+            userFacade.unblockUser(loggedInUser, visitedUser);
+            
+            // Send Notification to Visited User
+            Notification notification = new Notification();
+            notification.setText(loggedInUser.getUsername() + " delete you from admin list!");
+            notification.setUser(visitedUser);
+            notification.setType(4);
+            notificationFacade.create(notification);
+            visitedUser.getNotifications().add(notification);
+            userFacade.edit(visitedUser);
+            
+            // Send Notification to Logged In User
+            Notification notification2 = new Notification();
+            notification2.setText("You delete " +visitedUser.getUsername() +" from the admin list!");
+            notification2.setUser(loggedInUser);
+            notification2.setType(4);
+            notificationFacade.create(notification2);
+            loggedInUser.getNotifications().add(notification2);
+            userFacade.edit(loggedInUser);     
         } 
             
         // Refresh pages if necessary
