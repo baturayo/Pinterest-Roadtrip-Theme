@@ -30,5 +30,21 @@ public class CheckpointFacade extends AbstractFacade<Checkpoint> {
         super(Checkpoint.class);
     }
     
+    public Boolean checkUniqueCheckpointName(String cpname) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT c.name FROM Checkpoint c WHERE c.name = :cpname")
+                .setParameter("cpname", cpname)
+                .getResultList();
+        return lookUp.isEmpty();
+    }
+    public Boolean checkUniqueCoordinates(Double cpx,Double cpy) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT c.name FROM Checkpoint c WHERE c.x = :cpx AND c.y = :cpy")
+                .setParameter("cpx", cpx)
+                .setParameter("cpy", cpy)
+                .getResultList();
+        return lookUp.isEmpty();
+    }
+    
     
 }

@@ -44,6 +44,8 @@ public class Checkpoint implements Serializable {
     @Column(name="description")
     @NotNull
     private String description;
+
+
     
     
     @Basic(optional = false)
@@ -126,6 +128,9 @@ public class Checkpoint implements Serializable {
 
     public Integer getId() {
         return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     public double getX() {

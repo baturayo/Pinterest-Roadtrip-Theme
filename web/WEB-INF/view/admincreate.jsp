@@ -50,7 +50,7 @@
                                 CheckPoint Name: <input type="text" name="newcpname" required/>
                             </div>
                             <div class="form-group">
-                                Country Name: <input type="text" name="newcpcountry" required/>
+                                Country Code: <input type="text" name="newcpcountry" required/>
                             </div>
                             <div class="form-group">
                                 Description <input type="text" name="newcpdesc" required/>
@@ -88,7 +88,7 @@
                                 Road Name: <input type="text" name="newroad" required/>
                             </div>
                              <div class="form-group">
-                                Country Name: <input type="text" name="newroadcountry" required/>
+                                Country Code: <input type="text" name="newroadcountry" required/>
                             </div>
                             <div class="form-group">
                                 Description <input type="text" name="newroaddesc" required/>
@@ -117,10 +117,10 @@
                                 <input type="hidden" name="formName" value="linkcpr1" readonly="readonly"/>
                             </div>
                             <div class="form-group">
-                                CheckPoint Name: <input type="text" name="linkedcp" required/>
+                                CheckPoint ID: <input type="text" name="linkedcp" required/>
                             </div>
                             <div class="form-group">
-                                Road Name: <input type="text" name="linkedr" required/>
+                                Road ID: <input type="text" name="linkedr" required/>
                             </div>
                             <div class=form-group">
                                 <button type="submit" class="btn btn-primary">Link Checkpoint and Road</button>
@@ -132,6 +132,15 @@
         </div>
         
         
-        
+        <c:if test="${not empty requestScope.creationError}">
+            <script>
+                function alertLogin() {
+                    if("${requestScope.creationError}"){
+                        alert("${requestScope.creationError}");
+                    }
+                }
+                window.onload = alertLogin;
+            </script>
+        </c:if> 
     </body>
 </html>

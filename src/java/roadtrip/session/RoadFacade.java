@@ -5,6 +5,7 @@
  */
 package roadtrip.session;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,15 @@ public class RoadFacade extends AbstractFacade<Road> {
 
     public RoadFacade() {
         super(Road.class);
+    }
+    
+    
+  public Boolean checkUniqueRoadName(String rname) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT r.name FROM Road r WHERE r.name = :rname")
+                .setParameter("rname", rname)
+                .getResultList();
+        return lookUp.isEmpty();
     }
     
 }
