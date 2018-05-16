@@ -26,8 +26,34 @@
                     </div>
 
                     <div class="modal-body">
-                        <form name="loginForm" action="/RoadTrip/login" method="POST">
+                        <form id = "loginForm" name="loginForm" action="/RoadTrip/login" method="POST">
+                            <div class="form-group">
+                                <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="email" name="username">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="password" name="password">
+                            </div>
+                            <button type="submit" class="btn btn-success">Log in</button>
                             
+                        </form>
+                            
+                        <form id = "googleForm" name="googleForm" method="post" action="/RoadTrip/googleauth">
+<!--                            <div class="g-signin2" data-onsuccess="onSignIn"-->
+                            <div class="g-signin2" data-onsuccess="onSignIn">
+                           
+                            </div>
+                            <a href="#" onclick="signOut();">Sign out</a>
+                            <script>
+                              function signOut() {
+                                var auth2 = gapi.auth2.getAuthInstance();
+                                auth2.signOut().then(function () {
+                                  console.log('User signed out.');
+                                });
+                              }
+                            </script>
                             <script>
                               function onSignIn(googleUser) {
                                 // Useful data for your client-side scripts:
@@ -41,20 +67,16 @@
 
                                 // The ID token you need to pass to your backend:
                                 var id_token = googleUser.getAuthResponse().id_token;
-                                console.log("ID Token: " + id_token);
-                              };
-                            </script>
-                            <div class="form-group">
-                                <input type="hidden" name="formName" value="LoginForm" readonly="readonly"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="email" name="username">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="password" name="password">
-                            </div>
-                            <button type="submit" class="btn btn-success">Log in</button>
-                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+//                               document.getElementById('myField').value = profile.getName();
+                                
+                                $.post("/RoadTrip/googleauth", 
+                                { 
+                                    firstname: profile.getGivenName(),
+                                    lastname: profile.getFamilyName(),
+                                    email:  profile.getEmail(),                                 
+                                });
+                              }
+                            </script>                          
                         </form>
                         <a href="register">Don't have an account? Register by clicking this link.</a>
                     </div>      

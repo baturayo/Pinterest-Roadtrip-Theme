@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -62,6 +63,10 @@ public class RoadTripUser implements Serializable {
     private Boolean isAdmin = false;
     
     @Basic(optional = false)
+    @Column(name = "isGoogleUser")
+    private Boolean isGoogleUser = false;
+    
+    @Basic(optional = false)
     @NotNull
     @Column(name = "gender")
     private Integer gender;
@@ -96,8 +101,6 @@ public class RoadTripUser implements Serializable {
     @OneToMany
     @JoinTable(name="FOLLOWCP")
     private List<Checkpoint> FollowCp;
-
-
     
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="FOLLOWEE")
@@ -262,6 +265,16 @@ public class RoadTripUser implements Serializable {
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+    public Boolean getIsGoogleUser() {
+        return isGoogleUser;
+    }
+
+    public void setIsGoogleUser(Boolean isGoogleUser) {
+        this.isGoogleUser = isGoogleUser;
+    }
+    
+    
     
     @Override
     public int hashCode() {

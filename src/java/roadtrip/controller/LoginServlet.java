@@ -24,7 +24,7 @@ import roadtrip.session.UserFacade;
  *
  * @author cekef
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/logout", "/register", "/login"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/logout", "/register", "/login", "/googleauth"})
 public class LoginServlet extends HttpServlet {
 
     @EJB
@@ -83,18 +83,25 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String userPath = request.getServletPath();
-
+        
         if (userPath.equals("/login")) {
-
             if (request.getParameter("formName").equals("LoginForm")) {
                 String email = request.getParameter("username");
                 String password = request.getParameter("password");
                 Integer id = userFacade.Login(email, password);
-                if (id.equals(-1)) {
+                Integer isGoggleUser = userFacade.GoogleLogin(email, password);
+                
+                if (id.equals(-1) )  {
                     request.setAttribute("loginError", "Incorrect password or email");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                     return;
-                } else {
+                }
+                else if (isGoggleUser.equals(-1)){
+                    request.setAttribute("loginError", "You can only login with Google Login Button");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    return;
+                }
+                else {
                     timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
@@ -112,10 +119,94 @@ public class LoginServlet extends HttpServlet {
                     }
                     return;
                 }
-
             }
+        
+        }
+        else if(userPath.equals("/googleauth")){      
+                String firstName = request.getParameter("firstname");
+                String lastName = request.getParameter("lastname");
+                String email = request.getParameter("email");
+                String username = email;
+                String password = "None";
+                Integer userId = userFacade.getUserID(username);
+                RoadTripUser _user = userFacade.find(userId);
+                
+                if (_user != null){
+                    System.out.println("NULL");
+                    Integer id = userFacade.Login(email, password);
+                    timestampFacade.AddNew(id);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("userId", id);
+                    RoadTripUser user = userFacade.find(id);
+                    session.setAttribute("loggedinuser", user);
+                    
+                    Integer score = 0;
+                    score = user.getAchievements().stream().map((ach) ->
+                            ach.getPoints()).reduce(score, Integer::sum);
+                    
+                    session.setAttribute("title", titleFacade.getTitle(score));
+                    try {
+                        response.sendRedirect("/RoadTrip/messages");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    return;
+                }
+                else{
+                    System.out.println("NOT NULL");
+                    RoadTripUser user = new RoadTripUser();
+                    user.setFirstname(firstName);
+                    user.setSecondname(lastName);
+                    user.setCountry("None");
+                    user.setGender(-2);
+                    user.setUsername(username);
+                    user.setEmail(email);
+                    user.setPassword(password);
+                    user.setIsGoogleUser(true);
 
-        } else if (userPath.equals("/register")) {
+                    Boolean failed = false;
+
+                    if (!userFacade.checkUniqueEmail(email)) {
+                        failed = true;
+                        request.setAttribute("error", "E-mail address is already in use.");
+                    }
+
+                    if (failed) {
+                        String url = "/WEB-INF/login/register.jsp";
+                        try {
+                            request.getRequestDispatcher(url).forward(request, response);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        userFacade.create(user);
+                        Integer id = userFacade.getUserID(username);
+                        user = userFacade.find(id);
+                        timestampFacade.AddNew(id);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userId", id);
+                        Integer score = 0;
+                        Notification notification = new Notification();
+                        notification.setText("Welcome to our website");
+                        notification.setUser(user);
+                        notificationFacade.create(notification);
+
+                        user.getNotifications().add(notification);
+                        userFacade.edit(user);
+                        session.setAttribute("loggedinuser", user);
+
+                        session.setAttribute("title", titleFacade.getTitle(score));
+                        try {
+                            response.sendRedirect("/RoadTrip/");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+               
+            }
+        
+        else if (userPath.equals("/register")) {
             if (request.getParameter("formName").equals("RegisterForm")) {
                 // Receive username and password from login form
                 String firstName = request.getParameter("firstName");
@@ -193,6 +284,7 @@ public class LoginServlet extends HttpServlet {
 
                 return;
             }
+            
         }
         // use RequestDispatcher to forward request internally
         String url = "/WEB-INF/login" + userPath + ".jsp";
