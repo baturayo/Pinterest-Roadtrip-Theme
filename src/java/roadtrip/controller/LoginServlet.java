@@ -89,14 +89,14 @@ public class LoginServlet extends HttpServlet {
                 String email = request.getParameter("username");
                 String password = request.getParameter("password");
                 Integer id = userFacade.Login(email, password);
-                Integer isGoggleUser = userFacade.GoogleLogin(email, password);
+                Boolean isGoggleUser = userFacade.GoogleLogin(email);
                 
                 if (id.equals(-1) )  {
                     request.setAttribute("loginError", "Incorrect password or email");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                     return;
                 }
-                else if (isGoggleUser.equals(-1)){
+                else if (isGoggleUser.equals(true)){
                     request.setAttribute("loginError", "You can only login with Google Login Button");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                     return;
@@ -132,7 +132,6 @@ public class LoginServlet extends HttpServlet {
                 RoadTripUser _user = userFacade.find(userId);
                 
                 if (_user != null){
-                    System.out.println("NULL");
                     Integer id = userFacade.Login(email, password);
                     timestampFacade.AddNew(id);
                     HttpSession session = request.getSession();
@@ -189,6 +188,7 @@ public class LoginServlet extends HttpServlet {
                         Notification notification = new Notification();
                         notification.setText("Welcome to our website");
                         notification.setUser(user);
+                        notification.setType(2);
                         notificationFacade.create(notification);
 
                         user.getNotifications().add(notification);
@@ -268,6 +268,7 @@ public class LoginServlet extends HttpServlet {
                     Notification notification = new Notification();
                     notification.setText("Welcome to our website");
                     notification.setUser(user);
+                    notification.setType(2);
                     notificationFacade.create(notification);
                 
                     user.getNotifications().add(notification);

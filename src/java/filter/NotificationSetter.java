@@ -54,7 +54,6 @@ public class NotificationSetter implements Filter {
             RoadTripUser thisUser = userFacade.find(id);
             List notifications = thisUser.getNotifications();
             notifications.isEmpty();
-            System.out.println(notifications.size());
             request.setAttribute("notifications", notifications.size());
         }
         chain.doFilter(request, response);

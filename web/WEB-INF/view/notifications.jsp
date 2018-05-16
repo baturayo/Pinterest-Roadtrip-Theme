@@ -73,12 +73,19 @@ p {
 }
 </style>
 <c:forEach var="notification" items="${requestScope.tripnotifications}">
-    <div class="notice info"><p>${notification.getText()}</p></div>
-
-    <div class="notice success"><p>${notification.getText()}</p></div>
-
-    <div class="notice warning"><p>${notification.getText()}</p></div>
-
-    <div class="notice error"><p>${notification.getText()}</p></div>
+    <c:choose>
+        <c:when test="${notification.getType() == 1}">
+            <div class="notice info"><p>${notification.getText()}</p></div>
+        </c:when>
+        <c:when test="${notification.getType() == 2}">
+            <div class="notice success"><p>${notification.getText()}</p></div>
+        </c:when>
+        <c:when test="${notification.getType() == 3}">
+            <div class="notice warning"><p>${notification.getText()}</p></div>
+        </c:when>
+        <c:otherwise>
+            <div class="notice error"><p>${notification.getText()}</p></div>
+        </c:otherwise>
+    </c:choose>
     <p></p>
 </c:forEach>

@@ -33,6 +33,11 @@ public class Notification implements Serializable {
     @Column(name = "text")
     private String text;
     
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "type")
+    private Integer type;
+    
     @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private RoadTripUser user;
@@ -60,6 +65,15 @@ public class Notification implements Serializable {
     public void setUser(RoadTripUser user) {
         this.user = user;
     }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+    
     
     @Override
     public int hashCode() {
