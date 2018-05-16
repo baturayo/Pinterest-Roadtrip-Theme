@@ -157,6 +157,29 @@ public class AdminCreateServlet extends HttpServlet {
         
     }    
     public void linkCheckPointRoad(HttpServletRequest request, HttpServletResponse response) {
+        String rname = request.getParameter("linkedr");
+        String cpname = request.getParameter("linkedcp");
+        
+        
+        Road r = roadFacade.getRoadFromName(rname);
+        Checkpoint cp = checkpointFacade.getCheckpointFromName(cpname);
+        
+        if(r.getId() == -1 && r.getName() == "ERROR") {
+            request.setAttribute("creationError", "Non existant Road");
+            return;
+        }
+        
+        if(cp.getId() == -1 && cp.getName() == "ERROR") {
+            request.setAttribute("creationError", "Non existant Checkpoint");
+            return;
+        }
+        
+        r.getCheckpoints().add(cp);
+        cp.getRoads().add(r);
+        
+        roadFacade.edit(r);
+        checkpointFacade.edit(cp);
+
         
     }
 

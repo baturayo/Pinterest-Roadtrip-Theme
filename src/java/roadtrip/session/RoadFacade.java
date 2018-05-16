@@ -31,12 +31,29 @@ public class RoadFacade extends AbstractFacade<Road> {
     }
     
     
-  public Boolean checkUniqueRoadName(String rname) {
+    public Boolean checkUniqueRoadName(String rname) {
         List<String> lookUp;
         lookUp = em.createQuery("SELECT r.name FROM Road r WHERE r.name = :rname")
                 .setParameter("rname", rname)
                 .getResultList();
         return lookUp.isEmpty();
     }
+    
+   public Road getRoadFromName(String rname) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT r.id FROM Road r WHERE r.name = :rname")
+                .setParameter("rname", rname)
+                .getResultList();
+        if(!lookUp.isEmpty()) {
+            Integer id = Integer.parseInt(lookUp.get(0));
+            Road r = this.find(id);
+            return r;
+        }
+        Road error = new Road();
+        error.setId(-1);
+        error.setName("ERROR");
+        return error;
+    }
+    
     
 }

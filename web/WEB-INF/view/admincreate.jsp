@@ -56,10 +56,10 @@
                                 Description <input type="text" name="newcpdesc" required/>
                             </div>
                             <div class="form-group">
-                                X-coordinate: <input type="text" name="newcpx" required/>
+                                X-coordinate: <input type="number" name="newcpx" required/>
                             </div>
                             <div class="form-group">
-                                Y-coordinate: <input type="text" name="newcpy" required/>
+                                Y-coordinate: <input type="number" name="newcpy" required/>
                             </div>
                             <div class=form-group">
                                 <button type="submit" class="btn btn-primary">Create Checkpoint</button>
@@ -117,10 +117,10 @@
                                 <input type="hidden" name="formName" value="linkcpr1" readonly="readonly"/>
                             </div>
                             <div class="form-group">
-                                CheckPoint ID: <input type="text" name="linkedcp" required/>
+                                CheckPoint Name: <input type="text" name="linkedcp" required/>
                             </div>
                             <div class="form-group">
-                                Road ID: <input type="text" name="linkedr" required/>
+                                Road Name: <input type="text" name="linkedr" required/>
                             </div>
                             <div class=form-group">
                                 <button type="submit" class="btn btn-primary">Link Checkpoint and Road</button>

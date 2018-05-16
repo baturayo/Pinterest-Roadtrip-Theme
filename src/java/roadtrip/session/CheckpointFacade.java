@@ -46,5 +46,21 @@ public class CheckpointFacade extends AbstractFacade<Checkpoint> {
         return lookUp.isEmpty();
     }
     
+  public Checkpoint getCheckpointFromName(String cpname) {
+        List<String> lookUp;
+        lookUp = em.createQuery("SELECT c.id FROM Checkpoint c WHERE c.name = :cpname")
+                .setParameter("cpname", cpname)
+                .getResultList();
+        if(!lookUp.isEmpty()) {
+            Integer id = Integer.parseInt(lookUp.get(0));
+            Checkpoint r = this.find(id);
+            return r;
+        }
+        Checkpoint error = new Checkpoint();
+        error.setId(-1);
+        error.setName("ERROR");
+        return error;
+    }
+    
     
 }
